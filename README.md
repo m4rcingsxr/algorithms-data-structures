@@ -57,6 +57,8 @@ Get the test result report in html
 ```
 
 ## Compile and run with JDK
+#### Setup Java
+- Download and install [Java](https://www.oracle.com/pl/java/technologies/downloads/#java17)
 #### Setup folder structure
 1. Place your class files inside a directory—for example, /home/user/classdir.
 Note that this directory is the base directory for the package tree. If you

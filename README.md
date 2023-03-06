@@ -57,6 +57,30 @@ Get the test result report in html
 ```
 
 ## Compile and run with JDK
+#### Setup folder structure
+1. Place your class files inside a directory—for example, /home/user/classdir.
+Note that this directory is the base directory for the package tree. If you
+add the class com.horstmann.corejava.Employee, then the Employee.class file must
+be located in the subdirectory /home/user/classdir/com/horstmann/corejava.
+2. Place any JAR files inside a directory—for example, /home/user/archives.
+3. Set the class path. The class path is the collection of all locations that can
+contain class files.
+#### Compile
+```
+javac -classpath/jar MyProg.java
+```
+#### Run
+```
+java -classpath classes/jar MyProg
+```
+e.g.
+```
+java -classpath /home/user/classdir:.:/home/user/archives/archive.jar MyProg
+```
+or
+```
+java -classpath c:\classdir;.;c:\archives\archive.jar MyProg
+```
 
 # Data Structures
 

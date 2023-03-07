@@ -108,7 +108,6 @@ The Problem:
 ![img_15.png](img%2Fimg_15.png)
 ![img_16.png](img%2Fimg_16.png)
 
-
 | Graph Type                       | BFS | Dijkstra | Bellman Ford |
 |----------------------------------|-----|----------|--------------|
 | Unweighted - undirected          | OK  | OK       | OK           |
@@ -128,3 +127,24 @@ The Problem:
 | Unweighted graph | (OK)(Time complexity is fine and easy to implement) | (OK) (moderate to implement)           | (OK)(time complexity is bad)      |
 | Weighted graph   | (X)                                                 | Time complexity is better than Bellman | Not use as time complexity is bad |
 | Negative cycle   | (X)                                                 | (X)                                    | Use this as others not support    |
+
+## **All pair shortest path problem**
+      about finding a path between every vertex to all other vertices(not only to given vertex) in a graph such that the
+      total distance between them(source and destination) is minimum
+      One way to solve this assignment might be to run algorithm to fing the shortest path for each vertex as source
+
+## [Floyd Warshall Algorithm](matrix/FloydWarshall.java)
+- algorithm is an **All-Pairs Shortest Path algorithm**.
+- Find the shortest path between all pairs of nodes
+- O(V^3)
+
+- With FW, the optimal way to represent our graph is with a 2D adjacency matrix m where
+  cell m[i][j] represents the edge weight of going from node i to node j
+- If there is no edge from node i to node j then set the edge value for m[i][j] to be positive infinity
+- !!!If programming language does not support a special constant for +oo such that oo+oo = oo then we must avoid
+   using max values for our types. That will cause integer overflow!!!
+
+The main idea behind the Floyd-Warshall algorithm is to gradually **build up all
+intermediate routes between nodes i and j** to find the optimal path
+
+![img_20.png](img%2Fimg_20.png)

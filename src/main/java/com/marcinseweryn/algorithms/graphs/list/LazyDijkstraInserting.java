@@ -4,7 +4,7 @@ import java.util.*;
 
 public class LazyDijkstraInserting {
 
-    private static class Edge {
+     static class Edge {
         int next;
         int from;
         double weight;
@@ -48,11 +48,11 @@ public class LazyDijkstraInserting {
         graph.get(from).add(new Edge(from, next, weight));
     }
 
-    private static double[] dijkstra(List<List<Edge>> graph, int start, Integer[] previous) {
+    private static Double[] dijkstra(List<List<Edge>> graph, int start, Integer[] previous) {
         boolean[] visited = new boolean[graph.size()];
-        double[] distance = new double[graph.size()];
+        Double[] distance = new Double[graph.size()];
         Arrays.fill(distance, Double.POSITIVE_INFINITY);
-        distance[start] = 0;
+        distance[start] = 0.0;
 
         PriorityQueue<Node> queue = new PriorityQueue<>();
         queue.add(new Node(start, 0));
@@ -101,14 +101,14 @@ public class LazyDijkstraInserting {
 
     // Return array with the shortest path between the given vertex and
     // all others vertices
-    public static double[] dijkstra(List<List<Edge>> graph, int start) {
+    public static Double[] dijkstra(List<List<Edge>> graph, int start) {
         return dijkstra(graph, start, new Integer[graph.size()]);
     }
 
     // Reconstruct the shortest path between 2 specific vertices
     public static List<Integer> findShortestPath(List<List<Edge>> graph, int start, int end) {
         Integer[] previous = new Integer[graph.size()];
-        double[] distance = dijkstra(graph, start, previous);
+        Double[] distance = dijkstra(graph, start, previous);
         List<Integer> path = new ArrayList<>();
 
         // No possible path exist to end vertex from start vertex
@@ -148,7 +148,7 @@ public class LazyDijkstraInserting {
         addDirectedEdge(graph, 4, 6, 9);
         addDirectedEdge(graph, 5, 6, 7);
 
-        double[] distance = dijkstra(graph, 0);
+        Double[] distance = dijkstra(graph, 0);
         System.out.println("The shortest path for vertex(" + 0 + "):");
         for (int i = 0; i < distance.length; i++) {
             if (i == distance.length - 1) {

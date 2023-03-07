@@ -92,7 +92,7 @@ The Problem:
 - **Time: O(E)(E=VERTEX*NEIGHBORS) / Space:O(V)**
 - ![img/img_12.png](img/img_12.png)- Do not work with weighted graphs (BFS - might ignore some edges!)
 
-## Dijkstra Algorithm
+## [Dijkstra Algorithm](list/LazyDijkstraInserting.java)
     Single source shortest path algorithm for graphs with no negative cycle.
     Ensure that once a node has been visited its optimal distance cannot be improved
     Dijkstra's fails for negative values - It happens because, in each iteration, the algorithm only updates the
@@ -101,7 +101,7 @@ The Problem:
 
 ![img_14.png](img%2Fimg_14.png)
 
-## Bellman Ford
+## [Bellman Ford Algorithm(adjacency list)](list/BellmanFordAdjacencyList.java) [Bellman Ford Algorithm(edge list)](list/BellmanFordEdgeList.java)
     Algorithm to find the shortest path. If there's negative cycle it catches it and report existence of it.
     We can only report negative cycle, cannot find the shortest path in case of negative cycle
 
@@ -121,7 +121,7 @@ The Problem:
 
 |                  | BFS                                                 | DIJKSTRA                               | BELLMAN FORD                      |
 |------------------|-----------------------------------------------------|----------------------------------------|-----------------------------------|
-| Time complexity  | O(V^2)                                              | O(V^2)                                 | O(VE)                             |
+| Time complexity  | O(V^2)                                              | O(V^2)                                 | O(VE) O(V^3) -> complete graph    |
 | Space complexity | O(E)                                                | O(V)                                   | O(V)                              |
 | Implementation   | easy                                                | moderate                               | moderate                          |
 | Limitation       | (X)weighted graphs                                  | (X)weighted graphs                     | -                                 |

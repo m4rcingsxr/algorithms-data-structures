@@ -126,9 +126,12 @@ java -classpath c:\classdir;.;c:\archives\archive.jar MyProg
       - BREADTH-FIRST SEARCH [QUEUE](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/BreadthFirstSearch.java)
       - DEPTH-FIRST SEARCH [STACK](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/DepthFirstSearch.java) / [RECURSIVE](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/DepthFirstSearch.java)
       - TOPOLOGICAL SORT [RECURSIVE](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/TopologicalSortRecursiveArray.java)
-      - SINGLE SOURCE SHORTEST PATH PROBLEM [BST](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/SingleSourceShortestPathBST.java)
+      - SINGLE SOURCE SHORTEST PATH PROBLEM 
+        - [BST](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/SingleSourceShortestPathBST.java)
+        - [LAZY DIJKSTRA](src/main/java/com/marcinseweryn/algorithms/graphs/list/LazyDijkstraInserting.java) 
     - [ADJACENCY LIST](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/GraphMatrix.java) 
         - BREADTH-FIRST SEARCH [QUEUE](src/main/java/com/marcinseweryn/algorithms/graphs/list/BreadthFirstSearch.java)
         - DEPTH-FIRST SEARCH [STACK](src/main/java/com/marcinseweryn/algorithms/graphs/list/DepthFirstSearchStack.java) / [RECURSIVE](src/main/java/com/marcinseweryn/algorithms/graphs/list/DepthFirstSearchRecursive.java)
         - TOPOLOGICAL SORT [STACK](src/main/java/com/marcinseweryn/algorithms/graphs/list/TopologicalSortStack.java) / [RECURSIVE](src/main/java/com/marcinseweryn/algorithms/graphs/list/TopologicalSort.java)
-        - SINGLE SOURCE SHORTEST PATH PROBLEM [BST](src/main/java/com/marcinseweryn/algorithms/graphs/list/SingleSourceShortestPathBST.java) / [BST/BETWEEN TWO VERTICES](src/main/java/com/marcinseweryn/algorithms/graphs/list/SingleSourceShortestPathBST.java)
+        - SINGLE SOURCE SHORTEST PATH PROBLEM 
+            - [BST](src/main/java/com/marcinseweryn/algorithms/graphs/list/SingleSourceShortestPathBST.java) / [BST/BETWEEN TWO VERTICES](src/main/java/com/marcinseweryn/algorithms/graphs/list/SingleSourceShortestPathBST.java)

@@ -19,6 +19,8 @@ public class LazyDijkstraInserting {
 
     private static class Node implements Comparable<Node> {
         int id;
+
+        // Total distance
         double value;
 
         public Node(int id, double value) {

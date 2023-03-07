@@ -92,3 +92,11 @@ The Problem:
 - **Time: O(E)(E=VERTEX*NEIGHBORS) / Space:O(V)**
 - ![img/img_12.png](img/img_12.png)- Do not work with weighted graphs (BFS - might ignore some edges!)
 
+## Dijkstra Algorithm
+    Single source shortest path algorithm for graphs with no negative cycle.
+    Ensure that once a node has been visited its optimal distance cannot be improved
+    Dijkstra's fails for negative values - It happens because, in each iteration, the algorithm only updates the
+    answer for the nodes in the queue, does not reconsider a node once it marks it as visited even if a shorter path
+    exists than the previous one.
+
+![img_14.png](img%2Fimg_14.png)

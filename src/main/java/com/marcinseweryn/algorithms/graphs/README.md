@@ -100,3 +100,31 @@ The Problem:
     exists than the previous one.
 
 ![img_14.png](img%2Fimg_14.png)
+
+## Bellman Ford
+    Algorithm to find the shortest path. If there's negative cycle it catches it and report existence of it.
+    We can only report negative cycle, cannot find the shortest path in case of negative cycle
+
+![img_15.png](img%2Fimg_15.png)
+![img_16.png](img%2Fimg_16.png)
+
+
+| Graph Type                       | BFS | Dijkstra | Bellman Ford |
+|----------------------------------|-----|----------|--------------|
+| Unweighted - undirected          | OK  | OK       | OK           |
+| Unweighted - directed            | OK  | OK       | OK           |
+| Positive - weighted - undirected | X   | OK       | OK           |
+| Positive - weighted - directed   | X   | OK       | OK           |
+| Negative - weighted - undirected | X   | NO       | OK           |           
+| Negative - weighted - directed   | X   | NO       | OK           |
+| Negative Cycles                  | X   | X        | OK           |
+
+|                  | BFS                                                 | DIJKSTRA                               | BELLMAN FORD                      |
+|------------------|-----------------------------------------------------|----------------------------------------|-----------------------------------|
+| Time complexity  | O(V^2)                                              | O(V^2)                                 | O(VE)                             |
+| Space complexity | O(E)                                                | O(V)                                   | O(V)                              |
+| Implementation   | easy                                                | moderate                               | moderate                          |
+| Limitation       | (X)weighted graphs                                  | (X)weighted graphs                     | -                                 |
+| Unweighted graph | (OK)(Time complexity is fine and easy to implement) | (OK) (moderate to implement)           | (OK)(time complexity is bad)      |
+| Weighted graph   | (X)                                                 | Time complexity is better than Bellman | Not use as time complexity is bad |
+| Negative cycle   | (X)                                                 | (X)                                    | Use this as others not support    |

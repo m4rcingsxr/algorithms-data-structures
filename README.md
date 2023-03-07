@@ -128,6 +128,7 @@ java -classpath c:\classdir;.;c:\archives\archive.jar MyProg
       - TOPOLOGICAL SORT [RECURSIVE](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/TopologicalSortRecursiveArray.java)
       - SINGLE SOURCE SHORTEST PATH PROBLEM 
         - [BST](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/SingleSourceShortestPathBST.java)
+      - ALL PAIRS SHORTEST PATH [FLOYD WARSHALL](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/FloydWarshall.java)
     - [ADJACENCY LIST](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/GraphMatrix.java) 
         - BREADTH-FIRST SEARCH [QUEUE](src/main/java/com/marcinseweryn/algorithms/graphs/list/BreadthFirstSearch.java)
         - DEPTH-FIRST SEARCH [STACK](src/main/java/com/marcinseweryn/algorithms/graphs/list/DepthFirstSearchStack.java) / [RECURSIVE](src/main/java/com/marcinseweryn/algorithms/graphs/list/DepthFirstSearchRecursive.java)
@@ -137,4 +138,3 @@ java -classpath c:\classdir;.;c:\archives\archive.jar MyProg
             - [LAZY DIJKSTRA](src/main/java/com/marcinseweryn/algorithms/graphs/list/LazyDijkstraInserting.java)
             - [BELLMAN FORD(ADJACENCY LIST)](src/main/java/com/marcinseweryn/algorithms/graphs/list/BellmanFordAdjacencyList.java)
             - [BELLMAN FORD(EDGE LIST)](src/main/java/com/marcinseweryn/algorithms/graphs/list/BellmanFordEdgeList.java)
-        - ALL PAIRS SHORTEST PATH [FLOYD WARSHALL](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/FloydWarshall.java)

@@ -51,3 +51,10 @@ gradle-app.setting
 hs_err_pid*
 
 .idea/dbnavigator.xml
+
+# sonarLint
+.idea/sonarlint/
+.idea/sonarlint/issuestore/index.pb
+.idea/sonarlint/securityhotspotstore/index.pb
+.idea/algorithms.iml
+.idea/modules.xml

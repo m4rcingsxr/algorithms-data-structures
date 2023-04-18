@@ -1,5 +1,5 @@
 # :boom: data-structures & algorithms :boom:
-:star:Data Structures:star: are the programmatic way of storing data so that data can be used efficiently. :star:Algorithm:star: :star:is a step-by-step procedure, which defines a set of instructions to be executed in a certain order to get the desired output.
+Data Structures are the programmatic way of storing data so that data can be used efficiently. Algorithm is a step-by-step procedure, which defines a set of instructions to be executed in a certain order to get the desired output.
 # Contributing
 This repository is open for contributing. You can add new or improve already existing algorithm. I would appreciate if you check out [CONTRIBUTING.md](docs/CONTRIBUTING.md) file before creating pull request. Thanks for Your time. :blush:
 # Running algorithm
@@ -87,10 +87,10 @@ java -classpath c:\classdir;.;c:\archives\archive.jar MyProg
 # Data Structures
 
 - :link: [LINKED LIST](src/main/java/com/marcinseweryn/algorithms/datastructures/linkedlist)
-    - [DOUBLY LINKED LIST](src/main/java/com/marcinseweryn/algorithms/datastructures/linkedlist/LinkedList.java)]
-    - [SINGLY LINKED LIST](src/main/java/com/marcinseweryn/algorithms/datastructures/linkedlist/SinglyLinkedList.java)]
-    - [SINGLY CIRCULAR LINKED LIST](src/main/java/com/marcinseweryn/algorithms/datastructures/linkedlist/CircularSinglyLinkedList.java)]
-    - [DOUBLY CIRCULAR LINKED LIST](src/main/java/com/marcinseweryn/algorithms/datastructures/linkedlist/CircularDoublyLinkedList.java)]
+    - [DOUBLY LINKED LIST](src/main/java/com/marcinseweryn/algorithms/datastructures/linkedlist/LinkedList.java)
+    - [SINGLY LINKED LIST](src/main/java/com/marcinseweryn/algorithms/datastructures/linkedlist/SinglyLinkedList.java)
+    - [SINGLY CIRCULAR LINKED LIST](src/main/java/com/marcinseweryn/algorithms/datastructures/linkedlist/CircularSinglyLinkedList.java)
+    - [DOUBLY CIRCULAR LINKED LIST](src/main/java/com/marcinseweryn/algorithms/datastructures/linkedlist/CircularDoublyLinkedList.java)
 - :books: [STACK](src/main/java/com/marcinseweryn/algorithms/datastructures/stack)
     - [ARRAY](src/main/java/com/marcinseweryn/algorithms/datastructures/stack/StackArray.java)
     - [LINKED LIST](src/main/java/com/marcinseweryn/algorithms/datastructures/stack/StackLinkedList.java)
@@ -107,7 +107,8 @@ java -classpath c:\classdir;.;c:\archives\archive.jar MyProg
     - [LINEAR PROBING](src/main/java/com/marcinseweryn/algorithms/datastructures/hashing/LinearProbing.java)
     - [QUADRATIC PROBING](src/main/java/com/marcinseweryn/algorithms/datastructures/hashing/QuadraticProbing.java)
     - [DOUBLE HASHING](src/main/java/com/marcinseweryn/algorithms/datastructures/hashing/DoubleHashing.java)
-
+- [UNION FIND](src/main/java/com/marcinseweryn/algorithms/datastructures/unionfind/README.md)
+  - [src](src/main/java/com/marcinseweryn/algorithms/datastructures/unionfind/UnionFind.java)
 # Algorithms
 - [SORTING](src/main/java/com/marcinseweryn/algorithms/sorting)
     - [BUBBLE SORT](src/main/java/com/marcinseweryn/algorithms/sorting/BubbleSort.java)

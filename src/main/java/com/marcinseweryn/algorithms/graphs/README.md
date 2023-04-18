@@ -148,3 +148,10 @@ The main idea behind the Floyd-Warshall algorithm is to gradually **build up all
 intermediate routes between nodes i and j** to find the optimal path
 
 ![img_20.png](img%2Fimg_20.png)
+
+# Kruskal's minimum spanning tree algorithm
+> Given a graph G = (V, E) we want to find Minimum Spanning Tree in the graph (it may not be unique)
+> A minimum spanning tree is a subset of the edges which connect all vertices in the graph with
+> the minimal total edge cost
+![img21.png](img/img21.png)
+![img22.png](img/img22.png)

@@ -112,14 +112,14 @@ java -classpath c:\classdir;.;c:\archives\archive.jar MyProg
 # Algorithms
 - [SORTING](src/main/java/com/marcinseweryn/algorithms/sorting)
     - [BUBBLE SORT](src/main/java/com/marcinseweryn/algorithms/sorting/BubbleSort.java)
-    - [SELECTION SORT](src/main/java/com/marcinseweryn/algorithms/sorting/BubbleSort.java)
+    - [SELECTION SORT](src/main/java/com/marcinseweryn/algorithms/sorting/SelectionSort.java)
     - [INSERTION SORT](src/main/java/com/marcinseweryn/algorithms/sorting/InsertionSort.java)
     - [BUCKET SORT](src/main/java/com/marcinseweryn/algorithms/sorting/BucketSort.java)
     - [MERGE SORT](src/main/java/com/marcinseweryn/algorithms/sorting/MergeSort.java)
     - [QUICK SORT](src/main/java/com/marcinseweryn/algorithms/sorting/QuickSort.java)
     - [HEAP SORT](src/main/java/com/marcinseweryn/algorithms/sorting/HeapSort.java)
 
-- **SEARCHES**
+- **SEARCHING**
     - [BINARY SEARCHING](src/main/java/com/marcinseweryn/algorithms/searching/BinarySearch.java)
 
 - [GRAPHS](src/main/java/com/marcinseweryn/algorithms/graphs)

@@ -1,23 +1,33 @@
 package com.marcinseweryn.algorithms.graphs.matrix;
 
 public class DepthFirstSearchRecursive {
-    static int[][] adjacencyMatrix;
-
-
-    public static void depthFirstSearch(int index) {
-        boolean[] visited = new boolean[adjacencyMatrix.length];
-        depthFirstSearch(visited, index);
+    public static String dfs(int[][] graph, int start) {
+        boolean[] visited = new boolean[graph.length];
+        StringBuilder dfs = new StringBuilder();
+        dfs.append(String.format(
+                "Depth First Search starting from vertex %d:[", start
+        ));
+        dfs(graph, visited, start, dfs);
+        dfs.replace(dfs.length() - 1, dfs.length(), "]");
+        return dfs.toString();
     }
 
-    private static void depthFirstSearch(boolean[] visited, int index) {
-        if (visited[index]) {
-            return;
-        }
-        System.out.print(index + " ");
+    private static void dfs(
+            int[][] graph,
+            boolean[] visited,
+            int index,
+            StringBuilder sb
+    ) {
+
+        // Base case
+        if (visited[index]) return;
+
+        sb.append(index).append(",");
         visited[index] = true;
-        for (int i = 0; i < adjacencyMatrix[index].length; i++) {
-            if (adjacencyMatrix[index][i] != 0) {
-                depthFirstSearch(visited, i);
+
+        for (int i = 0; i < graph[index].length; i++) {
+            if (graph[index][i] != 0) {
+                dfs(graph, visited, i, sb);
             }
         }
     }
@@ -48,9 +58,9 @@ public class DepthFirstSearchRecursive {
                 {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0}
         };
-        adjacencyMatrix = matrix;
-        depthFirstSearch(0);
+        System.out.println(dfs(matrix, 0));
 
-        // Print:  0 7 3 2 12 8 1 10 9 4 6 5 11
+        // Output:
+        //Depth First Search starting from vertex 0:[0,7,3,2,12,8,1,10,9,4,6,5,11]
     }
 }

@@ -41,9 +41,7 @@ public class TopologicalSortStack {
                     stack.push(neighbor.next);
                 }
             }
-
         }
-
     }
 
     public static void main(String[] args) {

@@ -2,7 +2,7 @@ package com.marcinseweryn.algorithms.graphs.matrix;
 
 import java.util.Arrays;
 
-public class TopologicalSortRecursiveArray {
+public class TopologicalSortRecursive {
     public static int[] topologicalSort(int[][] adjacencyMatrix) {
         int length = adjacencyMatrix.length;
         boolean[] visited = new boolean[length];

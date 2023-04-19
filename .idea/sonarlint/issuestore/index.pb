@@ -3,8 +3,6 @@ u
 Esrc/test/java/com/marcinseweryn/algorithms/sorting/MergeSortTest.java,0/c/0cb68db0961814466d7938f8ec7a11862bd93670
 
 Osrc/main/java/com/marcinseweryn/algorithms/graphs/list/BellmanFordEdgeList.java,e/d/ed62ff734829cb973f9cbfba53a9900c9ff90212
-Ñ
-Tsrc/main/java/com/marcinseweryn/algorithms/graphs/list/BellmanFordAdjacencyList.java,8/7/8746d73749d4035a04b2e86d63359303002915ea
 Å
 Qsrc/main/java/com/marcinseweryn/algorithms/graphs/list/LazyDijkstraInserting.java,6/8/6846063cbd21c41af0ab4bd79955533dbbc5885a
 Å
@@ -43,5 +41,3 @@ Osrc/test/java/com/marcinseweryn/algorithms/graphs/list/KruskalEdgeListTest.java
 Usrc/test/java/com/marcinseweryn/algorithms/graphs/list/LazyDijkstraInsertingTest.java,e/5/e5c23a04e41a3f904fe14f9a3fd4117229250edf
 Ä
 Psrc/main/java/com/marcinseweryn/algorithms/graphs/matrix/BreadthFirstSearch.java,7/7/7729e1f2fd728b48c23c8c73fd9676fc661827c8
-k
-;src/main/java/com/marcinseweryn/algorithms/graphs/README.md,b/e/be47e4e8fb2f3b8b8d55c5b633fe9edc35bfe13e

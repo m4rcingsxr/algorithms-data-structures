@@ -47,5 +47,3 @@ k
 Tsrc/test/java/com/marcinseweryn/algorithms/graphs/matrix/BreadthFirstSearchTest.java,6/5/65a7b6c2545341d6de79ef3756aa1b630561ca5a
 €
 Psrc/main/java/com/marcinseweryn/algorithms/graphs/matrix/BreadthFirstSearch.java,7/7/7729e1f2fd728b48c23c8c73fd9676fc661827c8
-ƒ
-Ssrc/main/java/com/marcinseweryn/algorithms/graphs/matrix/DepthFirstSearchStack.java,0/4/04c99d70aaded370aee036d07d4edd2d43dd6748

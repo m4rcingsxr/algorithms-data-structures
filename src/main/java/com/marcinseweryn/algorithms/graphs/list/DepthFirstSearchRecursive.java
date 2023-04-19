@@ -1,69 +1,63 @@
 package com.marcinseweryn.algorithms.graphs.list;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DepthFirstSearchRecursive {
-    static class Edge {
-        int next;
-        int from;
 
-        public Edge(int from, int next) {
-            this.from = from;
-            this.next = next;
+    private DepthFirstSearchRecursive() {
+        // Utility class
+    }
+
+    public static List<List<Integer>> createGraph(int noVertices) {
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < noVertices; i++) {
+            graph.add(new ArrayList<>());
+        }
+
+        return graph;
+    }
+
+    public static void addUndirectedEdge(List<List<Integer>> graph, int from, int to) {
+        graph.get(from).add(to);
+        graph.get(to).add(from);
+    }
+
+    public static void addDirectedEdge(List<List<Integer>> graph, int from, int to) {
+        graph.get(from).add(to);
+    }
+
+
+    public static String dfs(List<List<Integer>> graph, int start) {
+        StringBuilder dfsPath = new StringBuilder(
+                "Depth First Search starting from vertex "
+                        + start + ":["
+        );
+        boolean[] visited = new boolean[graph.size()];
+        dfs(graph, visited, start, dfsPath);
+
+        return dfsPath.replace(
+                dfsPath.length() - 1, dfsPath.length(), "]"
+        ).toString();
+    }
+
+    private static void dfs(List<List<Integer>> graph,
+                            boolean[] visited,
+                            int index,
+                            StringBuilder dfsPath) {
+        if (visited[index]) return;
+
+        dfsPath.append(index).append(",");
+        visited[index] = true;
+        for (Integer neighbor : graph.get(index)) {
+            dfs(graph, visited, neighbor, dfsPath);
         }
     }
 
-    public static void printDepthFirstSearch(Map<Integer, List<Edge>> graph, int start, int noOfVertex) {
-        boolean[] visited = new boolean[noOfVertex];
-        printDepthFirstSearch(graph, visited, start);
-    }
-
-    private static void printDepthFirstSearch(Map<Integer, List<Edge>> graph, boolean[] visited, int actual) {
-
-        // Base case
-        if (visited[actual]) {
-            return;
-        }
-        visited[actual] = true;
-
-        // Print current vertex
-        System.out.print(actual + " ");
-        List<Edge> edges = graph.get(actual);
-        if (edges != null) {
-            for (Edge edge : edges) {
-                printDepthFirstSearch(graph, visited, edge.next);
-            }
-        }
-    }
-
-    public static void directedEdge(Map<Integer, List<Edge>> graph, int from, int next) {
-        List<Edge> list = graph.computeIfAbsent(from, k -> new ArrayList<>());
-        list.add(new Edge(from, next));
-    }
-
-    public static void addUndirectedEdge(Map<Integer, List<Edge>> graph, int from, int next) {
-        directedEdge(graph, from, next);
-        directedEdge(graph, next, from);
-    }
 
     public static void main(String[] args) {
-        Map<Integer, List<Edge>> graph = new HashMap<>();
+        List<List<Integer>> graph = createGraph(13);
 
-        // A -- B
-        // | \    \
-        // |  \    E
-        // |   \  /
-        // C -- D
-        addUndirectedEdge(graph, 0, 1);
-        addUndirectedEdge(graph, 0, 2);
-        addUndirectedEdge(graph, 0, 3);
-        addUndirectedEdge(graph, 1, 4);
-        addUndirectedEdge(graph, 2, 3);
-        addUndirectedEdge(graph, 3, 4);
-        printDepthFirstSearch(graph, 0, 5);
 
         //                 1     12
         //               /   \ /   \
@@ -74,8 +68,6 @@ public class DepthFirstSearchRecursive {
         //                   0  -- 7  -- 6
         //                    \
         //                      11
-        System.out.println();
-        graph = new HashMap<>();
         addUndirectedEdge(graph, 0, 7);
         addUndirectedEdge(graph, 0, 9);
         addUndirectedEdge(graph, 0, 11);
@@ -90,11 +82,37 @@ public class DepthFirstSearchRecursive {
         addUndirectedEdge(graph, 1, 10);
         addUndirectedEdge(graph, 10, 9);
         addUndirectedEdge(graph, 9, 8);
-        printDepthFirstSearch(graph, 0, 13);
 
-        /* OUTPUT:
-                    0 1 4 3 2
-                    0 7 6 5 3 4 2 12 8 1 10 9 11
-         */
+        System.out.println(dfs(graph, 0));
+
+        //                > 1    > 12
+        //               /   \ /
+        //             10<    >8     2 --> 4
+        //               \           /
+        //                9<         >3      >5
+        //                  \       /       /
+        //                   0  --> 7  --> 6
+        //                    \
+        //                    >11
+        List<List<Integer>> graph2 = createGraph(13);
+        addDirectedEdge(graph2, 0, 11);
+        addDirectedEdge(graph2, 0, 7);
+        addDirectedEdge(graph2, 0, 9);
+        addDirectedEdge(graph2, 9, 10);
+        addDirectedEdge(graph2, 10, 1);
+        addDirectedEdge(graph2, 1, 8);
+        addDirectedEdge(graph2, 8, 12);
+        addDirectedEdge(graph2, 7, 3);
+        addDirectedEdge(graph2, 7, 6);
+        addDirectedEdge(graph2, 6, 5);
+        addDirectedEdge(graph2, 3, 2);
+        addDirectedEdge(graph2, 2, 4);
+        System.out.println(dfs(graph2, 0));
     }
+
 }
+
+
+
+
+

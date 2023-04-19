@@ -7,18 +7,30 @@ import java.util.Arrays;
 
 import static java.lang.System.out;
 
+/**
+ * The HeapSort class provides a static method for sorting an array
+ * of comparable elements using the heap sort algorithm.
+ */
 public class HeapSort {
     private HeapSort() {
-        // No instantiate
+        // Utility class
     }
 
+    /**
+     * Sorts the given array using the heap sort algorithm.
+     *
+     * @param array the array to be sorted
+     * @param <T>   the type of elements in the array, must implement the Comparable interface
+     */
     public static <T extends Comparable<T>> void sort(Object[] array) {
 
+        // Create a binary heap of minimum values
         BinaryHeap<T> bh = new BinaryHeap<>(array.length);
         for (Object o : array) {
             bh.add((T) o, BinaryHeap.MIN_HEAP);
         }
 
+        // Extract the minimum value from the heap and add it to the sorted array
         for (int i = 0; i < array.length; i++) {
             array[i] = bh.extractHead(BinaryHeap.MIN_HEAP);
         }

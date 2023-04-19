@@ -4,42 +4,51 @@ import java.util.Arrays;
 
 import static java.lang.System.out;
 
+/**
+ * Implements the SelectionSort algorithm to sort an array of elements in ascending/descending order.
+ * SelectionSort works by repeatedly finding the minimum element in the unsorted part of the array,
+ * swapping it with the first unsorted element, and then advancing the boundary between the sorted
+ * and unsorted parts of the array.
+ */
 public class SelectionSort {
     private SelectionSort() {
-        // No instantiate
+        // Utility class
     }
-    public static<T extends Comparable<T>> void sort(T[] array) {
-        if(array == null) {
+
+    public static <T extends Comparable<T>> void sort(T[] array) {
+        if (array == null) {
             throw new NullPointerException();
         }
-        for (int i = 0; i < array.length - 1; i++) {
+        int N = array.length;
+        for (int i = 0; i < N - 1; i++) {
             T min = array[i];
-            int index = i;
-            for (int j = i + 1; j < array.length; j++) {
+            int minIndex = i;
+            for (int j = i + 1; j < N; j++) {
                 if (array[j].compareTo(min) < 0) {
                     min = array[j];
-                    index = j;
+                    minIndex = j;
                 }
             }
-            array[index] = array[i];
+            array[minIndex] = array[i];
             array[i] = min;
         }
     }
 
-    public static<T extends Comparable<T>> void descendingSort(T[] array) {
-        if(array == null) {
+    public static <T extends Comparable<T>> void descendingSort(T[] array) {
+        if (array == null) {
             throw new NullPointerException();
         }
-        for (int i = 0; i < array.length - 1; i++) {
+        int N = array.length;
+        for (int i = 0; i < N - 1; i++) {
             T max = array[i];
-            int index = i;
-            for (int j = i + 1; j < array.length; j++) {
+            int maxIndex = i;
+            for (int j = i + 1; j < N; j++) {
                 if (array[j].compareTo(max) > 0) {
                     max = array[j];
-                    index = j;
+                    maxIndex = j;
                 }
             }
-            array[index] = array[i];
+            array[maxIndex] = array[i];
             array[i] = max;
         }
     }
@@ -52,7 +61,7 @@ public class SelectionSort {
         SelectionSort.sort(array);
         out.println(Arrays.toString(array) + "\nDescending:");
         SelectionSort.descendingSort(array);
-        out.println(Arrays.toString(array) + "\nString");
+        out.println(Arrays.toString(array) + "\nString[]");
         String[] stringArray = {"z", "Z", "C", "D", "X", "v", "Y", "A", "a", "L", "M"};
         out.println(Arrays.toString(stringArray) + "\nAscending");
         SelectionSort.sort(stringArray);

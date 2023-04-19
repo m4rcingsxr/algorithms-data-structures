@@ -1,4 +1,4 @@
-_# Union Find
+# Union Find
 
 ## What's Union Find?
 

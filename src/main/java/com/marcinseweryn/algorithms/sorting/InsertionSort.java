@@ -4,6 +4,11 @@ import java.util.Arrays;
 
 import static java.lang.System.out;
 
+/**
+ * Implements the InsertionSort algorithm to sort an array of elements in ascending/descending order.
+ * InsertionSort works by iterating over the array and inserting each element into its correct
+ * position in a sorted sub-array to its left.
+ */
 public class InsertionSort {
     private InsertionSort() {
         // No instantiate

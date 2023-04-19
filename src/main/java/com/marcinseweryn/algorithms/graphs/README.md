@@ -32,7 +32,7 @@
 
         BFS uses a queue data structure to track which node is visited next.
 
-## Depth-First Search [list/stack](list/DepthFirstSearchStack.java) [list/recursive](list/DepthFirstSearchRecursive.java) [matrix/stack](matrix/DepthFirstSearch.java) 
+## Depth-First Search [list/stack](list/DepthFirstSearchStack.java) [list/recursive](list/DepthFirstSearchRecursive.java) [matrix/stack](matrix/DepthFirstSearchRecursive.java) 
 
 - The **Depth First Search** is the most fundamental search algorithm used to explore nodes and edges of a graph.
 - It runs with a time complexity O(V+E) and is often used as a building block in other algorithms
@@ -55,7 +55,7 @@ cannot go any further at which point it backtracks and continues.
 
 ## Topological Sort
 
-> - ([TS/MATRIX](adjacency/matrix/Graph.java))  ([TS/LIST](adjacency/list/Graph.java))
+> - ([TS/MATRIX](matrix/GraphMatrix.java))  ([TS/LIST](list/GraphList.java))
 
 - Directed acyclic graphs
     - graph which contain a cycle cannot have topological ordering
@@ -134,8 +134,11 @@ The Problem:
       One way to solve this assignment might be to run algorithm to fing the shortest path for each vertex as source
 
 ## [Floyd Warshall Algorithm](matrix/FloydWarshall.java)
+- Directed weighted graphs
 - algorithm is an **All-Pairs Shortest Path algorithm**.
 - Find the shortest path between all pairs of nodes
+- Loop through all vertices in each iteration (for each vertex consider all edges)
+- Support positive or negative edges (no negative cycle!)
 - O(V^3)
 
 - With FW, the optimal way to represent our graph is with a 2D adjacency matrix m where

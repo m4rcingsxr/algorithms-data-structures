@@ -7,8 +7,6 @@ Osrc/main/java/com/marcinseweryn/algorithms/graphs/list/BellmanFordEdgeList.java
 Qsrc/main/java/com/marcinseweryn/algorithms/graphs/list/LazyDijkstraInserting.java,6/8/6846063cbd21c41af0ab4bd79955533dbbc5885a
 Å
 Qsrc/main/java/com/marcinseweryn/algorithms/graphs/list/LazyDijkstraSearching.java,a/f/afe77fb4b9d6b37c356d4c5bc66da90ec75b253e
-{
-Ksrc/main/java/com/marcinseweryn/algorithms/graphs/matrix/FloydWarshall.java,b/8/b857b52f0ae89c9f62daf5f321d53eabba4735ec
 u
 Esrc/main/java/com/marcinseweryn/algorithms/sorting/InsertionSort.java,4/d/4db1d2ac88401e20150074e4709d05cb7b8592ff
 q
@@ -23,8 +21,6 @@ r
 Bsrc/main/java/com/marcinseweryn/algorithms/sorting/BubbleSort.java,6/c/6ce0a9af991d9534c9909ce20cfd1b7b06f66fb0
 9
 	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
-v
-Fsrc/main/java/com/marcinseweryn/algorithms/searching/BinarySearch.java,e/1/e1abb9f3b7219881bd9bfb75561183f6275661fa
 z
 Jsrc/test/java/com/marcinseweryn/algorithms/searching/BinarySearchTest.java,b/d/bdf09e70b2ddcb68a71099acb51101692dd9d828
 t
@@ -39,5 +35,3 @@ Bsrc/main/java/com/marcinseweryn/algorithms/sorting/BucketSort.java,1/e/1e75389
 Osrc/test/java/com/marcinseweryn/algorithms/graphs/list/KruskalEdgeListTest.java,c/7/c7dbf8a55c0ac18cab182ab0142d8977ae152e19
 Ö
 Usrc/test/java/com/marcinseweryn/algorithms/graphs/list/LazyDijkstraInsertingTest.java,e/5/e5c23a04e41a3f904fe14f9a3fd4117229250edf
-Ä
-Psrc/main/java/com/marcinseweryn/algorithms/graphs/matrix/BreadthFirstSearch.java,7/7/7729e1f2fd728b48c23c8c73fd9676fc661827c8

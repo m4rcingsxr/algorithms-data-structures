@@ -3,7 +3,7 @@ package com.marcinseweryn.algorithms.graphs.matrix;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class DepthFirstSearch {
+public class DepthFirstSearchStack {
 
     static int[][] adjacencyMatrix;
 

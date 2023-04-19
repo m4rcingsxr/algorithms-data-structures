@@ -7,110 +7,84 @@ import java.util.Queue;
 
 import static java.lang.System.out;
 
+/**
+ * The BreadthFirstSearch class provides methods for creating and
+ * traversing an undirected graph using BFS algorithm.
+ */
 public class BreadthFirstSearch {
 
-    static class GraphNode {
-        private String name;
+    private BreadthFirstSearch() {
+        // Utility class
+    }
 
-        private ArrayList<GraphNode> neighbors;
-
-        private boolean visited;
-
-        public GraphNode(String name) {
-            this.name = name;
-            neighbors = new ArrayList<>();
-            visited = false;
+    /**
+     * Creates a new graph with the given number of vertices.
+     *
+     * @param noVertices the number of vertices in the graph
+     * @return the new graph as a list of adjacency lists
+     */
+    public static List<List<Integer>> createGraph(int noVertices) {
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < noVertices; i++) {
+            graph.add(new ArrayList<>());
         }
+
+        return graph;
+
+
     }
 
-    private List<GraphNode> graph;
-
-    private BreadthFirstSearch(List<GraphNode> graph) {
-        this.graph = graph;
+    /**
+     * Adds an undirected edge between the two given vertices in the given graph.
+     *
+     * @param graph the graph to add the edge to
+     * @param from the vertex the edge starts from
+     * @param to the vertex the edge goes to
+     */
+    public static void addUndirectedEdge(List<List<Integer>> graph, int from, int to) {
+        graph.get(from).add(to);
+        graph.get(to).add(from);
     }
 
-    public void addDirectedEdge(int i, int j) {
-        graph.get(i).neighbors.add(graph.get(j));
-    }
+    /**
+     * Performs a breadth-first search traversal of the given graph starting from the given vertex.
+     *
+     * @param graph the graph to traverse
+     * @param start the starting vertex for the traversal
+     * @return a string representation of the traversal
+     *         path in the format "Breadth First Search from vertex {start}:{path}"
+     */
+    public static String bfs(List<List<Integer>> graph, int start) {
+        StringBuilder bfs = new StringBuilder();
+        bfs.append(
+                String.format("Breadth First Search from vertex %d:[", start)
+        );
 
-    public void addUndirectedEdge(int i, int j) {
-        addDirectedEdge(i, j);
-        addDirectedEdge(j, i);
-    }
-
-    public void printBreathFirstSearch(GraphNode start) {
-        Queue<GraphNode> queue = new ArrayDeque<>();
+        Queue<Integer> queue = new ArrayDeque<>();
+        boolean[] visited = new boolean[graph.size()];
         queue.add(start);
-        start.visited = true;
+
         while (!queue.isEmpty()) {
-            GraphNode current = queue.remove();
-            out.print(current.name + " ");
-            for (GraphNode neighbor : current.neighbors) {
-                if (!neighbor.visited) {
+            int current = queue.remove();
+            visited[current] = true;
+            bfs.append(current).append(" ");
+
+            // Traverse each neighbor of the current vertex
+            for (Integer neighbor : graph.get(current)) {
+
+                // Add the neighbor to the queue if it hasn't been visited yet
+                if (!visited[neighbor]) {
                     queue.add(neighbor);
-                    neighbor.visited = true;
+                    visited[neighbor] = true;
                 }
             }
         }
-        graph = new ArrayList<>();
+
+        bfs.replace(bfs.length() - 1, bfs.length(), "]");
+        return bfs.toString();
     }
 
     public static void main(String[] args) {
-        ArrayList<GraphNode> nodeList = new ArrayList<>();
-        nodeList.add(new GraphNode("A"));
-        nodeList.add(new GraphNode("B"));
-        nodeList.add(new GraphNode("C"));
-        nodeList.add(new GraphNode("D"));
-        nodeList.add(new GraphNode("E"));
-        BreadthFirstSearch g = new BreadthFirstSearch(nodeList);
-
-        g.addUndirectedEdge(0, 1);
-        g.addUndirectedEdge(0, 2);
-        g.addUndirectedEdge(0, 3);
-        g.addUndirectedEdge(1, 4);
-        g.addUndirectedEdge(2, 3);
-        g.addUndirectedEdge(3, 4);
-
-
-        g.printBreathFirstSearch(nodeList.get(0));
-        out.println();
-        nodeList = new ArrayList<>();
-        nodeList.add(new GraphNode("0"));
-        nodeList.add(new GraphNode("1"));
-        nodeList.add(new GraphNode("2"));
-        nodeList.add(new GraphNode("3"));
-        nodeList.add(new GraphNode("4"));
-        nodeList.add(new GraphNode("5"));
-        nodeList.add(new GraphNode("6"));
-        nodeList.add(new GraphNode("7"));
-        nodeList.add(new GraphNode("8"));
-        nodeList.add(new GraphNode("9"));
-        nodeList.add(new GraphNode("10"));
-        nodeList.add(new GraphNode("11"));
-        nodeList.add(new GraphNode("12"));
-
-        // A -- B
-        // | \    \
-        // |  \    E
-        // |   \  /
-        // C -- D
-
-        g = new BreadthFirstSearch(nodeList);
-        g.addUndirectedEdge(0, 7);
-        g.addUndirectedEdge(0, 9);
-        g.addUndirectedEdge(0, 11);
-        g.addUndirectedEdge(7, 11);
-        g.addUndirectedEdge(7, 6);
-        g.addUndirectedEdge(7, 3);
-        g.addUndirectedEdge(6, 5);
-        g.addUndirectedEdge(3, 4);
-        g.addUndirectedEdge(2, 3);
-        g.addUndirectedEdge(2, 12);
-        g.addUndirectedEdge(12, 8);
-        g.addUndirectedEdge(8, 1);
-        g.addUndirectedEdge(1, 10);
-        g.addUndirectedEdge(10, 9);
-        g.addUndirectedEdge(9, 8);
 
         //                 1     12
         //               /   \ /   \
@@ -120,11 +94,27 @@ public class BreadthFirstSearch {
         //                  \       /       /
         //                   0  -- 7  -- 6
         //                    \
-        //                      11
+        //                    11
+        List<List<Integer>> graph = createGraph(13);
+        addUndirectedEdge(graph, 0, 7);
+        addUndirectedEdge(graph, 0, 9);
+        addUndirectedEdge(graph, 0, 11);
+        addUndirectedEdge(graph, 7, 11);
+        addUndirectedEdge(graph, 7, 6);
+        addUndirectedEdge(graph, 7, 3);
+        addUndirectedEdge(graph, 6, 5);
+        addUndirectedEdge(graph, 3, 4);
+        addUndirectedEdge(graph, 2, 3);
+        addUndirectedEdge(graph, 2, 12);
+        addUndirectedEdge(graph, 12, 8);
+        addUndirectedEdge(graph, 8, 1);
+        addUndirectedEdge(graph, 1, 10);
+        addUndirectedEdge(graph, 10, 9);
+        addUndirectedEdge(graph, 9, 8);
 
-        g.printBreathFirstSearch(nodeList.get(0));
+        out.println(bfs(graph, 0));
 
-        //A B C D E
-        //0 7 9 11 6 3 10 8 5 4 2 1 12
+        // Output:
+        // Breadth First Search from vertex 0:[0 7 9 11 6 3 10 8 5 4 2 1 12]
     }
 }

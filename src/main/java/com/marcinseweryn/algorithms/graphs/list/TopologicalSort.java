@@ -14,6 +14,10 @@ import java.util.List;
  */
 public class TopologicalSort {
 
+    private TopologicalSort() {
+        // Utility class
+    }
+
     /**
      * Creates a new empty graph with the specified number of vertices.
      *

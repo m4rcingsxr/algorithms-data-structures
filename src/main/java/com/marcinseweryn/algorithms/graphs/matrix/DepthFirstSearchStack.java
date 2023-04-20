@@ -4,7 +4,8 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 /**
- * The DepthFirstSearchStack class provides a static method for performing a depth-first search
+ * The DepthFirstSearchStack class provides a static method for performing a
+ * depth-first search
  * on a graph represented as an adjacency matrix using a stack.
  */
 public class DepthFirstSearchStack {
@@ -15,11 +16,13 @@ public class DepthFirstSearchStack {
     }
 
     /**
-     * Performs a depth-first search on a graph represented as an adjacency matrix using a stack.
+     * Performs a depth-first search on a graph represented as an adjacency
+     * matrix using a stack.
      *
      * @param graph the adjacency matrix representing the graph
      * @param start the index of the starting vertex for the search
-     * @return a string representing the path of the search, in the format "Depth First Search starting
+     * @return a string representing the path of the search, in the format
+     * "Depth First Search starting
      * from vertex x:[v1,v2,v3,...]"
      */
     public static String depthFirstSearch(int[][] graph, int start) {
@@ -101,7 +104,8 @@ public class DepthFirstSearchStack {
 
         /* OUTPUT:
            Depth First Search starting from vertex 0:[0,3,4,2,1]
-            Depth First Search starting from vertex 0:[0,11,9,10,1,8,12,2,3,4,7,6,5]
+            Depth First Search starting from vertex 0:[0,11,9,10,1,8,12,2,3,
+            4,7,6,5]
          */
     }
 }

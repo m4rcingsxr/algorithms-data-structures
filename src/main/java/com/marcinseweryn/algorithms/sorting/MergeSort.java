@@ -5,8 +5,10 @@ import java.util.Arrays;
 import static java.lang.System.out;
 
 /**
- * Implements the MergeSort algorithm to sort an array of elements in ascending order.
- * MergeSort works by dividing the array into two halves, recursively sorting each half,
+ * Implements the MergeSort algorithm to sort an array of elements in
+ * ascending order.
+ * MergeSort works by dividing the array into two halves, recursively sorting
+ * each half,
  * and then merging the two sorted halves into a single sorted array.
  */
 public class MergeSort {
@@ -15,7 +17,8 @@ public class MergeSort {
     }
 
     /**
-     * Sorts the given array of comparable elements using the merge sort algorithm.
+     * Sorts the given array of comparable elements using the merge sort
+     * algorithm.
      *
      * @param array the array of comparable elements to be sorted
      * @param <T>   the type of elements in the array to be sorted
@@ -31,12 +34,9 @@ public class MergeSort {
         int mid = arrayLength / 2;
         Object[] left = new Object[mid];
         Object[] right = new Object[arrayLength - mid];
-        for (int i = 0; i < mid; i++) {
-            left[i] = array[i];
-        }
-        for (int i = mid; i < arrayLength; i++) {
-            right[i - mid] = array[i];
-        }
+        System.arraycopy(array, 0, left, 0, mid);
+        if (arrayLength - mid >= 0)
+            System.arraycopy(array, mid, right, mid - mid, arrayLength - mid);
         sort(left);
         sort(right);
 
@@ -51,9 +51,12 @@ public class MergeSort {
      * @param left  the left half of the array to be merged
      * @param right the right half of the array to be merged
      * @param array the array to hold the merged result
-     * @param <T>   the type of elements in the arrays to be merged, must implement Comparable
+     * @param <T>   the type of elements in the arrays to be merged, must
+     *           implement Comparable
      */
-    private static <T extends Comparable<T>> void merge(Object[] left, Object[] right, Object[] array) {
+    private static <T extends Comparable<T>> void merge(Object[] left,
+                                                        Object[] right,
+                                                        Object[] array) {
 
         // Initialize variables to track the indices of the left and
         // right sub-arrays, as well as the merged array
@@ -89,7 +92,8 @@ public class MergeSort {
         MergeSort.sort(array);
         out.println("sorted" + Arrays.toString(array));
         out.println("String[]");
-        String[] stringArray = {"z", "Z", "C", "D", "X", "v", "Y", "A", "a", "L", "M"};
+        String[] stringArray = {"z", "Z", "C", "D", "X", "v", "Y", "A", "a",
+                "L", "M"};
         out.println("unsorted" + Arrays.toString(stringArray));
         MergeSort.sort(stringArray);
         out.println("sorted" + Arrays.toString(stringArray));

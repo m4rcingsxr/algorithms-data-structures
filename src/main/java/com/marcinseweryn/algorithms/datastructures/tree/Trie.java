@@ -10,7 +10,7 @@ import java.util.Map;
  * @version 1.0
  */
 public class Trie {
-    private Node root;
+    private final Node root;
 
     /**
      * Create empty Trie
@@ -106,7 +106,7 @@ public class Trie {
 
     private static class Node {
         private boolean endOfString = false;
-        private Map<Character, Node> children = new HashMap<>();
+        private final Map<Character, Node> children = new HashMap<>();
 
     }
 }

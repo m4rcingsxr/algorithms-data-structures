@@ -40,11 +40,13 @@ public class SingleSourceShortestPathBST {
     }
 
     /**
-     * Recursive method to reconstruct the path from the start node to the end node.
+     * Recursive method to reconstruct the path from the start node to the
+     * end node.
      *
      * @param end    the end node of the path.
      * @param sb     the StringBuilder object used to build the path.
-     * @param parent the array of parent nodes returned by the Breadth First Search.
+     * @param parent the array of parent nodes returned by the Breadth First
+     *               Search.
      */
     private static void printPath(int end, StringBuilder sb, Integer[] parent) {
 
@@ -56,7 +58,8 @@ public class SingleSourceShortestPathBST {
     }
 
     /**
-     * Performs a Breadth First Search on the specified graph starting from the specified node.
+     * Performs a Breadth First Search on the specified graph starting from
+     * the specified node.
      *
      * @param graph the adjacency matrix representing the graph.
      * @param start the start node for the search.

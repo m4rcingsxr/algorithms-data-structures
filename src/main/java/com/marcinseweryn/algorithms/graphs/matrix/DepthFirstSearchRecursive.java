@@ -26,7 +26,8 @@ public class DepthFirstSearchRecursive {
         // Create and set up a StringBuilder object to build
         // the depth first search path string
         StringBuilder dfs = new StringBuilder();
-        dfs.append(String.format("Depth First Search starting from vertex %d:[", start));
+        dfs.append(String.format("Depth First Search starting from vertex " +
+                "%d:[", start));
 
         // Call the recursive dfs method to perform the search
         if (graph.length != 0) {
@@ -52,7 +53,8 @@ public class DepthFirstSearchRecursive {
      * @param index   the current vertex being visited
      * @param sb      the StringBuilder object to append the visited vertices to
      */
-    private static void dfs(int[][] graph, boolean[] visited, int index, StringBuilder sb) {
+    private static void dfs(int[][] graph, boolean[] visited, int index,
+                            StringBuilder sb) {
 
         // Base case:
         // If the current vertex has already been visited, return
@@ -101,6 +103,7 @@ public class DepthFirstSearchRecursive {
         System.out.println(dfs(matrix, 0));
 
         // Output:
-        //Depth First Search starting from vertex 0:[0,7,3,2,12,8,1,10,9,4,6,5,11]
+        //Depth First Search starting from vertex 0:[0,7,3,2,12,8,1,10,9,4,6,
+        // 5,11]
     }
 }

@@ -17,7 +17,8 @@ public class DepthFirstSearchStack {
         }
     }
 
-    static void depthFirstSearch(List<List<Edge>> graph, int start, int noElements) {
+    static void depthFirstSearch(List<List<Edge>> graph, int start,
+                                 int noElements) {
         boolean[] visited = new boolean[noElements];
         Deque<Integer> stack = new ArrayDeque<>();
         stack.push(start);

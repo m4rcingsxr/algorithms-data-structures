@@ -46,11 +46,13 @@ public class LazyDijkstraInserting {
         return graph;
     }
 
-    public static void addDirectedEdge(List<List<Edge>> graph, int from, int next, double weight) {
+    public static void addDirectedEdge(List<List<Edge>> graph, int from,
+                                       int next, double weight) {
         graph.get(from).add(new Edge(from, next, weight));
     }
 
-    private static Double[] dijkstra(List<List<Edge>> graph, int start, Integer[] previous) {
+    private static Double[] dijkstra(List<List<Edge>> graph, int start,
+                                     Integer[] previous) {
         boolean[] visited = new boolean[graph.size()];
         Double[] distance = new Double[graph.size()];
         Arrays.fill(distance, Double.POSITIVE_INFINITY);
@@ -83,7 +85,8 @@ public class LazyDijkstraInserting {
                 double newDist = distance[current.id] + edge.weight;
 
                 // If computed distance is smaller than already
-                // existed distance(it might be already updated through other vertices)
+                // existed distance(it might be already updated through other
+                // vertices)
                 // then we can update it
                 if (newDist < distance[edge.next]) {
                     distance[edge.next] = newDist;
@@ -91,9 +94,12 @@ public class LazyDijkstraInserting {
                     // Set shortest path parent of vertex
                     previous[edge.next] = current.id;
 
-                    // Add to pq updated vertex -> consider it as the shortest path
-                    // it is more efficient to insert a new key-value - O(log(N)) - inserting
-                    // pair than it is to update and existing key's value(O(N)) - requires searching
+                    // Add to pq updated vertex -> consider it as the
+                    // shortest path
+                    // it is more efficient to insert a new key-value - O(log
+                    // (N)) - inserting
+                    // pair than it is to update and existing key's value(O
+                    // (N)) - requires searching
                     queue.add(new Node(edge.next, newDist));
                 }
             }
@@ -108,7 +114,8 @@ public class LazyDijkstraInserting {
     }
 
     // Reconstruct the shortest path between 2 specific vertices
-    public static List<Integer> findShortestPath(List<List<Edge>> graph, int start, int end) {
+    public static List<Integer> findShortestPath(List<List<Edge>> graph,
+                                                 int start, int end) {
         Integer[] previous = new Integer[graph.size()];
         Double[] distance = dijkstra(graph, start, previous);
         List<Integer> path = new ArrayList<>();

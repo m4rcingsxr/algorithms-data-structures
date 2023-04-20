@@ -5,8 +5,10 @@ import java.util.Arrays;
 import static java.lang.System.out;
 
 /**
- * Implements the InsertionSort algorithm to sort an array of elements in ascending/descending order.
- * InsertionSort works by iterating over the array and inserting each element into its correct
+ * Implements the InsertionSort algorithm to sort an array of elements in
+ * ascending/descending order.
+ * InsertionSort works by iterating over the array and inserting each element
+ * into its correct
  * position in a sorted sub-array to its left.
  */
 public class InsertionSort {
@@ -53,7 +55,8 @@ public class InsertionSort {
         out.println(Arrays.toString(array) + "\nDescending:");
         BubbleSort.descendingSort(array);
         out.println(Arrays.toString(array) + "\nString");
-        String[] stringArray = {"z", "Z", "C", "D", "X", "v", "Y", "A", "a", "L", "M"};
+        String[] stringArray = {"z", "Z", "C", "D", "X", "v", "Y", "A", "a",
+                "L", "M"};
         out.println(Arrays.toString(stringArray) + "\nAscending");
         BubbleSort.sort(stringArray);
         out.println(Arrays.toString(stringArray) + "\nDescending");

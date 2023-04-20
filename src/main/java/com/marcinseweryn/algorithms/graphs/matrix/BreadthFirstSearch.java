@@ -4,13 +4,15 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 /**
- * Implements a Breadth-First Search algorithm on a graph represented as an adjacency matrix.
+ * Implements a Breadth-First Search algorithm on a graph represented as an
+ * adjacency matrix.
  */
 public class BreadthFirstSearch {
     int[][] adjacencyMatrix;
 
     /**
-     * Constructs a new BreadthFirstSearch object with the given adjacency matrix.
+     * Constructs a new BreadthFirstSearch object with the given adjacency
+     * matrix.
      *
      * @param adjacencyMatrix the adjacency matrix representing the graph
      */
@@ -19,11 +21,13 @@ public class BreadthFirstSearch {
     }
 
     /**
-     * Performs a Breadth-First Search on the graph starting from the given vertex,
+     * Performs a Breadth-First Search on the graph starting from the given
+     * vertex,
      * and return visited vertices.
      *
      * @param start the starting vertex for the search
-     * @return String representation of executed breadth first search algorithm on the graph
+     * @return String representation of executed breadth first search
+     * algorithm on the graph
      */
     public String printBreadthFirstSearch(int start) {
         StringBuilder bfs = new StringBuilder();

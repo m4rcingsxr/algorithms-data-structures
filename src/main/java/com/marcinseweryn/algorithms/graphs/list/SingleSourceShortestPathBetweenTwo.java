@@ -18,7 +18,8 @@ public class SingleSourceShortestPathBetweenTwo {
     // specified at 'start' index in the list
     // Helper algorithm for fill parent array which contains
     // 'parent' of each vertex
-    public static void bfs(List<List<Edge>> graph, int start, Integer[] parent) {
+    public static void bfs(List<List<Edge>> graph, int start,
+                           Integer[] parent) {
         final int n = graph.size();
         boolean[] visited = new boolean[n];
         Queue<Integer> queue = new ArrayDeque<>();
@@ -62,7 +63,8 @@ public class SingleSourceShortestPathBetweenTwo {
         // Iterate backward to get parent for each vertex
         // and fill path list from backward
         // current = null if vertex has no parent
-        for (Integer current = end; current != null; current = parent[current]) {
+        for (Integer current = end; current != null; current =
+                parent[current]) {
             path.add(current);
         }
 
@@ -89,11 +91,13 @@ public class SingleSourceShortestPathBetweenTwo {
         return graph;
     }
 
-    public static void addDirectedEdge(List<List<Edge>> graph, int from, int to) {
+    public static void addDirectedEdge(List<List<Edge>> graph, int from,
+                                       int to) {
         graph.get(from).add(new Edge(from, to));
     }
 
-    public static void addUndirectedEdge(List<List<Edge>> graph, int from, int to) {
+    public static void addUndirectedEdge(List<List<Edge>> graph, int from,
+                                         int to) {
         addDirectedEdge(graph, from, to);
         addDirectedEdge(graph, to, from);
     }
@@ -110,7 +114,8 @@ public class SingleSourceShortestPathBetweenTwo {
         //                   0  -- 7  -- 6
         //                    \
         //                      11
-        List<List<Edge>> graph = SingleSourceShortestPathBetweenTwo.createGraph(13);
+        List<List<Edge>> graph =
+                SingleSourceShortestPathBetweenTwo.createGraph(13);
         addUndirectedEdge(graph, 0, 7);
         addUndirectedEdge(graph, 0, 9);
         addUndirectedEdge(graph, 0, 11);

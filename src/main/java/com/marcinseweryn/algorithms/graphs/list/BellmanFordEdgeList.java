@@ -61,7 +61,8 @@ public class BellmanFordEdgeList {
             out.print(i + "   ");
         }
         out.println();
-        Arrays.stream(bellmanFord(edges, 4, V)).forEach(e -> out.print(e + " "));
+        Arrays.stream(bellmanFord(edges, 4, V)).forEach(e -> out.print(e + " "
+        ));
 
         /* OUTPUT:
             Present Bellman Ford without negative cycle:
@@ -77,7 +78,8 @@ public class BellmanFordEdgeList {
             out.print(i + "   ");
         }
         out.println();
-        Arrays.stream(bellmanFord(edges, 4, V)).forEach(e -> out.print(e + " "));
+        Arrays.stream(bellmanFord(edges, 4, V)).forEach(e -> out.print(e + " "
+        ));
 
         /* OUTPUT:
             Present Bellman Ford WITH negative cycle:

@@ -32,7 +32,7 @@ public class SeparateChaining<K, V> implements Iterable<SeparateChaining.Entry<K
      */
     private static final int DEFAULT_CAPACITY = 5;
     private LinkedList<Entry<K, V>>[] hashTable;
-    private double loadFactor;
+    private final double loadFactor;
     private int capacity;
     private int size;
     private int maxElementToResize;
@@ -48,9 +48,11 @@ public class SeparateChaining<K, V> implements Iterable<SeparateChaining.Entry<K
      */
     public SeparateChaining(double loadFactor, int capacity) {
         if (loadFactor <= 0 || Double.isInfinite(loadFactor) || Double.isNaN(loadFactor)) {
-            throw new IllegalArgumentException("loadFactor(" + loadFactor + ") - illegal argument");
+            throw new IllegalArgumentException("loadFactor(" + loadFactor +
+                    ") - illegal argument");
         } else if (capacity < 0) {
-            throw new IllegalArgumentException("capacity(" + capacity + ") - illegal argument");
+            throw new IllegalArgumentException("capacity(" + capacity + ") - " +
+                    "illegal argument");
         }
         this.size = 0;
         this.loadFactor = loadFactor;
@@ -99,7 +101,8 @@ public class SeparateChaining<K, V> implements Iterable<SeparateChaining.Entry<K
     }
 
     private V insertEntry(Entry<K, V> entry, int index) {
-        LinkedList<Entry<K, V>> bucket = hashTable[index]; // bucket might reference to null
+        LinkedList<Entry<K, V>> bucket = hashTable[index]; // bucket might
+        // reference to null
         K key = entry.key;
 
         // Make sure that if we invoke getEntry then null will
@@ -293,7 +296,7 @@ public class SeparateChaining<K, V> implements Iterable<SeparateChaining.Entry<K
 
 
     protected static class Entry<K, V> {
-        private K key;
+        private final K key;
         private V value;
 
         public K getKey() {

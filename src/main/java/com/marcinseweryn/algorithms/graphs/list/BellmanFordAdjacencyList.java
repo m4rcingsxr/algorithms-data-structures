@@ -27,7 +27,8 @@ public class BellmanFordAdjacencyList {
         return graph;
     }
 
-    public static double[] bellmanFord(List<List<Edge>> graph, int N, int start) {
+    public static double[] bellmanFord(List<List<Edge>> graph, int N,
+                                       int start) {
         double[] distance = new double[N];
         Arrays.fill(distance, Double.POSITIVE_INFINITY);
         distance[start] = 0;
@@ -64,7 +65,8 @@ public class BellmanFordAdjacencyList {
         return distance;
     }
 
-    public static void addDirectedEdge(List<List<Edge>> graph, int from, int to, double weight) {
+    public static void addDirectedEdge(List<List<Edge>> graph, int from,
+                                       int to, double weight) {
         graph.get(from).add(new Edge(weight, from, to));
     }
 
@@ -87,7 +89,8 @@ public class BellmanFordAdjacencyList {
             out.print(i + "   ");
         }
         out.println();
-        Arrays.stream(bellmanFord(graph, N, 4)).forEach(e -> out.print(e + " "));
+        Arrays.stream(bellmanFord(graph, N, 4)).forEach(e -> out.print(e + " "
+        ));
 
         /*  OUTPUT:
             Present Bellman Ford without negative cycle:
@@ -102,7 +105,8 @@ public class BellmanFordAdjacencyList {
             out.print(i + "   ");
         }
         out.println();
-        Arrays.stream(bellmanFord(graph, N, 4)).forEach(e -> out.print(e + " "));
+        Arrays.stream(bellmanFord(graph, N, 4)).forEach(e -> out.print(e + " "
+        ));
 
         /*  OUTPUT:
             Present Bellman Ford WITH negative cycle:

@@ -5,9 +5,12 @@ import java.util.Arrays;
 import static java.lang.System.out;
 
 /**
- * Implements the BubbleSort algorithm to sort an array of elements in ascending/descending order.
- * BubbleSort works by repeatedly swapping adjacent elements in the array if they are in the wrong order.
- * The algorithm continues until no more swaps are needed, indicating the array is sorted.
+ * Implements the BubbleSort algorithm to sort an array of elements in
+ * ascending/descending order.
+ * BubbleSort works by repeatedly swapping adjacent elements in the array if
+ * they are in the wrong order.
+ * The algorithm continues until no more swaps are needed, indicating the
+ * array is sorted.
  */
 public class BubbleSort {
     private BubbleSort() {
@@ -55,7 +58,8 @@ public class BubbleSort {
         out.println(Arrays.toString(array) + "\nDescending:");
         BubbleSort.descendingSort(array);
         out.println(Arrays.toString(array) + "\nString[]");
-        String[] stringArray = {"z", "Z", "C", "D", "X", "v", "Y", "A", "a", "L", "M"};
+        String[] stringArray = {"z", "Z", "C", "D", "X", "v", "Y", "A", "a",
+                "L", "M"};
         out.println(Arrays.toString(stringArray) + "\nAscending");
         BubbleSort.sort(stringArray);
         out.println(Arrays.toString(stringArray) + "\nDescending");

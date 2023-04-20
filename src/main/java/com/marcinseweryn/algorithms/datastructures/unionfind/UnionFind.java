@@ -14,27 +14,30 @@ package com.marcinseweryn.algorithms.datastructures.unionfind;
 public class UnionFind {
 
     // The number of elements in this union-find
-    private int numElements;
+    private final int numElements;
 
     // The size of each of the components
-    private int[] componentSizes;
+    private final int[] componentSizes;
 
     // A mapping from an element to its parent element.
     // If an element is a root node, its parent is itself.
-    private int[] parentElements;
+    private final int[] parentElements;
 
     // The number of components in this union-find
     private int numComponents;
 
     /**
-     * Constructs a new UnionFind data structure with a specified number of elements.
+     * Constructs a new UnionFind data structure with a specified number of
+     * elements.
      *
-     * @param numElements The number of elements in the UnionFind data structure.
+     * @param numElements The number of elements in the UnionFind data
+     *                    structure.
      * @throws IllegalArgumentException if {@code numElements <= 0}.
      */
     public UnionFind(int numElements) {
         if (numElements <= 0) {
-            throw new IllegalArgumentException("Number of elements must be positive.");
+            throw new IllegalArgumentException("Number of elements must be " +
+                    "positive.");
         }
 
         this.numElements = numComponents = numElements;
@@ -51,7 +54,8 @@ public class UnionFind {
      * Finds the root element of the component that {@code element} belongs to.
      *
      * @param element The element to find the root of.
-     * @return The root element of the component that {@code element} belongs to.
+     * @return The root element of the component that {@code element} belongs
+     * to.
      */
     public int find(int element) {
         // Find the root of the component
@@ -77,7 +81,8 @@ public class UnionFind {
      *
      * @param firstElement  The first element.
      * @param secondElement The second element.
-     * @return {@code true} if the two elements belong to the same component, {@code false} otherwise.
+     * @return {@code true} if the two elements belong to the same component,
+     * {@code false} otherwise.
      */
     public boolean areConnected(int firstElement, int secondElement) {
         return find(firstElement) == find(secondElement);

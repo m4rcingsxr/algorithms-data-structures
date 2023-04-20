@@ -3,7 +3,8 @@ package com.marcinseweryn.algorithms.graphs.matrix;
 import static java.lang.Math.min;
 
 /**
- * The FloydWarshall class provides a static implementation of the Floyd-Warshall
+ * The FloydWarshall class provides a static implementation of the
+ * Floyd-Warshall
  * algorithm for finding the shortest path between all pairs of vertices in a
  * weighted graph with or without negative cycles.
  */
@@ -13,7 +14,8 @@ public class FloydWarshall {
      * Applies the Floyd-Warshall algorithm to the given graph.
      *
      * @param graph the weighted graph, represented as a 2D array of doubles
-     * @return a 2D array of doubles representing the shortest path between all pairs of vertices in the graph
+     * @return a 2D array of doubles representing the shortest path between
+     * all pairs of vertices in the graph
      * @throws IllegalStateException if the graph contains a negative cycle
      */
     public static double[][] floydWarshall(double[][] graph) {
@@ -67,7 +69,8 @@ public class FloydWarshall {
      * @param to     the destination vertex
      * @param weight the weight of the edge
      */
-    public static void addDirectedWeightedEdge(double[][] graph, int from, int to, int weight) {
+    public static void addDirectedWeightedEdge(double[][] graph, int from,
+                                               int to, int weight) {
         graph[from][to] = weight;
     }
 
@@ -92,7 +95,8 @@ public class FloydWarshall {
     }
 
     /**
-     * Prints the shortest path between all pairs of vertices in the given graph.
+     * Prints the shortest path between all pairs of vertices in the given
+     * graph.
      *
      * @param graph the weighted graph, represented as a 2D array of doubles
      */
@@ -101,9 +105,11 @@ public class FloydWarshall {
             System.out.println("------------------Shortest paths for [" + i + "]------------------");
             for (int j = 0; j < graph[i].length; j++) {
                 if (graph[i][j] != Double.POSITIVE_INFINITY) {
-                    System.out.printf("Shortest path from %d to %d is:[%d]%n", i, j, (int) graph[i][j]);
+                    System.out.printf("Shortest path from %d to %d is:[%d]%n"
+                            , i, j, (int) graph[i][j]);
                 } else {
-                    System.out.printf("Path from %d to %d does not exist%n", i, j);
+                    System.out.printf("Path from %d to %d does not exist%n",
+                            i, j);
                 }
             }
         }

@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class provides methods for creating and performing depth-first search (DFS)
- * on a graph using recursion. The class contains utility methods for creating a graph
- * with a specified number of vertices, adding edges to the graph (both directed and
+ * This class provides methods for creating and performing depth-first search
+ * (DFS)
+ * on a graph using recursion. The class contains utility methods for
+ * creating a graph
+ * with a specified number of vertices, adding edges to the graph (both
+ * directed and
  * undirected),and performing DFS on the graph starting from a specified vertex.
  */
 public class DepthFirstSearchRecursive {
@@ -37,7 +40,8 @@ public class DepthFirstSearchRecursive {
      * @param from  the starting vertex of the edge
      * @param to    the ending vertex of the edge
      */
-    public static void addUndirectedEdge(List<List<Integer>> graph, int from, int to) {
+    public static void addUndirectedEdge(List<List<Integer>> graph, int from,
+                                         int to) {
         graph.get(from).add(to);
         graph.get(to).add(from);
     }
@@ -49,12 +53,14 @@ public class DepthFirstSearchRecursive {
      * @param from  the starting vertex of the edge
      * @param to    the ending vertex of the edge
      */
-    public static void addDirectedEdge(List<List<Integer>> graph, int from, int to) {
+    public static void addDirectedEdge(List<List<Integer>> graph, int from,
+                                       int to) {
         graph.get(from).add(to);
     }
 
     /**
-     * Performs a Depth First Search on the graph starting from the vertex 'start'.
+     * Performs a Depth First Search on the graph starting from the vertex
+     * 'start'.
      * Returns a string representation of the DFS path.
      *
      * @param graph the graph to perform DFS on

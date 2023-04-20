@@ -12,8 +12,8 @@ import java.util.Comparator;
 public class KruskalEdgeList {
 
     static class UnionFind {
-        private int[] parent;
-        private int[] componentSize;
+        private final int[] parent;
+        private final int[] componentSize;
 
         public UnionFind(int e) {
             parent = new int[e];

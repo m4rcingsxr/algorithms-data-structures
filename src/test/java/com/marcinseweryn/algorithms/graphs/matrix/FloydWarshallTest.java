@@ -18,6 +18,7 @@ public class FloydWarshallTest {
         };
         assertThrows(IllegalStateException.class, () -> FloydWarshall.floydWarshall(graph));
     }
+
     @ParameterizedTest
     @MethodSource("graphProvider")
     public void testFloydWarshall(double[][] graph, double[][] expected) {

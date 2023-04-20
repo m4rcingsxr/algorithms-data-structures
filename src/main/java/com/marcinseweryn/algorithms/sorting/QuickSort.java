@@ -5,8 +5,10 @@ import java.util.Arrays;
 import static java.lang.System.out;
 
 /**
- * Implements the QuickSort algorithm to sort an array of elements in ascending order.
- * QuickSort works by selecting a pivot element, partitioning the array into two sub-arrays
+ * Implements the QuickSort algorithm to sort an array of elements in
+ * ascending order.
+ * QuickSort works by selecting a pivot element, partitioning the array into
+ * two sub-arrays
  * based on the pivot, and recursively sorting the sub-arrays.
  */
 public class QuickSort {
@@ -32,7 +34,8 @@ public class QuickSort {
      */
     private static void quickSort(int[] array, int start, int end) {
 
-        // Base case: if the sub-array has length less than 2, it is already sorted
+        // Base case: if the sub-array has length less than 2, it is already
+        // sorted
         if (start >= end) return;
 
         // Choose a pivot element and partition the sub-array around it
@@ -58,7 +61,8 @@ public class QuickSort {
         int pIndex = start;
         for (int i = start; i < end; i++) {
 
-            // Partition the sub-array into elements less than or equal to the pivot,
+            // Partition the sub-array into elements less than or equal to
+            // the pivot,
             // and elements greater than the pivot
             if (array[i] <= pivot) {
                 int temp = array[i];
@@ -68,7 +72,8 @@ public class QuickSort {
             }
         }
 
-        // Move the pivot element to its final position in the partitioned sub-array
+        // Move the pivot element to its final position in the partitioned
+        // sub-array
         array[end] = array[pIndex];
         array[pIndex] = pivot;
 

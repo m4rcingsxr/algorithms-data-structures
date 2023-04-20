@@ -68,7 +68,8 @@ public class GraphMatrix<T> {
                 {0, 1, 0, 1, 0}
         };
 
-        GraphMatrix<Character> graphMatrix = new GraphMatrix<>(listNode, matrix);
+        GraphMatrix<Character> graphMatrix = new GraphMatrix<>(listNode,
+                matrix);
         out.println(graphMatrix);
 
         /*   Output:

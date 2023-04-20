@@ -6,10 +6,14 @@ import java.util.Random;
 import static java.lang.System.out;
 
 /**
- * Binary search compares the target value to the middle element of the array. If they are not equal,
- * the half in which the target cannot lie is eliminated and the search continues on the remaining half,
- * again taking the middle element to compare to the target value, and repeating this until the target value
- * is found. If the search ends with the remaining half being empty, the target is not in the array.
+ * Binary search compares the target value to the middle element of the array
+ * . If they are not equal,
+ * the half in which the target cannot lie is eliminated and the search
+ * continues on the remaining half,
+ * again taking the middle element to compare to the target value, and
+ * repeating this until the target value
+ * is found. If the search ends with the remaining half being empty, the
+ * target is not in the array.
  *
  * @https://en.wikipedia.org/wiki/Binary_search_algorithm
  */
@@ -23,7 +27,8 @@ public class BinarySearch {
      *
      * @param arr   the sorted array to search in
      * @param value the value to search for
-     * @param <T>   the type of elements in the array, must implement Comparable interface
+     * @param <T>   the type of elements in the array, must implement
+     *           Comparable interface
      * @return true if the value is found, false otherwise
      */
     public static <T extends Comparable<T>> boolean search(T[] arr, T value) {
@@ -47,12 +52,14 @@ public class BinarySearch {
         for (int i = 0; i < randomUnsortedArray.length; i++) {
             randomUnsortedArray[i] = random.nextInt(100);
         }
-        Integer[] randomSortedArray = Arrays.copyOf(randomUnsortedArray, randomUnsortedArray.length);
+        Integer[] randomSortedArray = Arrays.copyOf(randomUnsortedArray,
+                randomUnsortedArray.length);
         Arrays.sort(randomSortedArray);
         out.println("Unsorted array: " + Arrays.toString(randomUnsortedArray));
         out.println("Sorted array: " + Arrays.toString(randomSortedArray));
         for (int i = 0; i < 10; i++) {
-            if (!BinarySearch.search(randomSortedArray, randomUnsortedArray[i])) {
+            if (!BinarySearch.search(randomSortedArray,
+                    randomUnsortedArray[i])) {
                 out.println("Binary Search algorithm does not found " + randomUnsortedArray[i]);
                 break;
             } else {

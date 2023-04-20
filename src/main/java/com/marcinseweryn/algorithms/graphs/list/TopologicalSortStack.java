@@ -14,7 +14,8 @@ public class TopologicalSortStack {
     }
 
 
-    static int[] topologicalSort(Map<Integer, List<Edge>> graph, int noElements) {
+    static int[] topologicalSort(Map<Integer, List<Edge>> graph,
+                                 int noElements) {
         boolean[] visited = new boolean[noElements];
         Deque<Integer> stack = new ArrayDeque<>();
         int[] order = new int[noElements];
@@ -27,7 +28,8 @@ public class TopologicalSortStack {
         return order;
     }
 
-    private static void dfs(Deque<Integer> stack, int start, Map<Integer, List<Edge>> graph, boolean[] visited, int[] order) {
+    private static void dfs(Deque<Integer> stack, int start, Map<Integer,
+            List<Edge>> graph, boolean[] visited, int[] order) {
         stack.push(start);
         int i = 0;
         while (!stack.isEmpty()) {

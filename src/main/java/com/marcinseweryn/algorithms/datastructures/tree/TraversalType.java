@@ -4,5 +4,5 @@ public enum TraversalType {
     INORDER,
     PREORDER,
     LEVELORDER,
-    POSTORDER;
+    POSTORDER
 }

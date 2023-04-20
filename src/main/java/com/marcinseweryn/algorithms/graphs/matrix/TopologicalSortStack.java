@@ -5,7 +5,8 @@ import java.util.Arrays;
 import java.util.Deque;
 
 /**
- * The TopologicalSortStack class provides methods to perform topological sorting
+ * The TopologicalSortStack class provides methods to perform topological
+ * sorting
  * on a directed acyclic graph using a stack-based algorithm.
  */
 public class TopologicalSortStack {
@@ -18,7 +19,8 @@ public class TopologicalSortStack {
      * Computes the topological order of a given directed acyclic graph
      * using a stack-based algorithm.
      *
-     * @param graph the adjacency matrix representation of the directed acyclic graph
+     * @param graph the adjacency matrix representation of the directed
+     *              acyclic graph
      * @return the topological order of the graph as an array of integers
      */
     public static int[] getTopologicalOrder(int[][] graph) {
@@ -39,13 +41,17 @@ public class TopologicalSortStack {
     }
 
     /**
-     * Performs a depth-first search (DFS) on the given graph, starting from the specified vertex,
+     * Performs a depth-first search (DFS) on the given graph, starting from
+     * the specified vertex,
      * and returns the order in which vertices are visited.
      *
-     * @param graph   the adjacency matrix representing the directed acyclic graph to traverse
-     * @param visited an array indicating which vertices have already been visited
+     * @param graph   the adjacency matrix representing the directed acyclic
+     *                graph to traverse
+     * @param visited an array indicating which vertices have already been
+     *                visited
      * @param actual  the current vertex being visited
-     * @param index   the current index in the order array to insert the visited vertex
+     * @param index   the current index in the order array to insert the
+     *                visited vertex
      * @param order   an array to store the order in which vertices are visited
      * @return the updated index in the order array after visiting all
      * reachable vertices from the current vertex

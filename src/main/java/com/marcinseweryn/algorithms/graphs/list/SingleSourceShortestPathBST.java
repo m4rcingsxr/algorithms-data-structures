@@ -18,11 +18,13 @@ public class SingleSourceShortestPathBST {
 
     static Integer[] parent;
 
-    public static void addDirectedEdge(List<List<Edge>> graph, int from, int to) {
+    public static void addDirectedEdge(List<List<Edge>> graph, int from,
+                                       int to) {
         graph.get(from).add(new Edge(from, to));
     }
 
-    public static void addUndirectedEdge(List<List<Edge>> graph, int from, int to) {
+    public static void addUndirectedEdge(List<List<Edge>> graph, int from,
+                                         int to) {
         addDirectedEdge(graph, from, to);
         addDirectedEdge(graph, to, from);
     }
@@ -67,7 +69,8 @@ public class SingleSourceShortestPathBST {
         }
     }
 
-    private static void bst(List<List<Edge>> graph, Integer[] parent, int start) {
+    private static void bst(List<List<Edge>> graph, Integer[] parent,
+                            int start) {
         boolean[] visited = new boolean[graph.size()];
         Queue<Integer> queue = new ArrayDeque<>();
         queue.add(start);

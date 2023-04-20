@@ -35,19 +35,22 @@ public class BreadthFirstSearch {
     }
 
     /**
-     * Adds an undirected edge between the two given vertices in the given graph.
+     * Adds an undirected edge between the two given vertices in the given
+     * graph.
      *
      * @param graph the graph to add the edge to
      * @param from  the vertex the edge starts from
      * @param to    the vertex the edge goes to
      */
-    public static void addUndirectedEdge(List<List<Integer>> graph, int from, int to) {
+    public static void addUndirectedEdge(List<List<Integer>> graph, int from,
+                                         int to) {
         graph.get(from).add(to);
         graph.get(to).add(from);
     }
 
     /**
-     * Performs a breadth-first search traversal of the given graph starting from the given vertex.
+     * Performs a breadth-first search traversal of the given graph starting
+     * from the given vertex.
      *
      * @param graph the graph to traverse
      * @param start the starting vertex for the traversal

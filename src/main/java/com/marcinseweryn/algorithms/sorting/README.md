@@ -48,45 +48,45 @@
       broken further (base case)
   > - Merge halves by sorting them
       >
-  - ![img_1.png](img/img_1.png)
+    - ![img_1.png](img/img_1.png)
 
       Pseudocode
       A - array
       N - array.length
       MergeSort(A)
       {
-        mid = N/2;
-        if N < 2 return
-        left = new array[mid]
-        right = new array[size - mid]
-        for i = 0 i < mid i ++
-          left[i] = A[i]
-        for i = mid i < N i++
-          right[i - mid] = A[i]
-        MergeSort(left)
-        MergeSort(right)
-        Merge(left,right,A)
+      mid = N/2;
+      if N < 2 return
+      left = new array[mid]
+      right = new array[size - mid]
+      for i = 0 i < mid i ++
+      left[i] = A[i]
+      for i = mid i < N i++
+      right[i - mid] = A[i]
+      MergeSort(left)
+      MergeSort(right)
+      Merge(left,right,A)
       }
-      
+
       Merge(left,right,A)
       {
-        int k = 0;
-        int i = 0;
-        int j = 0;
-        while(i < left.length && j < right.length) 
-        {
-          if left[i] <= left[j]
-            A[k++] = left[i++]
-          else 
-            A[k++] = right[j++]
-        }
+      int k = 0;
+      int i = 0;
+      int j = 0;
+      while(i < left.length && j < right.length)
+      {
+      if left[i] <= left[j]
+      A[k++] = left[i++]
+      else
+      A[k++] = right[j++]
+      }
 
-        while(i < left.length) 
-          A[k++] = left[i++]
-        
-        while(j < right.length)
-          A[k++] = right[j++]
-        
+          while(i < left.length) 
+            A[k++] = left[i++]
+          
+          while(j < right.length)
+            A[k++] = right[j++]
+
       }
 
 - [QUICK SORT](QuickSort.java)

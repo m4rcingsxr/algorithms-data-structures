@@ -153,7 +153,8 @@
         with links between nodes defined not by the entire key, but by individual characters.
 
 > - Any node in trie can store non-repetitive multiple characters
->   - Every node stores link of the next character of the string
+    >
+- Every node stores link of the next character of the string
 >   - Every node keeps track of end of string
 >   - **Each node has HashMap with pairs of character and link to the next character**
 

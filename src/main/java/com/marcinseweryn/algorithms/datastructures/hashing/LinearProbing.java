@@ -58,7 +58,8 @@ public class LinearProbing {
         for (int i = index; i < index + hashTable.length; i++) {
 
             // because size is index + hashTable.length, if our index is 15,
-            // size is 15 and we want to insert new value then we need to get into index 1 so must use mode
+            // size is 15 and we want to insert new value then we need to get
+            // into index 1 so must use mode
             int newIndex = i % hashTable.length;
             if (hashTable[newIndex] != null && hashTable[newIndex].equals(word)) {
                 return true;

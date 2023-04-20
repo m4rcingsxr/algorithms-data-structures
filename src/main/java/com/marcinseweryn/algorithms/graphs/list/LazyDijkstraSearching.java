@@ -6,12 +6,12 @@ import java.util.PriorityQueue;
 
 public class LazyDijkstraSearching {
     private static class WeightedNode implements Comparable<WeightedNode> {
-        private String name;
+        private final String name;
         ArrayList<WeightedNode> neighbors;
         HashMap<WeightedNode, Integer> weightMap;
         WeightedNode parent;
         int distance;
-        private int index;
+        private final int index;
 
         public WeightedNode(String name, int index) {
             neighbors = new ArrayList<>();
@@ -35,7 +35,7 @@ public class LazyDijkstraSearching {
 
     }
 
-    private ArrayList<WeightedNode> nodeList;
+    private final ArrayList<WeightedNode> nodeList;
 
     public LazyDijkstraSearching(ArrayList<WeightedNode> nodeList) {
         this.nodeList = nodeList;
@@ -55,7 +55,8 @@ public class LazyDijkstraSearching {
                     if (neighbor.distance > current.distance + current.weightMap.get(neighbor)) {
 
                         // No heapify after editing object!
-                        neighbor.distance = current.distance + current.weightMap.get(neighbor);
+                        neighbor.distance =
+                                current.distance + current.weightMap.get(neighbor);
                         neighbor.parent = current;
 
                         // Refresh queue
@@ -99,7 +100,8 @@ public class LazyDijkstraSearching {
         nodeList.add(new WeightedNode("E", 4));
         nodeList.add(new WeightedNode("F", 5));
         nodeList.add(new WeightedNode("G", 6));
-        LazyDijkstraSearching weigthedGraphDijkstra = new LazyDijkstraSearching(nodeList);
+        LazyDijkstraSearching weigthedGraphDijkstra =
+                new LazyDijkstraSearching(nodeList);
         weigthedGraphDijkstra.addWeightedEdge(0, 1, 2);
         weigthedGraphDijkstra.addWeightedEdge(0, 2, 5);
         weigthedGraphDijkstra.addWeightedEdge(1, 3, 1);

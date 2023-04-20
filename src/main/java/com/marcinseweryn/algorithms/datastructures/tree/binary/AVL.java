@@ -79,14 +79,18 @@ public class AVL<T extends Comparable<T>> {
         // Recursively check balance for parent
         int balance = getBalance(node);
         // Check if node is unbalanced
-        if (balance > 1 && val.compareTo(node.left.val) < 0) { // val < node.left.val (LL)
+        if (balance > 1 && val.compareTo(node.left.val) < 0) { // val < node
+            // .left.val (LL)
             return rotateRight(node);
-        } else if (balance > 1 && val.compareTo(node.left.val) > 0) { // val > node.left.val (LR)
+        } else if (balance > 1 && val.compareTo(node.left.val) > 0) { // val
+            // > node.left.val (LR)
             node.left = rotateLeft(node.left);
             return rotateRight(node);
-        } else if (balance < -1 && val.compareTo(node.right.val) > 0) { // val > node.right.val (RR)
+        } else if (balance < -1 && val.compareTo(node.right.val) > 0) { //
+            // val > node.right.val (RR)
             return rotateLeft(node);
-        } else if (balance < -1 && val.compareTo(node.right.val) < 0) { // vall < node.right.val (RL)
+        } else if (balance < -1 && val.compareTo(node.right.val) < 0) { //
+            // vall < node.right.val (RL)
             node.right = rotateRight(node.right);
             return rotateLeft(node);
         }
@@ -375,7 +379,8 @@ public class AVL<T extends Comparable<T>> {
 
     }
 
-    private Iterator<BinaryNode<T>> levelOrderIterator(BinaryNode<T> node, List<BinaryNode<T>> list) {
+    private Iterator<BinaryNode<T>> levelOrderIterator(BinaryNode<T> node,
+                                                       List<BinaryNode<T>> list) {
         Queue<BinaryNode<T>> queue = new ArrayDeque<>();
         queue.add(node);
         while (!queue.isEmpty()) {
@@ -414,7 +419,8 @@ public class AVL<T extends Comparable<T>> {
     }
 
 
-    private void postOrderIterator(BinaryNode<T> node, List<BinaryNode<T>> list) {
+    private void postOrderIterator(BinaryNode<T> node,
+                                   List<BinaryNode<T>> list) {
         if (node == null) {
             return;
         }
@@ -433,7 +439,8 @@ public class AVL<T extends Comparable<T>> {
         inOrderIterator(node.right, list);
     }
 
-    private void preOrderIterator(BinaryNode<T> node, List<BinaryNode<T>> list) {
+    private void preOrderIterator(BinaryNode<T> node,
+                                  List<BinaryNode<T>> list) {
         if (node == null) {
             return;
         }

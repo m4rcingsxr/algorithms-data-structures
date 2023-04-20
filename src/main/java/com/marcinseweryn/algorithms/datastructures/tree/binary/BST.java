@@ -303,7 +303,8 @@ public class BST<T extends Comparable<T>> {
 
     }
 
-    private void postOrderIterator(BinaryNode<T> node, List<BinaryNode<T>> list) {
+    private void postOrderIterator(BinaryNode<T> node,
+                                   List<BinaryNode<T>> list) {
         if (node == null) {
             return;
         }
@@ -322,7 +323,8 @@ public class BST<T extends Comparable<T>> {
         inOrderIterator(node.right, list);
     }
 
-    private void preOrderIterator(BinaryNode<T> node, List<BinaryNode<T>> list) {
+    private void preOrderIterator(BinaryNode<T> node,
+                                  List<BinaryNode<T>> list) {
         if (node == null) {
             return;
         }
@@ -331,7 +333,8 @@ public class BST<T extends Comparable<T>> {
         preOrderIterator(node.right, list);
     }
 
-    private Iterator<BinaryNode<T>> levelOrderIterator(BinaryNode<T> node, List<BinaryNode<T>> list) {
+    private Iterator<BinaryNode<T>> levelOrderIterator(BinaryNode<T> node,
+                                                       List<BinaryNode<T>> list) {
         Queue<BinaryNode<T>> queue = new ArrayDeque<>();
         queue.add(node);
         while (!queue.isEmpty()) {

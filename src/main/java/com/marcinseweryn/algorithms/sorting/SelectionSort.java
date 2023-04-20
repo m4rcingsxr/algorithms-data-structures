@@ -5,9 +5,12 @@ import java.util.Arrays;
 import static java.lang.System.out;
 
 /**
- * Implements the SelectionSort algorithm to sort an array of elements in ascending/descending order.
- * SelectionSort works by repeatedly finding the minimum element in the unsorted part of the array,
- * swapping it with the first unsorted element, and then advancing the boundary between the sorted
+ * Implements the SelectionSort algorithm to sort an array of elements in
+ * ascending/descending order.
+ * SelectionSort works by repeatedly finding the minimum element in the
+ * unsorted part of the array,
+ * swapping it with the first unsorted element, and then advancing the
+ * boundary between the sorted
  * and unsorted parts of the array.
  */
 public class SelectionSort {
@@ -62,7 +65,8 @@ public class SelectionSort {
         out.println(Arrays.toString(array) + "\nDescending:");
         SelectionSort.descendingSort(array);
         out.println(Arrays.toString(array) + "\nString[]");
-        String[] stringArray = {"z", "Z", "C", "D", "X", "v", "Y", "A", "a", "L", "M"};
+        String[] stringArray = {"z", "Z", "C", "D", "X", "v", "Y", "A", "a",
+                "L", "M"};
         out.println(Arrays.toString(stringArray) + "\nAscending");
         SelectionSort.sort(stringArray);
         out.println(Arrays.toString(stringArray) + "\nDescending");

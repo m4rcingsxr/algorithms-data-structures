@@ -16,7 +16,9 @@ public class FloydWarshallTest {
                 {2.0, 0.0, -1.0},
                 {-4.0, 3.0, 0.0}
         };
-        assertThrows(IllegalStateException.class, () -> FloydWarshall.floydWarshall(graph));
+        assertThrows(IllegalStateException.class,
+                     () -> FloydWarshall.floydWarshall(graph)
+        );
     }
 
     @ParameterizedTest
@@ -37,9 +39,12 @@ public class FloydWarshallTest {
         double[][] expected1 = {
                 {0.0, 2.0, 6.0, 4.0, 5.0},
                 {Double.POSITIVE_INFINITY, 0.0, 4.0, 2.0, 3.0},
-                {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 0.0, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY},
-                {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 2.0, 0.0, 1.0},
-                {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1.0, Double.POSITIVE_INFINITY, 0.0}
+                {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 0.0,
+                 Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY},
+                {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 2.0, 0.0
+                        , 1.0},
+                {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1.0,
+                 Double.POSITIVE_INFINITY, 0.0}
         };
         return new Object[][]{{graph1, expected1}};
     }

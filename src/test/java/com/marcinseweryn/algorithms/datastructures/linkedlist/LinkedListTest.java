@@ -15,7 +15,6 @@ import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LinkedListTest {
     LinkedList<Integer> list;
@@ -42,7 +41,8 @@ class LinkedListTest {
     @Test
     void testPeekFirstOnEmptyListShouldThrowNoSuchElementException() {
         Executable actual = () -> list.peekFirst();
-        Class<? extends NoSuchElementException> expected = NoSuchElementException.class;
+        Class<? extends NoSuchElementException> expected =
+                NoSuchElementException.class;
 
         assertThrows(expected, actual);
     }
@@ -92,7 +92,8 @@ class LinkedListTest {
             100     ,   6    
             -4      ,   14    
             """)
-    void testAddWithWrongIndexShouldThrowIndexOutOfBoundsException(int index, int value) {
+    void testAddWithWrongIndexShouldThrowIndexOutOfBoundsException(int index,
+                                                                   int value) {
 
         Executable actual = () -> list.add(index, value);
 
@@ -107,7 +108,8 @@ class LinkedListTest {
             4           |       1
             ''          |       0
             """)
-    void testAddFirst(@ConvertWith(ToIntArrayConverter.class) int[] values, int size) {
+    void testAddFirst(@ConvertWith(ToIntArrayConverter.class) int[] values,
+                      int size) {
         for (int i = 0; i < size; i++) {
             list.addFirst(values[i]);
         }
@@ -125,7 +127,8 @@ class LinkedListTest {
             4           |       1
             ''          |       0
             """)
-    void testAddLast(@ConvertWith(ToIntArrayConverter.class) int[] values, int size) {
+    void testAddLast(@ConvertWith(ToIntArrayConverter.class) int[] values,
+                     int size) {
         for (int i = 0; i < size; i++) {
             list.addLast(values[i]);
         }
@@ -143,8 +146,9 @@ class LinkedListTest {
             1,2,4,9,0   |       0,1,1,2,2   |      5
             1,2,4,9,0,2 |       0,1,1,2,2,5 |      6
             """)
-    void testAddAtSpecifiedIndex(@ConvertWith(ToIntArrayConverter.class) int[] values,
-                                 @ConvertWith(ToIntArrayConverter.class) int[] indexes, int size) {
+    void testAddAtSpecifiedIndex(
+            @ConvertWith(ToIntArrayConverter.class) int[] values,
+            @ConvertWith(ToIntArrayConverter.class) int[] indexes, int size) {
         for (int i = 0; i < size; i++) {
             list.add(indexes[i], values[i]);
 
@@ -160,7 +164,8 @@ class LinkedListTest {
             1,2,4,9,0       |      5
             1,2,4,9,0,2     |      6
             """)
-    void testAdd(@ConvertWith(ToIntArrayConverter.class) int[] values, int size) {
+    void testAdd(@ConvertWith(ToIntArrayConverter.class) int[] values,
+                 int size) {
         for (int i = 0; i < size; i++) {
             list.add(values[i]);
         }
@@ -310,13 +315,15 @@ class LinkedListTest {
         );
     }
 
-    private static class ToIntArrayConverter extends TypedArgumentConverter<String, int[]> {
+    private static class ToIntArrayConverter
+            extends TypedArgumentConverter<String, int[]> {
         protected ToIntArrayConverter() {
             super(String.class, int[].class);
         }
 
         @Override
-        protected int[] convert(String source) throws ArgumentConversionException {
+        protected int[] convert(String source)
+                throws ArgumentConversionException {
             if (source.equals("")) {
                 return new int[0];
             }

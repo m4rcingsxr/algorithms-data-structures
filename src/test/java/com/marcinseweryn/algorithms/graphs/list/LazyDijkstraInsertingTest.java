@@ -1,17 +1,17 @@
 package com.marcinseweryn.algorithms.graphs.list;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ArgumentConversionException;
 import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.converter.TypedArgumentConverter;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 import static com.marcinseweryn.algorithms.graphs.list.LazyDijkstraInserting.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class LazyDijkstraInsertingTest {
     static List<List<LazyDijkstraInserting.Edge>> graph;
@@ -52,7 +52,9 @@ class LazyDijkstraInsertingTest {
             -1.0, -1.0, -1.0, -1.0, -1.0,  0.0,  7.0             | 5
             -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,  0.0             | 6
             """)
-    void testDijkstra(@ConvertWith(ToDoubleArrayConverter.class) Double[] expected, int start) {
+    void testDijkstra(
+            @ConvertWith(ToDoubleArrayConverter.class) Double[] expected,
+            int start) {
         for (int i = 0; i < expected.length; i++) {
             if (expected[i] == -1.0) {
                 expected[i] = Double.POSITIVE_INFINITY;
@@ -62,6 +64,7 @@ class LazyDijkstraInsertingTest {
         Double[] actual = dijkstra(graph, start);
         assertArrayEquals(expected, actual);
     }
+
     @ParameterizedTest(name = "{index} => {0}, {1}, {2}")
     @CsvSource(delimiter = '|', useHeadersInDisplayName = true, textBlock = """
             expected array           | start            | end
@@ -69,7 +72,9 @@ class LazyDijkstraInsertingTest {
             3,4                      | 3                | 4
             2,5,6                    | 2                | 6
             """)
-    void testFindShortestPath(@ConvertWith(ToIntegerArrayConverter.class) Integer[] expected, int start, int end) {
+    void testFindShortestPath(
+            @ConvertWith(ToIntegerArrayConverter.class) Integer[] expected,
+            int start, int end) {
 
         List<Integer> actualPath = findShortestPath(graph, start, end);
         Integer[] actual = new Integer[actualPath.size()];
@@ -81,25 +86,31 @@ class LazyDijkstraInsertingTest {
     }
 
 
-    public static class ToDoubleArrayConverter extends TypedArgumentConverter<String, Double[]> {
+    public static class ToDoubleArrayConverter
+            extends TypedArgumentConverter<String, Double[]> {
         protected ToDoubleArrayConverter() {
             super(String.class, Double[].class);
         }
 
         @Override
-        protected Double[] convert(String source) throws ArgumentConversionException {
-                return Arrays.stream(source.split(",")).map(Double::valueOf).toArray(Double[]::new);
+        protected Double[] convert(String source)
+                throws ArgumentConversionException {
+            return Arrays.stream(source.split(",")).map(
+                    Double::valueOf).toArray(Double[]::new);
         }
     }
 
-    public static class ToIntegerArrayConverter extends TypedArgumentConverter<String, Integer[]> {
+    public static class ToIntegerArrayConverter
+            extends TypedArgumentConverter<String, Integer[]> {
         protected ToIntegerArrayConverter() {
             super(String.class, Integer[].class);
         }
 
         @Override
-        protected Integer[] convert(String source) throws ArgumentConversionException {
-            return Arrays.stream(source.split(",")).map(Integer::valueOf).toArray(Integer[]::new);
+        protected Integer[] convert(String source)
+                throws ArgumentConversionException {
+            return Arrays.stream(source.split(",")).map(
+                    Integer::valueOf).toArray(Integer[]::new);
         }
     }
 }

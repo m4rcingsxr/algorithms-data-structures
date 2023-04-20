@@ -66,7 +66,7 @@ public class SelectionSort {
         SelectionSort.descendingSort(array);
         out.println(Arrays.toString(array) + "\nString[]");
         String[] stringArray = {"z", "Z", "C", "D", "X", "v", "Y", "A", "a",
-                "L", "M"};
+                                "L", "M"};
         out.println(Arrays.toString(stringArray) + "\nAscending");
         SelectionSort.sort(stringArray);
         out.println(Arrays.toString(stringArray) + "\nDescending");

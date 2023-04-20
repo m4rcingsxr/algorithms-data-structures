@@ -14,7 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 class QuickSortTest {
 
     @ParameterizedTest(name = "[{index}] => {0}")
-    @CsvFileSource(delimiter = '|', resources = "resources/QuickSort.csv", useHeadersInDisplayName = true)
+    @CsvFileSource(delimiter = '|', resources = "resources/QuickSort.csv",
+            useHeadersInDisplayName = true)
     void quickSortTest(@ConvertWith(ToIntArrayConverter.class) int[] in) {
         int[] expected = Arrays.copyOf(in, in.length);
         Arrays.sort(expected);
@@ -47,13 +48,15 @@ class QuickSortTest {
     }
 
 
-    static class ToIntArrayConverter extends TypedArgumentConverter<String, int[]> {
+    static class ToIntArrayConverter extends TypedArgumentConverter<String,
+            int[]> {
         protected ToIntArrayConverter() {
             super(String.class, int[].class);
         }
 
         @Override
-        protected int[] convert(String source) throws ArgumentConversionException {
+        protected int[] convert(String source)
+                throws ArgumentConversionException {
             if (source.equals("")) {
                 return new int[0];
             }

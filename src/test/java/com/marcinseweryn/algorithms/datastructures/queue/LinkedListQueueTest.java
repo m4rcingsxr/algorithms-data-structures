@@ -1,7 +1,5 @@
 package com.marcinseweryn.algorithms.datastructures.queue;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -60,7 +58,8 @@ class LinkedListQueueTest {
             1,3,4,2,4,5,6,4,3,5,6,5,43,4,6,5,4
             2
             """)
-    void testEnqueue(@ConvertWith(ToIntegerArrayConverter.class) Integer[] array) {
+    void testEnqueue(
+            @ConvertWith(ToIntegerArrayConverter.class) Integer[] array) {
         for (Integer integer : array) {
             queue.enqueue(integer);
         }
@@ -79,7 +78,8 @@ class LinkedListQueueTest {
             1,3,4,2,4,5,6,4,3,5,6,5,43,4,6,5,4
             2
             """)
-    void testDequeue(@ConvertWith(ToIntegerArrayConverter.class) Integer... expected) {
+    void testDequeue(
+            @ConvertWith(ToIntegerArrayConverter.class) Integer... expected) {
         for (Integer integer : expected) {
             queue.enqueue(integer);
         }
@@ -96,14 +96,16 @@ class LinkedListQueueTest {
     }
 
     @ParameterizedTest(name = "{index} -> {0}, {1}")
-    @CsvSource(delimiter = '|', useHeadersInDisplayName = true, ignoreLeadingAndTrailingWhitespace = true, textBlock = """
+    @CsvSource(delimiter = '|', useHeadersInDisplayName = true,
+            ignoreLeadingAndTrailingWhitespace = true, textBlock = """
             expected        |        data                                    
             1               |         1,2,3,4,5,6,7,8                         
             1               |         1,2,3,4,5,6                            
             7               |         7,2,3                                   
             9               |         9,3,4,2,4,5,6,4,3,5,6,5,43,4,6,5,4      
             """)
-    void testPeek(int expected, @ConvertWith(ToIntegerArrayConverter.class) Integer... array) {
+    void testPeek(int expected,
+                  @ConvertWith(ToIntegerArrayConverter.class) Integer... array) {
         for (Integer integer : array) {
             queue.enqueue(integer);
         }
@@ -145,17 +147,20 @@ class LinkedListQueueTest {
         );
     }
 
-    static class ToIntegerArrayConverter extends TypedArgumentConverter<String, Integer[]> {
+    static class ToIntegerArrayConverter
+            extends TypedArgumentConverter<String, Integer[]> {
         protected ToIntegerArrayConverter() {
             super(String.class, Integer[].class);
         }
 
         @Override
-        protected Integer[] convert(String source) throws ArgumentConversionException {
+        protected Integer[] convert(String source)
+                throws ArgumentConversionException {
             if (source.isEmpty()) {
                 return new Integer[0];
             }
-            return Arrays.stream(source.split(",")).map(Integer::valueOf).toArray(Integer[]::new);
+            return Arrays.stream(source.split(",")).map(
+                    Integer::valueOf).toArray(Integer[]::new);
         }
     }
 

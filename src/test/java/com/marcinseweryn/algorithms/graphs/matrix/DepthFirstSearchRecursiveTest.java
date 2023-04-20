@@ -35,7 +35,8 @@ class DepthFirstSearchRecursiveTest {
                 {1, 0, 0, 1},
                 {0, 1, 1, 0}
         };
-        String expected1 = "Depth First Search starting from vertex 0:[0,1,3,2]";
+        String expected1 = "Depth First Search starting from vertex 0:[0,1,3," +
+                "2]";
 
         int[][] graph2 = new int[][]{
                 {0, 1, 0, 1, 0},
@@ -44,7 +45,8 @@ class DepthFirstSearchRecursiveTest {
                 {1, 0, 1, 0, 1},
                 {0, 1, 0, 1, 0}
         };
-        String expected2 = "Depth First Search starting from vertex 0:[0,1,2,3,4]";
+        String expected2 = "Depth First Search starting from vertex 0:[0,1,2," +
+                "3,4]";
 
         //   2---3
         //  /|\ /|\
@@ -59,7 +61,8 @@ class DepthFirstSearchRecursiveTest {
                 {0, 0, 1, 1, 0, 1},
                 {0, 0, 0, 1, 1, 0}
         };
-        String expected3 = "Depth First Search starting from vertex 0:[0,2,1,3,4,5]";
+        String expected3 = "Depth First Search starting from vertex 0:[0,2,1," +
+                "3,4,5]";
 
         return Stream.of(
                 Arguments.of(graph1, 0, expected1),

@@ -136,7 +136,7 @@ public class TopologicalSort {
 
         // [0, 9, 10, 1, 8, 12, 7, 6, 5, 3, 2, 4, 11]
         System.out.println("TOPOLOGICAL ORDERING\n" +
-                Arrays.toString(topologicalSort(graph))
+                                   Arrays.toString(topologicalSort(graph))
         );
     }
 }

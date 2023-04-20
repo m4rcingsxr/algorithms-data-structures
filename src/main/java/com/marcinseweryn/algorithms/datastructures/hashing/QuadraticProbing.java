@@ -69,7 +69,8 @@ public class QuadraticProbing {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < hashTable.length; i++) {
             if (hashTable[i] != null) {
-                sb.append("[").append(i).append(",").append(hashTable[i]).append("]");
+                sb.append("[").append(i).append(",").append(
+                        hashTable[i]).append("]");
             }
         }
         return sb.toString();

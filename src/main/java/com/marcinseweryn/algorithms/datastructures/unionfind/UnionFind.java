@@ -37,7 +37,7 @@ public class UnionFind {
     public UnionFind(int numElements) {
         if (numElements <= 0) {
             throw new IllegalArgumentException("Number of elements must be " +
-                    "positive.");
+                                                       "positive.");
         }
 
         this.numElements = numComponents = numElements;

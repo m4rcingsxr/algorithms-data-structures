@@ -31,9 +31,10 @@ public class SingleSourceShortestPathBST {
             StringBuilder path = new StringBuilder();
             printPath(i, path, parent);
             path.replace(path.indexOf(","),
-                    path.indexOf(",") + 1, String.format(
+                         path.indexOf(",") + 1, String.format(
                             "Shortest path from %d to %d: [", start, i
-                    ));
+                    )
+            );
             path.append("]");
             System.out.println(path);
         }

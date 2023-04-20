@@ -23,8 +23,10 @@ class TopologicalSortRecursiveTest {
     private static Stream<Arguments> graphProvider() {
         return Stream.of(
                 Arguments.of(createGraph1(), new int[]{0, 1, 2, 3, 4}),
-                Arguments.of(createGraph2(), new int[]{0, 11, 9, 10, 1, 8, 12, 7, 6, 5, 3, 2, 4}),
-                Arguments.of(createGraph3(), new int[]{3, 11, 9, 10, 7, 6, 5, 1, 8, 12, 0, 2, 4})
+                Arguments.of(createGraph2(), new int[]{0, 11, 9, 10, 1, 8, 12
+                        , 7, 6, 5, 3, 2, 4}),
+                Arguments.of(createGraph3(), new int[]{3, 11, 9, 10, 7, 6, 5,
+                                                       1, 8, 12, 0, 2, 4})
         );
     }
 

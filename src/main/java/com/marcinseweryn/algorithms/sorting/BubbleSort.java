@@ -59,7 +59,7 @@ public class BubbleSort {
         BubbleSort.descendingSort(array);
         out.println(Arrays.toString(array) + "\nString[]");
         String[] stringArray = {"z", "Z", "C", "D", "X", "v", "Y", "A", "a",
-                "L", "M"};
+                                "L", "M"};
         out.println(Arrays.toString(stringArray) + "\nAscending");
         BubbleSort.sort(stringArray);
         out.println(Arrays.toString(stringArray) + "\nDescending");

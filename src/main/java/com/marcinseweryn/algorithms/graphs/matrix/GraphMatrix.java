@@ -69,7 +69,8 @@ public class GraphMatrix<T> {
         };
 
         GraphMatrix<Character> graphMatrix = new GraphMatrix<>(listNode,
-                matrix);
+                                                               matrix
+        );
         out.println(graphMatrix);
 
         /*   Output:

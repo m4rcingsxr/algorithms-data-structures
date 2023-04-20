@@ -80,6 +80,7 @@ public class TopologicalSortStack {
         int[] orderding = topologicalSort(graph, N);
 
         // [0, 9, 10, 1, 8, 12, 7, 6, 5, 3, 2, 4, 11]
-        System.out.println("TOPOLOGICAL ORDERING\n" + Arrays.toString(orderding));
+        System.out.println(
+                "TOPOLOGICAL ORDERING\n" + Arrays.toString(orderding));
     }
 }

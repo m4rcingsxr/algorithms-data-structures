@@ -19,7 +19,8 @@ import java.util.LinkedList;
  * @see Object#equals(Object)
  * @see Object#hashCode()
  */
-public class SeparateChaining<K, V> implements Iterable<SeparateChaining.Entry<K, V>> {
+public class SeparateChaining<K, V>
+        implements Iterable<SeparateChaining.Entry<K, V>> {
 
     /**
      * Compile time constant represent default load factor
@@ -47,12 +48,13 @@ public class SeparateChaining<K, V> implements Iterable<SeparateChaining.Entry<K
      *                                  and capacity
      */
     public SeparateChaining(double loadFactor, int capacity) {
-        if (loadFactor <= 0 || Double.isInfinite(loadFactor) || Double.isNaN(loadFactor)) {
+        if (loadFactor <= 0 || Double.isInfinite(loadFactor) || Double.isNaN(
+                loadFactor)) {
             throw new IllegalArgumentException("loadFactor(" + loadFactor +
-                    ") - illegal argument");
+                                                       ") - illegal argument");
         } else if (capacity < 0) {
             throw new IllegalArgumentException("capacity(" + capacity + ") - " +
-                    "illegal argument");
+                                                       "illegal argument");
         }
         this.size = 0;
         this.loadFactor = loadFactor;

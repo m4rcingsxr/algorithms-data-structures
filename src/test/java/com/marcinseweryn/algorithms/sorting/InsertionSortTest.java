@@ -13,8 +13,10 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class InsertionSortTest {
     @ParameterizedTest(name = "[{index}] => {0}")
-    @CsvFileSource(delimiter = '|', resources = "resources/InsertionSort.csv", useHeadersInDisplayName = true)
-    void insertionSortTest(@ConvertWith(ToIntegerArrayConverter.class) Integer... in) {
+    @CsvFileSource(delimiter = '|', resources = "resources/InsertionSort.csv"
+            , useHeadersInDisplayName = true)
+    void insertionSortTest(
+            @ConvertWith(ToIntegerArrayConverter.class) Integer... in) {
         Integer[] expected = Arrays.copyOf(in, in.length);
         Arrays.sort(expected);
         Integer[] actual = in;
@@ -45,14 +47,17 @@ class InsertionSortTest {
         return arr;
     }
 
-    public static class ToIntegerArrayConverter extends TypedArgumentConverter<String, Integer[]> {
+    public static class ToIntegerArrayConverter
+            extends TypedArgumentConverter<String, Integer[]> {
         protected ToIntegerArrayConverter() {
             super(String.class, Integer[].class);
         }
 
         @Override
-        protected Integer[] convert(String source) throws ArgumentConversionException {
-            return Arrays.stream(source.split(",")).map(Integer::valueOf).toArray(Integer[]::new);
+        protected Integer[] convert(String source)
+                throws ArgumentConversionException {
+            return Arrays.stream(source.split(",")).map(
+                    Integer::valueOf).toArray(Integer[]::new);
         }
     }
 }

@@ -52,7 +52,8 @@ class BreadthFirstSearchTest {
         addUndirectedEdge(graph3, 3, 7);
         addUndirectedEdge(graph3, 3, 8);
         addUndirectedEdge(graph3, 4, 9);
-        String expected3 = "Breadth First Search from vertex 0:[0 1 2 3 4 5 6 7 8 9]";
+        String expected3 = "Breadth First Search from vertex 0:[0 1 2 3 4 5 6" +
+                " 7 8 9]";
         Arguments arg3 = Arguments.of(graph3, 0, expected3);
 
         List<List<Integer>> graph4 = createGraph(4);

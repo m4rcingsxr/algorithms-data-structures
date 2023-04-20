@@ -26,7 +26,7 @@ class AVLTest {
     }
 
     @Test
-     void testRightRightCondition() {
+    void testRightRightCondition() {
         //      9                              10
         //        10            ->         9       20
         //           20
@@ -64,7 +64,7 @@ class AVLTest {
     }
 
     @Test
-     void testLeftLeftCondition() {
+    void testLeftLeftCondition() {
         //      9                              8
         //    8                 ->          5     9
         //  5
@@ -98,7 +98,7 @@ class AVLTest {
     }
 
     @Test
-     void testLeftRightCondition() {
+    void testLeftRightCondition() {
         //      10             10             9
         //    8          ->   8       ->   8     10
         //      9            9
@@ -115,7 +115,7 @@ class AVLTest {
     }
 
     @Test
-     void testAddRightLeftCondition() {
+    void testAddRightLeftCondition() {
         //      10             10                11
         //        15     ->      11        ->  10  15
         //      11                 15
@@ -147,7 +147,7 @@ class AVLTest {
     }
 
     @Test
-     void testRemoveRightLeftCondition() {
+    void testRemoveRightLeftCondition() {
         //      10             10                11
         //    9   15     ->      11        ->  10  15
         //      11                 15
@@ -210,7 +210,7 @@ class AVLTest {
 
 
     static boolean validateBalance(AVL.BinaryNode<Integer> node) {
-        if(node != null && node.getLeft() != null && node.getRight() != null) {
+        if (node != null && node.getLeft() != null && node.getRight() != null) {
             return node.getLeft().getHeight() - node.getRight().getHeight() <= 1 &&
                     node.getLeft().getHeight() - node.getRight().getHeight() >= -1;
         }
@@ -222,7 +222,8 @@ class AVLTest {
         assert root != null;
         // inOrder test
         TestBinaryNode.inOrder(root);
-        Iterator<AVL.BinaryNode<Integer>> avlInorder = avl.traverseIterator(TraversalType.INORDER);
+        Iterator<AVL.BinaryNode<Integer>> avlInorder =
+                avl.traverseIterator(TraversalType.INORDER);
         Iterator<TestBinaryNode> inOrder = TestBinaryNode.getList().iterator();
         for (int i = 0; i < avl.size(); i++) {
             int actual = avlInorder.next().getVal();
@@ -234,8 +235,10 @@ class AVLTest {
 
         // levelOrder
         TestBinaryNode.levelOrder(root);
-        Iterator<TestBinaryNode> levelOrder = TestBinaryNode.getList().iterator();
-        Iterator<AVL.BinaryNode<Integer>> avlLevelOrder = avl.traverseIterator(TraversalType.LEVELORDER);
+        Iterator<TestBinaryNode> levelOrder =
+                TestBinaryNode.getList().iterator();
+        Iterator<AVL.BinaryNode<Integer>> avlLevelOrder =
+                avl.traverseIterator(TraversalType.LEVELORDER);
         for (int i = 0; i < avl.size(); i++) {
             int actual = avlLevelOrder.next().getVal();
             int expected = levelOrder.next().value;
@@ -248,7 +251,8 @@ class AVLTest {
         // preOrder
         TestBinaryNode.preOrder(root);
         Iterator<TestBinaryNode> preOrder = TestBinaryNode.getList().iterator();
-        Iterator<AVL.BinaryNode<Integer>> avlPreorder = avl.traverseIterator(TraversalType.PREORDER);
+        Iterator<AVL.BinaryNode<Integer>> avlPreorder =
+                avl.traverseIterator(TraversalType.PREORDER);
 
         for (int i = 0; i < avl.size(); i++) {
             int actual = avlPreorder.next().getVal();
@@ -260,8 +264,10 @@ class AVLTest {
 
         // postOrder
         TestBinaryNode.postOrder(root);
-        Iterator<TestBinaryNode> postOrder = TestBinaryNode.getList().iterator();
-        Iterator<AVL.BinaryNode<Integer>> avlPostorder = avl.traverseIterator(TraversalType.POSTORDER);
+        Iterator<TestBinaryNode> postOrder =
+                TestBinaryNode.getList().iterator();
+        Iterator<AVL.BinaryNode<Integer>> avlPostorder =
+                avl.traverseIterator(TraversalType.POSTORDER);
         for (int i = 0; i < avl.size(); i++) {
             int actual = avlPostorder.next().getVal();
             int expected = postOrder.next().value;
@@ -280,7 +286,8 @@ class AVLTest {
         TestBinaryNode right;
         private static List<TestBinaryNode> list = new ArrayList<>();
 
-         TestBinaryNode(Integer value, TestBinaryNode left, TestBinaryNode right) {
+        TestBinaryNode(Integer value, TestBinaryNode left,
+                       TestBinaryNode right) {
             this.value = value;
             this.left = left;
             this.right = right;
@@ -295,7 +302,7 @@ class AVLTest {
             return temp;
         }
 
-         static TestBinaryNode add(TestBinaryNode node, int value) {
+        static TestBinaryNode add(TestBinaryNode node, int value) {
             if (node == null) {
                 node = new TestBinaryNode(value, null, null);
             } else if (value < node.value) {

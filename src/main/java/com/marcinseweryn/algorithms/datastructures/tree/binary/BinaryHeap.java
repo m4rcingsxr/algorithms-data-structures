@@ -71,12 +71,15 @@ public class BinaryHeap<T extends Comparable<T>> {
         if (index <= 1) {
             return;
         }
-        if (heapType.equals(BinaryHeap.MIN_HEAP) && ((T) arr[index]).compareTo((T) arr[parent]) < 0) {
+        if (heapType.equals(BinaryHeap.MIN_HEAP) && ((T) arr[index]).compareTo(
+                (T) arr[parent]) < 0) {
             T temp = (T) arr[index];
             arr[index] = arr[parent];
             arr[parent] = temp;
             heapifyBottomToTop(parent, BinaryHeap.MIN_HEAP);
-        } else if (heapType.equals(BinaryHeap.MAX_HEAP) && ((T) arr[index]).compareTo((T) arr[parent]) > 0) {
+        } else if (heapType.equals(
+                BinaryHeap.MAX_HEAP) && ((T) arr[index]).compareTo(
+                (T) arr[parent]) > 0) {
             T temp = (T) arr[index];
             arr[index] = arr[parent];
             arr[parent] = temp;

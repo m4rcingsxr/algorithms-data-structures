@@ -1,7 +1,5 @@
 package com.marcinseweryn.algorithms.datastructures.queue;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -37,7 +35,8 @@ class CircularArrayQueueTest {
             1                    |        1
             0                    |        ''
             """)
-    void testEnqueue(int size, @ConvertWith(ToIntegerArrayConverter.class) Integer... in) {
+    void testEnqueue(int size,
+                     @ConvertWith(ToIntegerArrayConverter.class) Integer... in) {
         for (Integer integer : in) {
             queue.enqueue(integer);
         }
@@ -54,7 +53,8 @@ class CircularArrayQueueTest {
             1               |       1
             0               |       ''
             """)
-    void testDequeue(int size, @ConvertWith(ToIntegerArrayConverter.class) Integer... in) {
+    void testDequeue(int size,
+                     @ConvertWith(ToIntegerArrayConverter.class) Integer... in) {
         Random random = new Random();
         for (Integer integer : in) {
             queue.enqueue(integer);
@@ -130,17 +130,20 @@ class CircularArrayQueueTest {
 
     }
 
-    public static class ToIntegerArrayConverter extends TypedArgumentConverter<String, Integer[]> {
+    public static class ToIntegerArrayConverter
+            extends TypedArgumentConverter<String, Integer[]> {
         protected ToIntegerArrayConverter() {
             super(String.class, Integer[].class);
         }
 
         @Override
-        protected Integer[] convert(String source) throws ArgumentConversionException {
+        protected Integer[] convert(String source)
+                throws ArgumentConversionException {
             if (source.isEmpty()) {
                 return new Integer[0];
             }
-            return Arrays.stream(source.split(",")).map(Integer::valueOf).toArray(Integer[]::new);
+            return Arrays.stream(source.split(",")).map(
+                    Integer::valueOf).toArray(Integer[]::new);
         }
     }
 }

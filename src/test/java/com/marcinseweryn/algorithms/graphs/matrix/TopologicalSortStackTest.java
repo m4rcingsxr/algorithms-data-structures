@@ -1,10 +1,8 @@
 package com.marcinseweryn.algorithms.graphs.matrix;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 
-import com.marcinseweryn.algorithms.graphs.matrix.TopologicalSortStack;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class TopologicalSortStackTest {
 
@@ -48,7 +46,8 @@ class TopologicalSortStackTest {
         TopologicalSortStack.addDirectedEdge(graph1, 14, 13);
         TopologicalSortStack.addDirectedEdge(graph1, 14, 16);
 
-        int[] expected1 = {0, 11, 9, 10, 1, 8, 7, 6, 5, 3, 2, 4, 12, 15, 14, 16, 13};
+        int[] expected1 = {0, 11, 9, 10, 1, 8, 7, 6, 5, 3, 2, 4, 12, 15, 14,
+                           16, 13};
         int[] actual1 = TopologicalSortStack.getTopologicalOrder(graph1);
         assertArrayEquals(expected1, actual1);
     }

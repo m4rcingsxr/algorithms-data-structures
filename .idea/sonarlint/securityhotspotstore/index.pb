@@ -29,8 +29,6 @@ u
 Esrc/main/java/com/marcinseweryn/algorithms/graphs/list/GraphList.java,1/8/18046a9f380578a59123fc42fcdc415db2f67eb7
 Ö
 Usrc/main/java/com/marcinseweryn/algorithms/graphs/list/DepthFirstSearchRecursive.java,2/f/2f1f380a21dfeb05b5e38123b4ff2889f1c68fa2
-ç
-]src/test/java/com/marcinseweryn/algorithms/graphs/matrix/SingleSourceShortestPathBSTTest.java,a/0/a08d68529a277a11d032aabe9b606b40d375b509
 v
 Fsrc/main/java/com/marcinseweryn/algorithms/searching/BinarySearch.java,e/1/e1abb9f3b7219881bd9bfb75561183f6275661fa
 Å
@@ -39,13 +37,5 @@ Qsrc/main/java/com/marcinseweryn/algorithms/graphs/list/LazyDijkstraInserting.ja
 Qsrc/main/java/com/marcinseweryn/algorithms/graphs/list/DepthFirstSearchStack.java,a/5/a5abf3a83201af898f7d7e12a68f65493ef07fc2
 u
 Esrc/main/java/com/marcinseweryn/algorithms/graphs/list/GraphNode.java,0/2/02112245dc5217fc235ae9cac17a7aaba462b6db
-á
-Wsrc/test/java/com/marcinseweryn/algorithms/graphs/matrix/DepthFirstSearchStackTest.java,7/c/7c937d732823a8a8adbdc1f9568d6592397d8856
-ã
-[src/test/java/com/marcinseweryn/algorithms/graphs/matrix/DepthFirstSearchRecursiveTest.java,a/2/a2b2dc6a871c67a90b67c57aded56b6c66fd5c3d
-Ñ
-Tsrc/test/java/com/marcinseweryn/algorithms/graphs/matrix/BreadthFirstSearchTest.java,6/5/65a7b6c2545341d6de79ef3756aa1b630561ca5a
 k
 ;src/main/java/com/marcinseweryn/algorithms/graphs/README.md,b/e/be47e4e8fb2f3b8b8d55c5b633fe9edc35bfe13e
-ä
-Zsrc/test/java/com/marcinseweryn/algorithms/graphs/matrix/TopologicalSortRecursiveTest.java,5/b/5b640ae512f27f6dd0381bb1a9e246dc9aa20101

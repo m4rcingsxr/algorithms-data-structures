@@ -52,11 +52,13 @@ public class LazyDijkstraSearching {
 
                 // Check neighbor is visited
                 if (queue.contains(neighbor)) {
-                    if (neighbor.distance > current.distance + current.weightMap.get(neighbor)) {
+                    if (neighbor.distance > current.distance + current.weightMap.get(
+                            neighbor)) {
 
                         // No heapify after editing object!
                         neighbor.distance =
-                                current.distance + current.weightMap.get(neighbor);
+                                current.distance + current.weightMap.get(
+                                        neighbor);
                         neighbor.parent = current;
 
                         // Refresh queue
@@ -71,7 +73,8 @@ public class LazyDijkstraSearching {
 
     private void print() {
         for (WeightedNode weightedNode : nodeList) {
-            System.out.print("Node " + weightedNode + ", distance: " + weightedNode.distance + ", Path: ");
+            System.out.print(
+                    "Node " + weightedNode + ", distance: " + weightedNode.distance + ", Path: ");
             pathPrint(weightedNode);
             System.out.println();
         }

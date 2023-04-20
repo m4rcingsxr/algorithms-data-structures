@@ -35,7 +35,8 @@ public class CircularArrayQueue<T> {
      */
     public void enqueue(T element) {
         if (isFull()) {
-            throw new IllegalStateException("Queue is full[capacity(" + arr.length + ")]");
+            throw new IllegalStateException(
+                    "Queue is full[capacity(" + arr.length + ")]");
         } else if (isEmpty()) {
             beginning = 0;
             top = 0;

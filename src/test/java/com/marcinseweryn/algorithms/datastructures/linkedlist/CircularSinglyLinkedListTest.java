@@ -64,14 +64,16 @@ class CircularSinglyLinkedListTest {
     }
 
 
-    @ParameterizedTest(name = "[{index} => values = [{0}], expectedSize =[{1}]]")
+    @ParameterizedTest(name = "[{index} => values = [{0}], expectedSize " +
+            "=[{1}]]")
     @CsvSource(delimiter = '|', textBlock = """
                 1,2,3               |       3
                 1,4,3,2             |       4
                 2,4,2,1,2           |       5
                 2,1,6,4,4,5,7,5,3   |       9 
             """)
-    void testAddFirst(@ConvertWith(ToIntArrayConverter.class) int[] values, int expectedSize) {
+    void testAddFirst(@ConvertWith(ToIntArrayConverter.class) int[] values,
+                      int expectedSize) {
         for (int value : values) {
             csll.add(0, value);
         }
@@ -79,14 +81,16 @@ class CircularSinglyLinkedListTest {
         assertEquals(expectedSize, actualSize);
     }
 
-    @ParameterizedTest(name = "[{index} => values = [{0}], expectedSize =[{1}]]")
+    @ParameterizedTest(name = "[{index} => values = [{0}], expectedSize " +
+            "=[{1}]]")
     @CsvSource(delimiter = '|', textBlock = """
                 1,2,3               |       3
                 1,4,3,2             |       4
                 2,4,2,1,2           |       5
                 2,1,6,4,4,5,7,5,3   |       9 
             """)
-    void testAddLast(@ConvertWith(ToIntArrayConverter.class) int[] values, int expectedSize) {
+    void testAddLast(@ConvertWith(ToIntArrayConverter.class) int[] values,
+                     int expectedSize) {
         for (int value : values) {
             csll.add(csll.size(), value);
         }
@@ -94,14 +98,16 @@ class CircularSinglyLinkedListTest {
         assertEquals(expectedSize, actualSize);
     }
 
-    @ParameterizedTest(name = "[{index} => values = [{0}], expectedSize =[{1}]], index =[{2}]")
+    @ParameterizedTest(name = "[{index} => values = [{0}], expectedSize " +
+            "=[{1}]], index =[{2}]")
     @CsvSource(delimiter = '|', textBlock = """
                 1,2,3               |       3       |       1
                 1,4,3,2             |       4       |       2
                 2,4,2,1,2           |       5       |       3
                 2,1,6,4,4,5,7,5,3   |       9       |       6
             """)
-    void testAddAt(@ConvertWith(ToIntArrayConverter.class) int[] values, int expectedSize, int index) {
+    void testAddAt(@ConvertWith(ToIntArrayConverter.class) int[] values,
+                   int expectedSize, int index) {
         for (int value : values) {
             csll.add(index, value);
         }
@@ -109,14 +115,16 @@ class CircularSinglyLinkedListTest {
         assertEquals(expectedSize, actualSize);
     }
 
-    @ParameterizedTest(name = "[{index} => values = [{0}], expectedFirst =[{1}]]")
+    @ParameterizedTest(name = "[{index} => values = [{0}], expectedFirst " +
+            "=[{1}]]")
     @CsvSource(delimiter = '|', textBlock = """
                 1,2,3               |       1       
                 1,4,3,2             |       1       
                 2,4,2,1,2           |       2       
                 8,1,6,4,4,5,7,5,3   |       8       
             """)
-    void testGetFirst(@ConvertWith(ToIntArrayConverter.class) int[] values, int expectedFirst) {
+    void testGetFirst(@ConvertWith(ToIntArrayConverter.class) int[] values,
+                      int expectedFirst) {
         for (int value : values) {
             csll.add(csll.size(), value);
         }
@@ -125,7 +133,8 @@ class CircularSinglyLinkedListTest {
         assertEquals(expectedFirst, actualFirst);
     }
 
-    @ParameterizedTest(name = "[{index}] => values = [{0}], expectedSize = [{1}]," +
+    @ParameterizedTest(name = "[{index}] => values = [{0}], expectedSize = " +
+            "[{1}]," +
             " expectedBoolean = [{2}]")
     @CsvSource(delimiter = '|', textBlock = """
             1,2,3,4         |       3       |       true
@@ -147,7 +156,8 @@ class CircularSinglyLinkedListTest {
 
     }
 
-    @ParameterizedTest(name = "[{index}] => values = [{0}], expectedSize = [{1}]," +
+    @ParameterizedTest(name = "[{index}] => values = [{0}], expectedSize = " +
+            "[{1}]," +
             " expectedBoolean = [{2}]")
     @CsvSource(delimiter = '|', textBlock = """
             1,2,3,4         |       3       |       true
@@ -169,7 +179,8 @@ class CircularSinglyLinkedListTest {
 
     }
 
-    @ParameterizedTest(name = "[{index}] => values = [{0}], expectedSize = [{1}]," +
+    @ParameterizedTest(name = "[{index}] => values = [{0}], expectedSize = " +
+            "[{1}]," +
             " expectedBoolean = [{2}]")
     @CsvSource(delimiter = '|', textBlock = """
             1,2,3,4         |    1      |     3       |       true
@@ -239,13 +250,15 @@ class CircularSinglyLinkedListTest {
         assertEquals(0, csll.size());
     }
 
-    private static class ToIntArrayConverter extends TypedArgumentConverter<String, int[]> {
+    private static class ToIntArrayConverter
+            extends TypedArgumentConverter<String, int[]> {
         protected ToIntArrayConverter() {
             super(String.class, int[].class);
         }
 
         @Override
-        protected int[] convert(String source) throws ArgumentConversionException {
+        protected int[] convert(String source)
+                throws ArgumentConversionException {
             if (source.equals("")) {
                 return new int[0];
             }

@@ -13,14 +13,17 @@ public class DepthFirstSearchStackTest {
     @ParameterizedTest
     @MethodSource("graphProvider")
     void testDepthFirstSearch(int[][] graph, int start, String expectedPath) {
-        String actualPath = DepthFirstSearchStack.depthFirstSearch(graph, start);
+        String actualPath = DepthFirstSearchStack.depthFirstSearch(graph,
+                                                                   start
+        );
         assertEquals(expectedPath, actualPath);
     }
 
     private static Stream<Arguments> graphProvider() {
         return Stream.of(
                 Arguments.of(
-                        new int[][]{{0, 1, 0, 0}, {1, 0, 1, 1}, {0, 1, 0, 1}, {0, 1, 1, 0}},
+                        new int[][]{{0, 1, 0, 0}, {1, 0, 1, 1}, {0, 1, 0, 1},
+                                    {0, 1, 1, 0}},
                         0, "Depth First Search starting from vertex 0:[0,1,3,2]"
                 ),
                 Arguments.of(

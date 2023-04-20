@@ -154,8 +154,10 @@
 
 > - Any node in trie can store non-repetitive multiple characters
     >
+
 - Every node stores link of the next character of the string
->   - Every node keeps track of end of string
+
+> - Every node keeps track of end of string
 >   - **Each node has HashMap with pairs of character and link to the next character**
 
 #### Insertion

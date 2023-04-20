@@ -27,7 +27,7 @@ public class DepthFirstSearchRecursive {
         // the depth first search path string
         StringBuilder dfs = new StringBuilder();
         dfs.append(String.format("Depth First Search starting from vertex " +
-                "%d:[", start));
+                                         "%d:[", start));
 
         // Call the recursive dfs method to perform the search
         if (graph.length != 0) {

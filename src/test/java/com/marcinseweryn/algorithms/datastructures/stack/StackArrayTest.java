@@ -27,7 +27,8 @@ class StackArrayTest {
     }
 
     @ParameterizedTest(name = "[{index}] => values = {0}")
-    @MethodSource("com.marcinseweryn.algorithms.datastructures.stack.ArgumentProvider#pushIncreaseValueOnFullStack")
+    @MethodSource("com.marcinseweryn.algorithms.datastructures.stack" +
+            ".ArgumentProvider#pushIncreaseValueOnFullStack")
     void pushIncreaseCapacityOnFullStack(Integer[] values, Integer size) {
         for (Integer value : values) {
             stack.push(value);
@@ -43,7 +44,8 @@ class StackArrayTest {
     }
 
     @ParameterizedTest(name = "[{index}] => values=[{0}], expectedSize=[{1}]")
-    @MethodSource("com.marcinseweryn.algorithms.datastructures.stack.ArgumentProvider#pushTest")
+    @MethodSource("com.marcinseweryn.algorithms.datastructures.stack" +
+            ".ArgumentProvider#pushTest")
     void pushTest(Integer[] values, Integer expectedSize) {
         for (Integer value : values) {
             stack.push(value);
@@ -53,8 +55,10 @@ class StackArrayTest {
 
     }
 
-    @ParameterizedTest(name = "[{index}] => values=[{0}], expected=[{1}], size=[{2}]")
-    @MethodSource("com.marcinseweryn.algorithms.datastructures.stack.ArgumentProvider#popTest")
+    @ParameterizedTest(name = "[{index}] => values=[{0}], expected=[{1}], " +
+            "size=[{2}]")
+    @MethodSource("com.marcinseweryn.algorithms.datastructures.stack" +
+            ".ArgumentProvider#popTest")
     void popTest(Integer[] values, Integer expectedPop, Integer sizeAfterPop) {
         for (Integer value : values) {
             stack.push(value);
@@ -70,7 +74,8 @@ class StackArrayTest {
     }
 
     @ParameterizedTest(name = "[{index} => values = {0}, expected = [{1}]")
-    @MethodSource("com.marcinseweryn.algorithms.datastructures.stack.ArgumentProvider#peekTest")
+    @MethodSource("com.marcinseweryn.algorithms.datastructures.stack" +
+            ".ArgumentProvider#peekTest")
     void peekTest(Integer[] values, Integer expected) {
         for (Integer value : values) {
             stack.push(value);
@@ -81,7 +86,8 @@ class StackArrayTest {
     }
 
     @ParameterizedTest(name = "[{index}] => values = {0}, expected = [{1}]")
-    @MethodSource("com.marcinseweryn.algorithms.datastructures.stack.ArgumentProvider#toStringTest")
+    @MethodSource("com.marcinseweryn.algorithms.datastructures.stack" +
+            ".ArgumentProvider#toStringTest")
     void toStringTest(Integer[] values, String expected) {
         for (Integer value : values) {
             stack.push(value);
@@ -103,7 +109,7 @@ class StackArrayTest {
             assertEquals(expected--, stack.pop());
         }
 
-        Executable actual =() -> stack.pop();
+        Executable actual = () -> stack.pop();
         assertThrows(EmptyStackException.class, actual);
 
         assertAll(

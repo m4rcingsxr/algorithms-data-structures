@@ -36,7 +36,7 @@ class BSTTest {
         int expectedSize = 0;
         for (int i = 0; i < expected; i++) {
             int val = new Random().nextInt(1000);
-            if(bst.add(val)) {
+            if (bst.add(val)) {
                 expectedSize++;
             }
             root = TestBinaryNode.add(root, val);
@@ -67,9 +67,10 @@ class BSTTest {
         bst.add(3);
         root = TestBinaryNode.add(root, 3);
 
-        Iterator<BST.BinaryNode<Integer>> bstIterator = bst.traverseIterator(TraversalType.LEVELORDER);
+        Iterator<BST.BinaryNode<Integer>> bstIterator =
+                bst.traverseIterator(TraversalType.LEVELORDER);
         TestBinaryNode.levelOrder(root);
-        Iterator<TestBinaryNode> testIterator = root.list.iterator();
+        Iterator<TestBinaryNode> testIterator = TestBinaryNode.list.iterator();
 
         for (int i = 0; i < bst.size(); i++) {
             int actual = bstIterator.next().getHeight();
@@ -96,7 +97,8 @@ class BSTTest {
         root = TestBinaryNode.add(root, 0);
         TestBinaryNode.inOrder(root);
         Iterator<TestBinaryNode> iterator = TestBinaryNode.getList().iterator();
-        Iterator<BST.BinaryNode<Integer>> it = bst.traverseIterator(TraversalType.INORDER);
+        Iterator<BST.BinaryNode<Integer>> it =
+                bst.traverseIterator(TraversalType.INORDER);
         while (iterator.hasNext()) {
             System.out.println(iterator.next().value);
         }
@@ -121,7 +123,8 @@ class BSTTest {
         bst.add(11);
         bst.add(3);
         int[] expected = {9, 7, 10, 6, 8, 11, 3};
-        Iterator<BST.BinaryNode<Integer>> iterator = bst.traverseIterator(TraversalType.LEVELORDER);
+        Iterator<BST.BinaryNode<Integer>> iterator =
+                bst.traverseIterator(TraversalType.LEVELORDER);
         for (int i = 0; i < expected.length; i++) {
             assertEquals(iterator.next().getValue(), expected[i]);
         }
@@ -152,7 +155,7 @@ class BSTTest {
         int min = Integer.MAX_VALUE;
         for (int i = 0; i < 1000; i++) {
             int randomInt = random.nextInt(10_000);
-            if(randomInt < min) {
+            if (randomInt < min) {
                 min = randomInt;
             }
             bst.add(randomInt);
@@ -169,7 +172,7 @@ class BSTTest {
         int max = Integer.MIN_VALUE;
         for (int i = 0; i < 1000; i++) {
             int randomInt = random.nextInt(10_000);
-            if(randomInt > max) {
+            if (randomInt > max) {
                 max = randomInt;
             }
             bst.add(randomInt);
@@ -213,7 +216,8 @@ class BSTTest {
         // inOrder test
         System.out.println("\ninOrder");
         TestBinaryNode.inOrder(root);
-        Iterator<BST.BinaryNode<Integer>> bstInorder = bst.traverseIterator(TraversalType.INORDER);
+        Iterator<BST.BinaryNode<Integer>> bstInorder =
+                bst.traverseIterator(TraversalType.INORDER);
         Iterator<TestBinaryNode> inOrder = TestBinaryNode.getList().iterator();
         for (int i = 0; i < bst.size(); i++) {
             int actual = bstInorder.next().getValue();
@@ -226,8 +230,10 @@ class BSTTest {
 
         // levelOrder
         TestBinaryNode.levelOrder(root);
-        Iterator<TestBinaryNode> levelOrder = TestBinaryNode.getList().iterator();
-        Iterator<BST.BinaryNode<Integer>> bstLevelOrder = bst.traverseIterator(TraversalType.LEVELORDER);
+        Iterator<TestBinaryNode> levelOrder =
+                TestBinaryNode.getList().iterator();
+        Iterator<BST.BinaryNode<Integer>> bstLevelOrder =
+                bst.traverseIterator(TraversalType.LEVELORDER);
         System.out.println("\nlevelOrder");
         for (int i = 0; i < bst.size(); i++) {
             int actual = bstLevelOrder.next().getValue();
@@ -243,7 +249,8 @@ class BSTTest {
         System.out.println("\npreOrder");
         TestBinaryNode.preOrder(root);
         Iterator<TestBinaryNode> preOrder = TestBinaryNode.getList().iterator();
-        Iterator<BST.BinaryNode<Integer>> bstPreorder = bst.traverseIterator(TraversalType.PREORDER);
+        Iterator<BST.BinaryNode<Integer>> bstPreorder =
+                bst.traverseIterator(TraversalType.PREORDER);
 
         for (int i = 0; i < bst.size(); i++) {
             int actual = bstPreorder.next().getValue();
@@ -257,8 +264,10 @@ class BSTTest {
         // postOrder
         System.out.println("\npostOrder\n");
         TestBinaryNode.postOrder(root);
-        Iterator<TestBinaryNode> postOrder = TestBinaryNode.getList().iterator();
-        Iterator<BST.BinaryNode<Integer>> bstPostorder = bst.traverseIterator(TraversalType.POSTORDER);
+        Iterator<TestBinaryNode> postOrder =
+                TestBinaryNode.getList().iterator();
+        Iterator<BST.BinaryNode<Integer>> bstPostorder =
+                bst.traverseIterator(TraversalType.POSTORDER);
         for (int i = 0; i < bst.size(); i++) {
             int actual = bstPostorder.next().getValue();
             int expected = postOrder.next().value;
@@ -278,7 +287,8 @@ class BSTTest {
         TestBinaryNode right;
         private static List<TestBinaryNode> list = new ArrayList<>();
 
-        public TestBinaryNode(Integer value, TestBinaryNode left, TestBinaryNode right) {
+        public TestBinaryNode(Integer value, TestBinaryNode left,
+                              TestBinaryNode right) {
             this.value = value;
             this.left = left;
             this.right = right;
@@ -354,17 +364,20 @@ class BSTTest {
         }
     }
 
-    static class ToIntegerArrayConverter extends TypedArgumentConverter<String, Integer[]> {
+    static class ToIntegerArrayConverter
+            extends TypedArgumentConverter<String, Integer[]> {
         protected ToIntegerArrayConverter() {
             super(String.class, Integer[].class);
         }
 
         @Override
-        protected Integer[] convert(String source) throws ArgumentConversionException {
+        protected Integer[] convert(String source)
+                throws ArgumentConversionException {
             if (source.isEmpty()) {
                 return new Integer[0];
             }
-            return Arrays.stream(source.split(",")).map(Integer::valueOf).toArray(Integer[]::new);
+            return Arrays.stream(source.split(",")).map(
+                    Integer::valueOf).toArray(Integer[]::new);
         }
     }
 }

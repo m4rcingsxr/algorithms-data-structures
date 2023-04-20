@@ -61,7 +61,8 @@ public class LinearProbing {
             // size is 15 and we want to insert new value then we need to get
             // into index 1 so must use mode
             int newIndex = i % hashTable.length;
-            if (hashTable[newIndex] != null && hashTable[newIndex].equals(word)) {
+            if (hashTable[newIndex] != null && hashTable[newIndex].equals(
+                    word)) {
                 return true;
             }
         }
@@ -72,7 +73,8 @@ public class LinearProbing {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < hashTable.length; i++) {
             if (hashTable[i] != null) {
-                sb.append("[").append(i).append(",").append(hashTable[i]).append("]");
+                sb.append("[").append(i).append(",").append(
+                        hashTable[i]).append("]");
             }
         }
         return sb.toString();
@@ -89,7 +91,8 @@ public class LinearProbing {
         int index = modASCIIHashFunction(word, hashTable.length);
         for (int i = index; i < index + hashTable.length; i++) {
             int newIndex = i % hashTable.length;
-            if (hashTable[newIndex] != null && hashTable[newIndex].equals(word)) {
+            if (hashTable[newIndex] != null && hashTable[newIndex].equals(
+                    word)) {
                 hashTable[newIndex] = null;
                 return true;
             }

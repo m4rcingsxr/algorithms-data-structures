@@ -21,7 +21,7 @@ public class HeapSort {
      *
      * @param array the array to be sorted
      * @param <T>   the type of elements in the array, must implement the
-     *           Comparable interface
+     *              Comparable interface
      */
     public static <T extends Comparable<T>> void sort(Object[] array) {
 
@@ -47,7 +47,7 @@ public class HeapSort {
         out.println("sorted" + Arrays.toString(array));
         out.println("String[]");
         String[] stringArray = {"z", "Z", "C", "D", "X", "v", "Y", "A", "a",
-                "L", "M"};
+                                "L", "M"};
         out.println("unsorted" + Arrays.toString(stringArray));
         HeapSort.sort(stringArray);
         out.println("sorted" + Arrays.toString(stringArray));

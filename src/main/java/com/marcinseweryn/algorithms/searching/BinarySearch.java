@@ -28,7 +28,7 @@ public class BinarySearch {
      * @param arr   the sorted array to search in
      * @param value the value to search for
      * @param <T>   the type of elements in the array, must implement
-     *           Comparable interface
+     *              Comparable interface
      * @return true if the value is found, false otherwise
      */
     public static <T extends Comparable<T>> boolean search(T[] arr, T value) {
@@ -53,17 +53,21 @@ public class BinarySearch {
             randomUnsortedArray[i] = random.nextInt(100);
         }
         Integer[] randomSortedArray = Arrays.copyOf(randomUnsortedArray,
-                randomUnsortedArray.length);
+                                                    randomUnsortedArray.length
+        );
         Arrays.sort(randomSortedArray);
         out.println("Unsorted array: " + Arrays.toString(randomUnsortedArray));
         out.println("Sorted array: " + Arrays.toString(randomSortedArray));
         for (int i = 0; i < 10; i++) {
             if (!BinarySearch.search(randomSortedArray,
-                    randomUnsortedArray[i])) {
-                out.println("Binary Search algorithm does not found " + randomUnsortedArray[i]);
+                                     randomUnsortedArray[i]
+            )) {
+                out.println(
+                        "Binary Search algorithm does not found " + randomUnsortedArray[i]);
                 break;
             } else {
-                out.println(i + ": BinarySearch.search(" + randomUnsortedArray[i] + ") : true");
+                out.println(
+                        i + ": BinarySearch.search(" + randomUnsortedArray[i] + ") : true");
             }
         }
     }

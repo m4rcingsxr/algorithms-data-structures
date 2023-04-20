@@ -51,9 +51,10 @@ public class LinkedList<T> implements Iterable<T> {
     public void add(int index, T element) {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Not able to insert an " +
-                    "element(" + element +
-                    ") on the index(" + index + ")\n" + "Accept only (index " +
-                    ">= 0 && index <= size(" + size + ")");
+                                                        "element(" + element +
+                                                        ") on the index(" + index + ")\n" + "Accept only (index " +
+                                                        ">= 0 && index <= " +
+                                                        "size(" + size + ")");
         }
         if (index == 0) {
             addFirst(element);
@@ -223,9 +224,11 @@ public class LinkedList<T> implements Iterable<T> {
             throw new NoSuchElementException(EMPTY_LIST);
         } else if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Not able to remove an " +
-                    "element on the " +
-                    "index(" + index + ")\n" + "Accept only (index >= 0 && " +
-                    "index < size)");
+                                                        "element on the " +
+                                                        "index(" + index + ")" +
+                                                        "\n" + "Accept only " +
+                                                        "(index >= 0 && " +
+                                                        "index < size)");
         }
         if (index == 0) {
             return removeFirst();

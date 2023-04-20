@@ -1,9 +1,10 @@
 package com.marcinseweryn.algorithms.graphs.list;
 
+import com.marcinseweryn.algorithms.graphs.list.KruskalEdgeList.Edge;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import com.marcinseweryn.algorithms.graphs.list.KruskalEdgeList.Edge;
+
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

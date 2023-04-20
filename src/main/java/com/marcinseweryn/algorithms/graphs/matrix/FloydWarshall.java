@@ -102,14 +102,17 @@ public class FloydWarshall {
      */
     public static void printFloydWarshall(double[][] graph) {
         for (int i = 0; i < graph.length; i++) {
-            System.out.println("------------------Shortest paths for [" + i + "]------------------");
+            System.out.println(
+                    "------------------Shortest paths for [" + i +
+                            "]------------------");
             for (int j = 0; j < graph[i].length; j++) {
                 if (graph[i][j] != Double.POSITIVE_INFINITY) {
                     System.out.printf("Shortest path from %d to %d is:[%d]%n"
                             , i, j, (int) graph[i][j]);
                 } else {
                     System.out.printf("Path from %d to %d does not exist%n",
-                            i, j);
+                                      i, j
+                    );
                 }
             }
         }

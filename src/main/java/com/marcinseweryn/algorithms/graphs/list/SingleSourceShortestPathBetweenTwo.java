@@ -53,7 +53,8 @@ public class SingleSourceShortestPathBetweenTwo {
     // Single Source The Shortest Path Problem between 2 vertex
     // directed or undirected edges - only unweighted
     // Return empty list if vertices are not connected
-    public static List<Integer> singleSourceShortestPath(List<List<Edge>> graph, int start, int end) {
+    public static List<Integer> singleSourceShortestPath(List<List<Edge>> graph,
+                                                         int start, int end) {
         Integer[] parent = new Integer[graph.size()];
 
         // Fill parent array with parents of vertices

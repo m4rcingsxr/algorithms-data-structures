@@ -14,7 +14,9 @@ class SingleSourceShortestPathBSTTest {
     @ParameterizedTest(name = "Graph: {0}, start: {1} -> expected: {2}")
     @MethodSource("testData")
     void testBfs(int[][] graph, int start, Integer[] expected) {
-        assertArrayEquals(expected, SingleSourceShortestPathBST.bfs(graph, start));
+        assertArrayEquals(expected, SingleSourceShortestPathBST.bfs(graph,
+                                                                    start
+        ));
     }
 
     private static Stream<Arguments> testData() {
@@ -25,7 +27,8 @@ class SingleSourceShortestPathBSTTest {
                                 {1, 0, 1, 0},
                                 {0, 1, 0, 1},
                                 {1, 0, 1, 0}},
-                        0, new Integer[]{null, 0, 1, 0}),
+                        0, new Integer[]{null, 0, 1, 0}
+                ),
                 Arguments.of(
                         new int[][]{
                                 {0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0},
@@ -42,7 +45,8 @@ class SingleSourceShortestPathBSTTest {
                                 {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                                 {0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0}
                         },
-                        0, new Integer[]{null, 8, 12, 7, 3, 6, 7, 0, 9, 0, 9, 0, 8}
+                        0, new Integer[]{null, 8, 12, 7, 3, 6, 7, 0, 9, 0, 9,
+                                         0, 8}
                 )
         );
     }

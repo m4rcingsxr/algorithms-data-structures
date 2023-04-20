@@ -36,7 +36,7 @@ public class MergeSort {
         Object[] right = new Object[arrayLength - mid];
         System.arraycopy(array, 0, left, 0, mid);
         if (arrayLength - mid >= 0)
-            System.arraycopy(array, mid, right, mid - mid, arrayLength - mid);
+            System.arraycopy(array, mid, right, 0, arrayLength - mid);
         sort(left);
         sort(right);
 
@@ -52,7 +52,7 @@ public class MergeSort {
      * @param right the right half of the array to be merged
      * @param array the array to hold the merged result
      * @param <T>   the type of elements in the arrays to be merged, must
-     *           implement Comparable
+     *              implement Comparable
      */
     private static <T extends Comparable<T>> void merge(Object[] left,
                                                         Object[] right,
@@ -93,7 +93,7 @@ public class MergeSort {
         out.println("sorted" + Arrays.toString(array));
         out.println("String[]");
         String[] stringArray = {"z", "Z", "C", "D", "X", "v", "Y", "A", "a",
-                "L", "M"};
+                                "L", "M"};
         out.println("unsorted" + Arrays.toString(stringArray));
         MergeSort.sort(stringArray);
         out.println("sorted" + Arrays.toString(stringArray));

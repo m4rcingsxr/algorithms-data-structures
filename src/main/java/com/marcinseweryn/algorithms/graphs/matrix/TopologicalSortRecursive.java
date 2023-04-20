@@ -156,6 +156,9 @@ public class TopologicalSortRecursive {
         addDirectedEdge(graph2, 2, 4);
         order = getTopologicalOrder(graph2);
         System.out.println(Arrays.toString(order));
+
+        // Output:
+        //[3, 11, 9, 10, 7, 6, 5, 1, 8, 12, 0, 2, 4]
     }
 }
 

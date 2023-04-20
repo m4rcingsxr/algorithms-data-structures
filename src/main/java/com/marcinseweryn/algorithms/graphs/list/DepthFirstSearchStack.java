@@ -5,20 +5,40 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
+/**
+ * A utility class for performing depth-first search on a graph using a stack.
+ */
 public class DepthFirstSearchStack {
 
-    static class Edge {
+    /**
+     * Represents an edge in the graph.
+     */
+    public static class Edge {
         int from;
         int next;
 
+        /**
+         * Constructs an edge from a source vertex to a target vertex.
+         *
+         * @param from the source vertex of the edge
+         * @param to   the target vertex of the edge
+         */
         public Edge(int from, int to) {
             this.from = from;
             this.next = to;
         }
     }
 
-    static void depthFirstSearch(List<List<Edge>> graph, int start,
-                                 int noElements) {
+    /**
+     * Performs depth-first search on the given graph, starting from the
+     * specified vertex.
+     *
+     * @param graph      the graph to search
+     * @param start      the starting vertex
+     * @param noElements the number of elements in the graph
+     */
+    public static void depthFirstSearch(List<List<Edge>> graph, int start,
+                                        int noElements) {
         boolean[] visited = new boolean[noElements];
         Deque<Integer> stack = new ArrayDeque<>();
         stack.push(start);
@@ -41,23 +61,45 @@ public class DepthFirstSearchStack {
         }
     }
 
-    static void addDirectedEdge(List<List<Edge>> graph, int from, int to) {
+    /**
+     * Adds a directed edge from one vertex to another in the given graph.
+     *
+     * @param graph the graph to add the edge to
+     * @param from  the source vertex of the edge
+     * @param to    the target vertex of the edge
+     */
+    public static void addDirectedEdge(List<List<Edge>> graph, int from, int to) {
         Edge edge = new Edge(from, to);
         graph.get(from).add(edge);
     }
 
-    static void addUndirectedEdge(List<List<Edge>> graph, int from, int to) {
+    /**
+     * Adds an undirected edge between two vertices in the given graph.
+     *
+     * @param graph the graph to add the edge to
+     * @param from  one of the vertices to connect
+     * @param to    the other vertex to connect
+     */
+    public static void addUndirectedEdge(List<List<Edge>> graph, int from,
+                                         int to) {
         addDirectedEdge(graph, from, to);
         addDirectedEdge(graph, to, from);
     }
 
-    static List<List<Edge>> createEmptyGraph(int size) {
+    /**
+     * Creates an empty graph with the specified number of vertices.
+     *
+     * @param size the number of vertices in the graph
+     * @return a new empty graph
+     */
+    public static List<List<Edge>> createEmptyGraph(int size) {
         List<List<Edge>> newGraph = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             newGraph.add(new ArrayList<>());
         }
         return newGraph;
     }
+
 
     public static void main(String[] args) {
         List<List<Edge>> graph = createEmptyGraph(5);

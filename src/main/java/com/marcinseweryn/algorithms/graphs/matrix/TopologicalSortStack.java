@@ -157,6 +157,9 @@ public class TopologicalSortStack {
         order = getTopologicalOrder(graph2);
         System.out.println(Arrays.toString(order));
 
+        //Output
+        //[0, 11, 9, 10, 1, 8, 7, 6, 5, 3, 2, 4, 12, 15, 14, 16, 13]
+
         // LIMITATION -> We are not able to get ordering if we start
         //               from vertex that has dependencies
         //                > 1    > 12

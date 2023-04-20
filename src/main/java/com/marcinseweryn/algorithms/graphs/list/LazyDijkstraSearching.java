@@ -1,6 +1,8 @@
 package com.marcinseweryn.algorithms.graphs.list;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.PriorityQueue;
 
 public class LazyDijkstraSearching {
     private static class WeightedNode implements Comparable<WeightedNode> {

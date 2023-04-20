@@ -18,7 +18,6 @@ public class StackArray<T> {
     /**
      * Constructs an empty stack with an initial capacity.
      * Stack's allowed to store 10 elements.
-     *
      */
     public StackArray() {
         size = 10;

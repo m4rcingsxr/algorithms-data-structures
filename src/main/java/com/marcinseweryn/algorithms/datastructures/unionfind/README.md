@@ -62,6 +62,7 @@
 The Number of components is equal to the number of roots remaining. Also, number of roots nodes never increases
 
 ## Union Find Path Compression
+
 When you have to merge two components, before doing so -
 Find the root of the component and then set each node to the same parent
 

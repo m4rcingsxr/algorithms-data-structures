@@ -28,7 +28,7 @@ public class QuickSort {
      *
      * @param array the array of integers to be sorted
      * @param start the starting index of the sub-array to be sorted
-     * @param end the ending index of the sub-array to be sorted
+     * @param end   the ending index of the sub-array to be sorted
      */
     private static void quickSort(int[] array, int start, int end) {
 
@@ -48,7 +48,7 @@ public class QuickSort {
      *
      * @param array the array of integers to be partitioned
      * @param start the starting index of the sub-array to be partitioned
-     * @param end the ending index of the sub-array to be partitioned
+     * @param end   the ending index of the sub-array to be partitioned
      * @return the index of the pivot element after partitioning
      */
     private static int partition(int[] array, int start, int end) {

@@ -15,7 +15,7 @@ public class BubbleSort {
     }
 
     public static <T extends Comparable<T>> void sort(T[] array) {
-        if(array == null) {
+        if (array == null) {
             throw new NullPointerException();
         }
         int N = array.length;
@@ -31,7 +31,7 @@ public class BubbleSort {
     }
 
     public static <T extends Comparable<T>> void descendingSort(T[] array) {
-        if(array == null) {
+        if (array == null) {
             throw new NullPointerException();
         }
         int N = array.length;

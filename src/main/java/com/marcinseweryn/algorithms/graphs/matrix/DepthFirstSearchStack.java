@@ -1,4 +1,3 @@
-
 package com.marcinseweryn.algorithms.graphs.matrix;
 
 import java.util.ArrayDeque;

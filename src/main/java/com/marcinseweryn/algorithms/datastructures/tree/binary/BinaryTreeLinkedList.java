@@ -7,8 +7,6 @@ import java.util.ArrayDeque;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
-import static com.marcinseweryn.algorithms.datastructures.tree.TraversalType.POSTORDER;
-
 /**
  * Class represent Linked List implementation of Binary Tree
  *
@@ -21,7 +19,6 @@ public class BinaryTreeLinkedList<T> {
 
     /**
      * Construct empty Binary Tree
-     *
      */
     public BinaryTreeLinkedList() {
         // Default constructor
@@ -111,7 +108,7 @@ public class BinaryTreeLinkedList<T> {
                 previous = current;
                 current = queue.remove();
                 if (current.left == null) {
-                    if(previous == null){
+                    if (previous == null) {
                         temp = current;
                         clear();
                         return temp;
@@ -223,12 +220,10 @@ public class BinaryTreeLinkedList<T> {
 
     /**
      * Remove all elements from the BT
-     *
      */
     public void clear() {
         root = null;
     }
-
 
 
     private static class BinaryNode<E> {

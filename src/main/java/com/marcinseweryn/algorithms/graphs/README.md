@@ -20,8 +20,8 @@
       will be empty)
       ![img/img_4.png](img/img_4.png)
 
-
 ## Breadth-First Search [list](list/BreadthFirstSearch.java) [matrix](matrix/BreadthFirstSearch.java)
+
 - The **Breadth-First Search** is algorithm used to explore nodes and edges of a graph.
   It run with time complexity of O(V+E)(vertices + Edges) / space complexity O(V+E) and is often used as building block
   in other algorithms
@@ -32,7 +32,7 @@
 
         BFS uses a queue data structure to track which node is visited next.
 
-## Depth-First Search [list/stack](list/DepthFirstSearchStack.java) [list/recursive](list/DepthFirstSearchRecursive.java) [matrix/stack](matrix/DepthFirstSearchRecursive.java) 
+## Depth-First Search [list/stack](list/DepthFirstSearchStack.java) [list/recursive](list/DepthFirstSearchRecursive.java) [matrix/stack](matrix/DepthFirstSearchRecursive.java)
 
 - The **Depth First Search** is the most fundamental search algorithm used to explore nodes and edges of a graph.
 - It runs with a time complexity O(V+E) and is often used as a building block in other algorithms
@@ -86,13 +86,16 @@ The Problem:
 - Five destination in different cities.
 - Travel cost between cities are known
 - Find the cheapest way from prime destination to desired destination
+
 ## BFS
+
 - Only for unweighted graphs
 - ![img/img_11.png](img/img_11.png)
 - **Time: O(E)(E=VERTEX*NEIGHBORS) / Space:O(V)**
 - ![img/img_12.png](img/img_12.png)- Do not work with weighted graphs (BFS - might ignore some edges!)
 
 ## [Dijkstra Algorithm](list/LazyDijkstraInserting.java)
+
     Single source shortest path algorithm for graphs with no negative cycle.
     Ensure that once a node has been visited its optimal distance cannot be improved
     Dijkstra's fails for negative values - It happens because, in each iteration, the algorithm only updates the
@@ -102,6 +105,7 @@ The Problem:
 ![img_14.png](img%2Fimg_14.png)
 
 ## [Bellman Ford Algorithm(adjacency list)](list/BellmanFordAdjacencyList.java) [Bellman Ford Algorithm(edge list)](list/BellmanFordEdgeList.java)
+
     Algorithm to find the shortest path. If there's negative cycle it catches it and report existence of it.
     We can only report negative cycle, cannot find the shortest path in case of negative cycle
 
@@ -129,11 +133,13 @@ The Problem:
 | Negative cycle   | (X)                                                 | (X)                                    | Use this as others not support    |
 
 ## **All pair shortest path problem**
+
       about finding a path between every vertex to all other vertices(not only to given vertex) in a graph such that the
       total distance between them(source and destination) is minimum
       One way to solve this assignment might be to run algorithm to fing the shortest path for each vertex as source
 
 ## [Floyd Warshall Algorithm](matrix/FloydWarshall.java)
+
 - Directed weighted graphs
 - algorithm is an **All-Pairs Shortest Path algorithm**.
 - Find the shortest path between all pairs of nodes
@@ -145,7 +151,7 @@ The Problem:
   cell m[i][j] represents the edge weight of going from node i to node j
 - If there is no edge from node i to node j then set the edge value for m[i][j] to be positive infinity
 - !!!If programming language does not support a special constant for +oo such that oo+oo = oo then we must avoid
-   using max values for our types. That will cause integer overflow!!!
+  using max values for our types. That will cause integer overflow!!!
 
 The main idea behind the Floyd-Warshall algorithm is to gradually **build up all
 intermediate routes between nodes i and j** to find the optimal path
@@ -153,6 +159,7 @@ intermediate routes between nodes i and j** to find the optimal path
 ![img_20.png](img%2Fimg_20.png)
 
 # Kruskal's minimum spanning tree algorithm
+
 > Given a graph G = (V, E) we want to find Minimum Spanning Tree in the graph (it may not be unique)
 > A minimum spanning tree is a subset of the edges which connect all vertices in the graph with
 > the minimal total edge cost

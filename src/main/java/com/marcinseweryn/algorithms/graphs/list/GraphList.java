@@ -11,6 +11,7 @@ public class GraphList<T> {
     public GraphList(List<GraphNode<T>> nodeList) {
         this.nodeList = nodeList;
     }
+
     public void addDirectedEdge(int i, int j) {
         GraphNode<T> first = nodeList.get(i);
         GraphNode<T> second = nodeList.get(j);

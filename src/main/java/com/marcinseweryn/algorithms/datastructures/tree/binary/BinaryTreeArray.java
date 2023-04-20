@@ -32,7 +32,6 @@ public class BinaryTreeArray<T> {
 
     /**
      * Construct empty Binary Tree
-     *
      */
     public BinaryTreeArray() {
         arr = new Object[10];
@@ -111,7 +110,7 @@ public class BinaryTreeArray<T> {
      */
     public String traversal(TraversalType type) {
         StringBuilder sb = new StringBuilder("[");
-        switch(type) {
+        switch (type) {
 
             // Java 14
             case PREORDER -> preOrder(1, sb);

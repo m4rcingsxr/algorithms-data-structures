@@ -31,7 +31,7 @@ public class CircularArrayQueue<T> {
      *
      * @param element to insert
      * @throws IllegalStateException if the next inserted element
-     *                          exceeds capacity
+     *                               exceeds capacity
      */
     public void enqueue(T element) {
         if (isFull()) {

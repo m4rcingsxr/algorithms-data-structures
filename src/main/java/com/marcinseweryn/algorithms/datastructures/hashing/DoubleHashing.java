@@ -47,8 +47,8 @@ public class DoubleHashing {
         } else {
             int x = modASCIIHashFunction(value, hashTable.length);
             int y = secondHashFunction(value, hashTable.length);
-            for (int i = 0; i<hashTable.length; i++) {
-                int newIndex = (x + i*y) % hashTable.length;
+            for (int i = 0; i < hashTable.length; i++) {
+                int newIndex = (x + i * y) % hashTable.length;
                 if (hashTable[newIndex] == null) {
                     hashTable[newIndex] = value;
                     break;

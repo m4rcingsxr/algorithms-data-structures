@@ -1,7 +1,6 @@
 package com.marcinseweryn.algorithms.graphs.list;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static java.lang.System.out;
 

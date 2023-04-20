@@ -139,7 +139,7 @@
         - ![img_27.png](img%2Fimg_27.png)
         - ![img_28.png](img%2Fimg_28.png)
         - ![img_29.png](img%2Fimg_29.png)
-    
+
 - Delete the entire AVL tree
     - ![img_25.png](img%2Fimg_25.png)
 
@@ -148,24 +148,29 @@
 ![img/img_14.png](img/img_14.png)
 
 # <center> Trie </center>
+
         a tree data structure used for locating specific keys from within a set. These keys are most often strings,
         with links between nodes defined not by the entire key, but by individual characters.
 
->   - Any node in trie can store non-repetitive multiple characters
+> - Any node in trie can store non-repetitive multiple characters
 >   - Every node stores link of the next character of the string
 >   - Every node keeps track of end of string
 >   - **Each node has HashMap with pairs of character and link to the next character**
 
 #### Insertion
+
 ![img_30.png](img%2Fimg_30.png)
 
 #### Deletion
+
 ![img_31.png](img%2Fimg_31.png)
 
 #### Use case
+
 ![img_32.png](img%2Fimg_32.png)
 
 # <center>Binary Heap</center>
+
     Binary Heap is a complete tree (all levels are completly filled except last level, and
     the last level has all keys as left as possible)
     
@@ -177,10 +182,12 @@
 >  - It's complete tree(all level complete perfect except last level - **filled from left**)
 
 ## Why BH?
+
 - Find the minimum or maximum number among set of numbers in logN time
 - Make sure that inserting additional numbers does not take more than O(logN)
 
 ## Practical use
+
 - Prim's Algorithm
 - Heap Sort
 - Priority Queue
@@ -204,6 +211,7 @@
 ![resources/img/img_4.png](img/36.png)
 
 ## Pseudocode
+
     arr[]
     size = 0;
     Create(capacity) {

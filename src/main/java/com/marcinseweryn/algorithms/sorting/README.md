@@ -25,7 +25,7 @@
   > - time complexity O(N^2)
 - [SELECTION SORT](SelectionSort.java)
   > - Selection sort works by finding the minimum element and then inserting it in its correct position by swapping with
-      the element which is in the position of this minimum element. 
+      the element which is in the position of this minimum element.
   > - Divide the given array into two parts
   > - Not stable
   > - time complexity O(N^2)
@@ -44,10 +44,11 @@
   > - ![img.png](img/img.png)
 - [MERGE SORT](MergeSort.java)
   > - Merge sort is a divide and conquer algorithm
-  - Divide the input array in two halves and we keep halving recursively until they become too small that cannot be
-    broken further (base case)
-  >  - Merge halves by sorting them
-  >  - ![img_1.png](img/img_1.png)
+    - Divide the input array in two halves and we keep halving recursively until they become too small that cannot be
+      broken further (base case)
+  > - Merge halves by sorting them
+      >
+  - ![img_1.png](img/img_1.png)
 
       Pseudocode
       A - array
@@ -95,15 +96,16 @@
   > - Unlike merge sort extra space is not required
   > - ![img_3.png](img/img_3.png)
   > - Average - O(nlogN) time complexity
-  > - Worst - O(N^2)! 
-  >   - If the pivot is chosen in the worst way each time, instead of partitioning array into two list of size
-  >     n/2, it will partition into one  of size 1 and one of size n-1. This lead to a recursion depth of n. Time
-  >     complexity is O(N^2)
+  > - Worst - O(N^2)!
+      >
+    - If the pivot is chosen in the worst way each time, instead of partitioning array into two list of size
+      > n/2, it will partition into one of size 1 and one of size n-1. This lead to a recursion depth of n. Time
+      > complexity is O(N^2)
   > - space complexity - O(nlog(n))
   > - Not stable
 - [HEAP SORT](HeapSort.java)
-  - Step 1: Insert data to Binary Heap Tree
-  - Step 2: Extract data from Binary Heap
+    - Step 1: Insert data to Binary Heap Tree
+    - Step 2: Extract data from Binary Heap
 
 ## Comparison
 

@@ -103,7 +103,7 @@ public class KruskalEdgeList {
 
             // Early stopping optimization: if we find a MST
             // that includes all nodes, we can stop the algorithm early.
-            if(unionFind.size(0) == noElements) {
+            if (unionFind.size(0) == noElements) {
                 break;
             }
 

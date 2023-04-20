@@ -13,14 +13,15 @@ public class InsertionSort {
     private InsertionSort() {
         // No instantiate
     }
-    public static<T extends Comparable<T>> void sort(T[] array) {
-        if(array == null) {
+
+    public static <T extends Comparable<T>> void sort(T[] array) {
+        if (array == null) {
             throw new NullPointerException();
         }
         for (int i = 0; i < array.length; i++) {
             T temp = array[i];
             int j = i;
-            while(j > 0 && temp.compareTo(array[j - 1]) < 0) {
+            while (j > 0 && temp.compareTo(array[j - 1]) < 0) {
                 array[j] = array[j - 1];
                 j--;
             }
@@ -28,14 +29,14 @@ public class InsertionSort {
         }
     }
 
-    public static<T extends Comparable<T>> void descendingSort(T[] array) {
-        if(array == null) {
+    public static <T extends Comparable<T>> void descendingSort(T[] array) {
+        if (array == null) {
             throw new NullPointerException();
         }
         for (int i = 0; i < array.length; i++) {
             T temp = array[i];
             int j = i;
-            while(j > 0 && temp.compareTo(array[j - 1]) > 0) {
+            while (j > 0 && temp.compareTo(array[j - 1]) > 0) {
                 array[j] = array[j - 1];
                 j--;
             }

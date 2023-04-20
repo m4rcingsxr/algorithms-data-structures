@@ -10,8 +10,9 @@ import java.util.EmptyStackException;
  * @author Marcin Seweryn
  * @version 1.0
  */
-public class StackLinkedList <T>{
+public class StackLinkedList<T> {
     private final LinkedList<T> list;
+
     /**
      * Construct an empty stack
      */
@@ -46,7 +47,6 @@ public class StackLinkedList <T>{
 
     /**
      * Insert specified element at the end of the Stack
-     *
      */
     public void push(T element) {
         list.add(element);
@@ -55,8 +55,8 @@ public class StackLinkedList <T>{
     /**
      * Remove and return last inserted element of this stack
      *
-     * @throws EmptyStackException if stack contains no element
      * @return last inserted element of this stack
+     * @throws EmptyStackException if stack contains no element
      */
     public T pop() {
         if (isEmpty()) {

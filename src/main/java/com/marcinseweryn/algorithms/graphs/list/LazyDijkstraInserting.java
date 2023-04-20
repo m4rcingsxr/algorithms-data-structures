@@ -4,7 +4,7 @@ import java.util.*;
 
 public class LazyDijkstraInserting {
 
-     static class Edge {
+    static class Edge {
         int next;
         int from;
         double weight;
@@ -155,7 +155,7 @@ public class LazyDijkstraInserting {
         for (int i = 0; i < distance.length; i++) {
             if (i == distance.length - 1) {
                 System.out.println(i);
-            } else if(distance[i] >= 10){
+            } else if (distance[i] >= 10) {
                 System.out.print(i + " ".repeat(4));
             } else {
                 System.out.print(i + " ".repeat(3));
@@ -169,7 +169,7 @@ public class LazyDijkstraInserting {
             0.0 2.0 5.0 3.0 5.0 13.0 14.0
          */
 
-        List<Integer> shortestPath = findShortestPath(graph,0, 6);
+        List<Integer> shortestPath = findShortestPath(graph, 0, 6);
         System.out.print("\nThe shortest path from 0 to 6 [");
         shortestPath.forEach(e -> System.out.print(e + " "));
         System.out.print("]");

@@ -5,8 +5,6 @@ import com.marcinseweryn.algorithms.datastructures.tree.TraversalType;
 
 import java.util.*;
 
-import static com.marcinseweryn.algorithms.datastructures.tree.TraversalType.LEVELORDER;
-
 /**
  * Class contains an implementation of a Binary Search Tree.
  * Any data that's implement comparable interface is allowed.

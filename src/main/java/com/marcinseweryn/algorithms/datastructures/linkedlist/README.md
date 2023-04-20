@@ -9,8 +9,6 @@
         The first node in the list is called the head, 
         and the last node in the list is called the tail.
 
-
-
 <table>
 <tr>
 <th>ARRAY VS LINKED LIST</th>
@@ -54,6 +52,7 @@
 </table>
 
 ## Types
+
 |          Presentation           |                            Source                            |
 |:-------------------------------:|:------------------------------------------------------------:|
 |    ![img.png](img%2Fimg.png)    |            [DOUBLY LINKED LIST](LinkedList.java)             |

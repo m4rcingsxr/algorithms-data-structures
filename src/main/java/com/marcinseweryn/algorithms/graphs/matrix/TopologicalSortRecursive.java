@@ -14,9 +14,9 @@ public class TopologicalSortRecursive {
      * acyclic graph represented as an adjacency matrix.
      *
      * @param graph an N x N adjacency matrix representing a directed
-     *             acyclic graph
+     *              acyclic graph
      * @return an array of integers representing the topological ordering
-     *         of the graph
+     * of the graph
      */
     public static int[] getTopologicalOrder(int[][] graph) {
         int N = graph.length;
@@ -47,7 +47,7 @@ public class TopologicalSortRecursive {
      * @param order   an array of integers representing the topological
      *                ordering of the graph
      * @return the updated index for the order array after processing the
-     *         current vertex and its neighbors
+     * current vertex and its neighbors
      */
     public static int dfs(int[][] graph,
                           boolean[] visited,
@@ -92,9 +92,9 @@ public class TopologicalSortRecursive {
      * in the given adjacency matrix.
      *
      * @param graph the N x N adjacency matrix representing a directed
-     *             acyclic graph
-     * @param from            the source vertex
-     * @param to              the target vertex
+     *              acyclic graph
+     * @param from  the source vertex
+     * @param to    the target vertex
      */
     public static void addDirectedEdge(int[][] graph, int from, int to) {
         graph[from][to] = 1;

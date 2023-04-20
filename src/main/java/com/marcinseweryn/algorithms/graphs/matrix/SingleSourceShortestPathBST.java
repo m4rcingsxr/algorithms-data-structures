@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.Queue;
 
 /**
- *  This class implements the Single Source Shortest Path algorithm using
- *  Breadth First Search for a given adjacency matrix.
+ * This class implements the Single Source Shortest Path algorithm using
+ * Breadth First Search for a given adjacency matrix.
  */
 public class SingleSourceShortestPathBST {
 
@@ -17,6 +17,7 @@ public class SingleSourceShortestPathBST {
     /**
      * Prints the shortest path to all vertices
      * in the graph from the specified start node.
+     *
      * @param graph the adjacency matrix representing the graph.
      * @param start the start node for the path.
      */
@@ -40,8 +41,9 @@ public class SingleSourceShortestPathBST {
 
     /**
      * Recursive method to reconstruct the path from the start node to the end node.
-     * @param end the end node of the path.
-     * @param sb the StringBuilder object used to build the path.
+     *
+     * @param end    the end node of the path.
+     * @param sb     the StringBuilder object used to build the path.
      * @param parent the array of parent nodes returned by the Breadth First Search.
      */
     private static void printPath(int end, StringBuilder sb, Integer[] parent) {
@@ -55,10 +57,11 @@ public class SingleSourceShortestPathBST {
 
     /**
      * Performs a Breadth First Search on the specified graph starting from the specified node.
+     *
      * @param graph the adjacency matrix representing the graph.
      * @param start the start node for the search.
      * @return an array of parent nodes, where parent[i] is the parent of
-     *              node i in the Breadth First Search tree.
+     * node i in the Breadth First Search tree.
      */
     public static Integer[] bfs(int[][] graph, int start) {
         int N = graph.length;

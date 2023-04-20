@@ -3,10 +3,10 @@ package com.marcinseweryn.algorithms.datastructures.unionfind;
 /**
  * The Union-Find data structure is used to represent a collection
  * of disjoint sets and supports two operations: union and find.
- *
+ * <p>
  * The union operation is used to merge two sets, and the find
  * operation is used to determine which set an element belongs to.
- *
+ * <p>
  * The data structure is commonly referred to as "disjoint set"
  * because the sets represented by the data structure are disjoint,
  * meaning they have no elements in common.
@@ -114,7 +114,7 @@ public class UnionFind {
 
         // Merge two components/sets together
         // Merge smaller component/set into the large one
-        if(componentSizes[root1] < componentSizes[root2]) {
+        if (componentSizes[root1] < componentSizes[root2]) {
             componentSizes[root2] += componentSizes[root1];
             parentElements[root1] = root2;
         } else {

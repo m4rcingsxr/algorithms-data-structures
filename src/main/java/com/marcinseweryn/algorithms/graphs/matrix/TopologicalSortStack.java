@@ -59,7 +59,6 @@ public class TopologicalSortStack {
         stack.push(actual);
         visited[actual] = true;
 
-
         while (!stack.isEmpty()) {
             int current = stack.pop();
             order[index++] = current;

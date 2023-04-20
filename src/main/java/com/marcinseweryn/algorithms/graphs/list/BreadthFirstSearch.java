@@ -38,8 +38,8 @@ public class BreadthFirstSearch {
      * Adds an undirected edge between the two given vertices in the given graph.
      *
      * @param graph the graph to add the edge to
-     * @param from the vertex the edge starts from
-     * @param to the vertex the edge goes to
+     * @param from  the vertex the edge starts from
+     * @param to    the vertex the edge goes to
      */
     public static void addUndirectedEdge(List<List<Integer>> graph, int from, int to) {
         graph.get(from).add(to);
@@ -52,7 +52,7 @@ public class BreadthFirstSearch {
      * @param graph the graph to traverse
      * @param start the starting vertex for the traversal
      * @return a string representation of the traversal
-     *         path in the format "Breadth First Search from vertex {start}:{path}"
+     * path in the format "Breadth First Search from vertex {start}:{path}"
      */
     public static String bfs(List<List<Integer>> graph, int start) {
         StringBuilder bfs = new StringBuilder();

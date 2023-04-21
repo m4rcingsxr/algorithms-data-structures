@@ -5,9 +5,6 @@ import java.util.Map;
 
 /**
  * Class represent implementation of the Trie.
- *
- * @author Marcin Seweryn
- * @version 1.0
  */
 public class Trie {
     private final Node root;

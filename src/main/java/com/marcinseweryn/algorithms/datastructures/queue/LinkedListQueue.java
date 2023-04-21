@@ -7,9 +7,6 @@ import java.util.NoSuchElementException;
 
 /**
  * Class presents Linked List implementation of Queue.
- *
- * @author Marcin Seweryn
- * @version 1.0
  */
 public class LinkedListQueue<T> implements Iterable<T> {
     LinkedList<T> list = new LinkedList<>();

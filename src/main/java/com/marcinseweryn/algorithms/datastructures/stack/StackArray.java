@@ -5,9 +5,6 @@ import java.util.EmptyStackException;
 
 /**
  * Class represent array implementation of the Stack
- *
- * @author Marcin Seweryn
- * @version 1.0
  */
 public class StackArray<T> {
 

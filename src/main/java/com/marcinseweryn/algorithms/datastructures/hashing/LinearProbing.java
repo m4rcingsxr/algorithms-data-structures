@@ -2,6 +2,15 @@ package com.marcinseweryn.algorithms.datastructures.hashing;
 
 import java.util.Arrays;
 
+/**
+ * The LinearProbing class represents a hash table implemented using linear
+ * probing. It provides methods for inserting, searching, and deleting elements
+ * from the hash table. The hash function used is a simple modular ASCII
+ * hash function. When the load factor of the hash table exceeds 0.75, the
+ * hash table is rehashed to twice its original size. This class also provides
+ * a method for calculating the load factor and a method for converting the
+ * hash table to a string.
+ */
 public class LinearProbing {
     String[] hashTable;
     int usedCellNumber;
@@ -57,9 +66,6 @@ public class LinearProbing {
         int index = modASCIIHashFunction(word, hashTable.length);
         for (int i = index; i < index + hashTable.length; i++) {
 
-            // because size is index + hashTable.length, if our index is 15,
-            // size is 15 and we want to insert new value then we need to get
-            // into index 1 so must use mode
             int newIndex = i % hashTable.length;
             if (hashTable[newIndex] != null && hashTable[newIndex].equals(
                     word)) {
@@ -80,13 +86,6 @@ public class LinearProbing {
         return sb.toString();
     }
 
-    /**
-     * Return {@code true} if value was successfully removed
-     * or {@code false} if element does not exist in the table
-     *
-     * @param word element to remove
-     * @return {@code true} if value was successfully removed
-     */
     public boolean delete(String word) {
         int index = modASCIIHashFunction(word, hashTable.length);
         for (int i = index; i < index + hashTable.length; i++) {

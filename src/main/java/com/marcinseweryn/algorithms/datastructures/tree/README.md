@@ -18,7 +18,7 @@
 - [TRIE](#center-trie-center) [[src](trie/Trie.java)]
 
 ## Tree terminology
-
+2
 <p align="center">
   <img src="img/img.png" alt="img"/>
 </p>
@@ -185,12 +185,11 @@
 >  - It's complete tree(all level complete perfect except last level - **filled from left**)
 
 ## Why BH?
-
+- PriorityQueue
 - Find the minimum or maximum number among set of numbers in logN time
 - Make sure that inserting additional numbers does not take more than O(logN)
 
 ## Practical use
-
 - Prim's Algorithm
 - Heap Sort
 - Priority Queue

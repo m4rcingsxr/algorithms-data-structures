@@ -8,8 +8,6 @@ import java.util.NoSuchElementException;
  * Implementing this interface allows an object to be the target of
  * the for each loop
  *
- * @author Marcin Seweryn
- * @version 1.0
  * @see Iterable
  * @see Iterator
  */

@@ -9,8 +9,6 @@ import java.util.NoSuchElementException;
 /**
  * Class represent array implementation of Binary Tree
  *
- * @author Marcin Seweryn
- * @version 1.0
  */
 public class BinaryTreeArray<T> {
     private Object[] arr;

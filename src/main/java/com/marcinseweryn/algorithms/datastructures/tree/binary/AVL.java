@@ -11,8 +11,6 @@ import java.util.*;
  * checks and traversal method that's returning String representation
  * of chosen Traversal Type. Distinct keys and no duplicates.
  *
- * @author Marcin Seweryn marcinsewerynn@gmail.com
- * @version 1.0
  * @see com.marcinseweryn.algorithms.datastructures.tree.TraversalType
  * @see Comparable
  */

@@ -4,9 +4,6 @@ import java.util.NoSuchElementException;
 
 /**
  * Class presents Circular Array implementation of Queue.
- *
- * @author Marcin Seweryn
- * @version 1.0
  */
 @SuppressWarnings("unchecked")
 public class CircularArrayQueue<T> {

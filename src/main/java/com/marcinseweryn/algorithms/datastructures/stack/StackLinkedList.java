@@ -6,9 +6,6 @@ import java.util.EmptyStackException;
 
 /**
  * Class represent Linked List implementation of Stack
- *
- * @author Marcin Seweryn
- * @version 1.0
  */
 public class StackLinkedList<T> {
     private final LinkedList<T> list;

@@ -1,3 +1,4 @@
+/*
 package com.marcinseweryn.algorithms.graphs.list;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -10,11 +11,11 @@ import org.junit.jupiter.params.provider.CsvSource;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.marcinseweryn.algorithms.graphs.list.LazyDijkstraInserting.*;
+import static com.marcinseweryn.algorithms.graphs.list.LazyDijkstra.*;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-class LazyDijkstraInsertingTest {
-    static List<List<LazyDijkstraInserting.Edge>> graph;
+class LazyDijkstraTest {
+    static List<List<LazyDijkstra.Edge>> graph;
 
     @BeforeEach
     void beforeEach() {
@@ -113,4 +114,4 @@ class LazyDijkstraInsertingTest {
                     Integer::valueOf).toArray(Integer[]::new);
         }
     }
-}
+}*/

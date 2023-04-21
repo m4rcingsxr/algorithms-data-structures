@@ -6,8 +6,6 @@ import java.util.Arrays;
  * Class represent an implementation of the BinaryHeap (Priority Queue)
  * Any data that's implement comparable interface is allowed.
  *
- * @author Marcin Seweryn
- * @version 1.0
  * @see Comparable
  */
 public class BinaryHeap<T extends Comparable<T>> {

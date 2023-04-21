@@ -9,10 +9,6 @@ import java.util.Queue;
 
 /**
  * Class represent Linked List implementation of Binary Tree
- *
- * @author Marcin Seweryn
- * @version 1.0
- * @email marcinsewerynn@gmail.com
  */
 public class BinaryTreeLinkedList<T> {
     BinaryNode<T> root;

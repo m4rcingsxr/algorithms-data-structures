@@ -96,13 +96,23 @@ The Problem:
 
 ## [Dijkstra Algorithm](list/LazyDijkstraInserting.java)
 
-    Single source shortest path algorithm for graphs with no negative cycle.
+    Single source shortest path algorithm for weighted graphs with no negative cycle.
     Ensure that once a node has been visited its optimal distance cannot be improved
     Dijkstra's fails for negative values - It happens because, in each iteration, the algorithm only updates the
     answer for the nodes in the queue, does not reconsider a node once it marks it as visited even if a shorter path
     exists than the previous one.
 
 ![img_14.png](img%2Fimg_14.png)
+
+> **Algorithm overview**
+> - Maintain a 'dist' array where the distance to every node is positive infinity. Mark the
+>   distance to the start node 's' to be 0
+> - Maintain a PQ of key-value pairs of (node index,distance) pairs which tell you which
+>   node to visit next based on sorted min(distance) value
+> - Insert (s,0) into the PQ and loop while PQ is not empty pulling out the next most 
+>   promising (node index, distance) pair
+> - Iterate over all edges outward from the current node and relax each edge appending a 
+>   new (node index, distance) key-value pair to the PQ for every relaxation.
 
 ## [Bellman Ford Algorithm(adjacency list)](list/BellmanFordAdjacencyList.java) [Bellman Ford Algorithm(edge list)](list/BellmanFordEdgeList.java)
 

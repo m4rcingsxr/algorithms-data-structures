@@ -1,7 +1,6 @@
 package com.marcinseweryn.algorithms.graphs.matrix;
 
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Queue;
 
 /**
@@ -25,11 +24,10 @@ public class SingleSourceShortestPathBST {
 
         // Breadth first search
         Integer[] parent = bfs(graph, start);
-        System.out.println(Arrays.toString(parent));
         // Print path to each vertex from start node
         for (int i = 0; i < graph.length; i++) {
             StringBuilder path = new StringBuilder();
-            printPath(i, path, parent);
+            printPath(start, i, path, parent);
             path.replace(path.indexOf(","),
                          path.indexOf(",") + 1, String.format(
                             "Shortest path from %d to %d: [", start, i
@@ -49,13 +47,28 @@ public class SingleSourceShortestPathBST {
      * @param parent the array of parent nodes returned by the Breadth First
      *               Search.
      */
-    private static void printPath(int end, StringBuilder sb, Integer[] parent) {
+    private static void printPath(int start, int end, StringBuilder sb,
+                                  Integer[] parent) {
 
         // Start node is self-root, parent[i] == null
         for (Integer i = end; i != null; i = parent[i]) {
-            sb.append(i).append(",");
+            if (i % 10 == i) {
+                sb.append(i).append(",");
+            } else {
+
+                // Solve problem of reversing more than 1 digit number
+                sb.append(
+                        new StringBuilder(String.valueOf(i)).reverse()).append(
+                        ",");
+            }
         }
         sb.reverse();
+
+        // If reconstruction does not reach starting vertex
+        // that's mean vertices are not connected
+        if (Integer.parseInt(sb.substring(1, 2)) != start) { // ",A "
+            sb.replace(0, sb.length(), "not connected");
+        }
     }
 
     /**
@@ -104,7 +117,7 @@ public class SingleSourceShortestPathBST {
                 {0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0},
                 {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0},
                 {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0},
+                {0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0},
                 {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0},
@@ -116,6 +129,21 @@ public class SingleSourceShortestPathBST {
                 {0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0}
         };
 
+        /*
+            Shortest path from 0 to 0: [0]
+            Shortest path from 0 to 1: [0,9,8,1]
+            Shortest path from 0 to 2: [0,9,8,12,2] ????
+            Shortest path from 0 to 3: [0,7,3]
+            Shortest path from 0 to 4: [0,7,3,4]
+            Shortest path from 0 to 5: [0,7,6,5]
+            Shortest path from 0 to 6: [0,7,6]
+            Shortest path from 0 to 7: [0,7]
+            Shortest path from 0 to 8: [0,9,8]
+            Shortest path from 0 to 9: [0,9]
+            Shortest path from 0 to 10: [0,9,10]
+            Shortest path from 0 to 11: [0,11]
+            Shortest path from 0 to 12: [0,9,8,12]
+         */
         printSSSP(matrix, 0);
     }
 }

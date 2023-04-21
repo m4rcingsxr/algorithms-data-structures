@@ -2,6 +2,13 @@ package com.marcinseweryn.algorithms.datastructures.hashing;
 
 import java.util.ArrayList;
 
+/**
+ * A class that implements a hash table using quadratic probing as a collision
+ * resolution technique. The hash function used is based on the ASCII values
+ * of the characters in the keys. The load factor of the hash table is used
+ * to determine when to rehash the keys. This implementation supports insertion,
+ * searching, and resizing the hash table.
+ */
 public class QuadraticProbing {
     String[] hashTable;
     int usedCellNumber;

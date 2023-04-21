@@ -14,8 +14,6 @@ import java.util.LinkedList;
  *
  * @param <K> key
  * @param <V> value
- * @author Marcin Seweryn
- * @version 1.0
  * @see Object#equals(Object)
  * @see Object#hashCode()
  */

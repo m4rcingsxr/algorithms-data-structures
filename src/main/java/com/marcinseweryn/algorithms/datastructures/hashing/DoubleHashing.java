@@ -3,15 +3,40 @@ package com.marcinseweryn.algorithms.datastructures.hashing;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DoubleHashing is a class that represents a hash table using double hashing
+ * collision resolution method. It provides methods for inserting values into
+ * the hash table, rehashing the keys when the load factor reaches a certain
+ * threshold, and generating hash codes using the modASCIIHashFunction and
+ * secondHashFunction. It also provides a toString() method for printing out
+ * the contents of the hash table.
+ */
 public class DoubleHashing {
+
+    // The hash table represented as an array of Strings.
     String[] hashTable;
+
+    // The number of cells occupied in the hash table.
     int numOfOccupiedCells;
 
+    /**
+     * Constructs a new DoubleHashing object with the specified size.
+     *
+     * @param size the size of the hash table to be created.
+     */
     public DoubleHashing(int size) {
         hashTable = new String[size];
         numOfOccupiedCells = 0;
     }
 
+    /**
+     * Calculates the hash value for a given word using the mod ASCII hash
+     * function.
+     *
+     * @param word        the word to calculate the hash value for.
+     * @param arrayLength the length of the hash table array.
+     * @return the hash value for the given word.
+     */
     public int modASCIIHashFunction(String word, int arrayLength) {
         int sum = 0;
         for (int i = 0; i < word.length(); i++) {
@@ -20,6 +45,12 @@ public class DoubleHashing {
         return sum % arrayLength;
     }
 
+    /**
+     * Rehashes the keys in the hash table with a new string to be inserted.
+     *
+     * @param newStringToBeInserted the new string to be inserted into the
+     *                              hash table.
+     */
     public void rehashKeys(String newStringToBeInserted) {
         numOfOccupiedCells = 0;
         List<String> temp = new ArrayList<>();
@@ -36,10 +67,20 @@ public class DoubleHashing {
 
     }
 
+    /**
+     * Calculates the load factor of the hash table.
+     *
+     * @return the load factor of the hash table.
+     */
     private double getLoadFactor() {
         return numOfOccupiedCells * 1.0 / hashTable.length;
     }
 
+    /**
+     * Inserts a new string into the hash table.
+     *
+     * @param value the new string to be inserted into the hash table.
+     */
     public void insert(String value) {
         double loadFactor = getLoadFactor();
         if (loadFactor >= 0.75) {
@@ -58,6 +99,14 @@ public class DoubleHashing {
         numOfOccupiedCells++;
     }
 
+    /**
+     * Calculates the hash value for a given string using the second hash
+     * function.
+     *
+     * @param s           the string to calculate the hash value for.
+     * @param arrayLength the length of the hash table array.
+     * @return the hash value for the given string.
+     */
     private int secondHashFunction(String s, int arrayLength) {
         int sum = 0;
         for (int i = 0; i < s.length(); i++) {

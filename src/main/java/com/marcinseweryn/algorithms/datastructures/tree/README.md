@@ -172,7 +172,7 @@
 
 ![img_32.png](img%2Fimg_32.png)
 
-# <center>Binary Heap</center>
+# Binary Heap
 
     Binary Heap is a complete tree (all levels are completly filled except last level, and
     the last level has all keys as left as possible)

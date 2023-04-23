@@ -95,15 +95,15 @@ The Problem:
 - ![img/img_12.png](img/img_12.png)- Do not work with weighted graphs (BFS - might ignore some edges!)
 
 ## Dijkstra Algorithm
+
 - [LAZY](list/LazyDijkstra.java)
 - [EAGER](list/EagerDijkstra.java)
 
-
-    Single source shortest path algorithm for weighted graphs with no negative cycle.
-    Ensure that once a node has been visited its optimal distance cannot be improved
-    Dijkstra's fails for negative values - It happens because, in each iteration, the algorithm only updates the
-    answer for the nodes in the queue, does not reconsider a node once it marks it as visited even if a shorter path
-    exists than the previous one.
+  Single source shortest path algorithm for weighted graphs with no negative cycle.
+  Ensure that once a node has been visited its optimal distance cannot be improved
+  Dijkstra's fails for negative values - It happens because, in each iteration, the algorithm only updates the
+  answer for the nodes in the queue, does not reconsider a node once it marks it as visited even if a shorter path
+  exists than the previous one.
 
 > **Algorithm overview**
 > - Maintain a 'dist' array where the distance to every node is positive infinity. Mark the
@@ -117,7 +117,8 @@ The Problem:
 
 ![img_14.png](img%2Fimg_14.png)
 
-Lazy implementation of Dijkstra insert duplicate key-value pairs (keys - node index, value - candidate for shortest distance)
+Lazy implementation of Dijkstra insert duplicate key-value pairs (keys - node index, value - candidate for shortest
+distance)
 in our PQ because it's more efficient to insert a new key-value pair in O(log(N)) than it is to update and existing
 key's value in O(N) (requires searching)
 
@@ -181,8 +182,16 @@ intermediate routes between nodes i and j** to find the optimal path
 
 # Kruskal's minimum spanning tree algorithm
 
-> Given a graph G = (V, E) we want to find Minimum Spanning Tree in the graph (it may not be unique)
-> A minimum spanning tree is a subset of the edges which connect all vertices in the graph with
-> the minimal total edge cost
+Given a graph G = (V, E) we want to find Minimum Spanning Tree in the graph (it may not be unique) A minimum spanning
+tree is a subset of the edges which connect all vertices in the graph with the minimal total edge cost
+
+- Sort edges by ascending edge weight.
+- Walk through the sorted edges and look at the edge belongs to, if the nodes are already unified we don't include this
+edge, otherwise we include it and unify the nodes.
+- The algorithm terminates when every edge has been processed or all the vertices have been unified.
+If node already belong to the same group then we want to ignore it because it'll create a cycle
+
 ![img21.png](img/img21.png)
 ![img22.png](img/img22.png)
+
+Kruskal's algorithm finds a minimum spanning forest of an undirected edge-weighted graph.

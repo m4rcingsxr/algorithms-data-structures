@@ -195,3 +195,89 @@ If node already belong to the same group then we want to ignore it because it'll
 ![img22.png](img/img22.png)
 
 Kruskal's algorithm finds a minimum spanning forest of an undirected edge-weighted graph.
+
+
+# Prim's Minimum Spanning Tree Algorithm
+### Minimum Spanning Tree
+        Undirected graph with weighted edges, a Minimum Spanning Tree(MST)
+        is a subset of the edges in the graph which connects all vertices 
+        together (without creating any cycles) while minimizing the total edge cost.
+## Prim's MST Algorithm
+        Prim's is a greedy MST  algorithm that works well on dense graphs. On these 
+        graphs, Prim's meets or improves on the time bounds of its popular rivals(Kruskal' & Boruvka's)
+
+        However, when it comes to finding the mnimum spanning forest on a disconnected graph, Prim's 
+        cannot do this as easly(the algorithm must be run on each connected component individually).
+
+        The Lazy version of Prim's ahs a runtime of O(Elog(E)), but the eager version has a better 
+        runtime of O(ELog(V))
+### Lazy Prim's MST Overview
+        Maintain a min Priority Queue (PQ) that sorts edges based on min edge cost. This will be used
+        to determine the next node to visit and the edge used to get there.
+
+        Start the algorithm on any node s. Mark s as visited and iterate over all edges of s, adding them to PQ
+        
+        While the PQ is not empty and a MST has not been formed, dequeue the next cheapest edge from the PQ.
+        If points the dequeued edge is outdated(meaning the node it points to has already been visited) then skip
+        it and poll again. Otherwise, mark the current node as visited and add the selected edge to the MST.
+
+        Iterate over the new current node's edges and add all its edges to the PQ. Do not add edges to the PQ 
+        which point to already visited nodes.
+
+        Graph must represend an undirected graph, the internal adjacency list representation typically has each 
+        undirected edge stored as tow directed edges
+
+        Reason why we don't include edges which points to already visited nodes is that eaither they overlap with
+        an edge already part of MST or it would introduce a cycle in the MST, if included.
+#### Pseudocode
+```
+    # n - Number of vertices in the graph.
+    # pq - PQ data strucutre: stores edge objects consiting of {start node, end node, edge cost}.
+          The PQ sorts edges based on min edge cost.
+    # g - Graph representing an adjacency list of weighted edges. Each undirected edge is represented
+    #     as two directed edges in g. For especially dense graphs, prefer using an adjacency matrix
+    #     instead of an adjacency list to improve performance
+    # visited[] tracks whether node i has been visited; size n
+    # s - the index of the starting node (0 <= s < n)
+    
+    lazyPrims(s):
+        m = n - 1 #number of edges in MST
+        edgeCount = 0
+        mstCost = 0
+        mstEdges[] # size m
+        # iterate over the edges of a noce and add edges to the PQ
+        addEdges(s) #add neighbors to pq
+        
+        while(!pq.isEmpty() and edgeCount != m):
+            edge = pq.dequeue()
+            nodeIndex = edge.to
+            # Optimization - skip edge that points to a visited node
+            if visited[nodeIndex]: 
+                continue
+            
+            mstEdges[edgeCount++] = edge
+            mstCost += edge.cost
+            
+            addEdges(nodeIndex)
+            
+        if edgeCount != m:
+            return (null, null) # No MST exists!
+        
+        return (mstCost, mstEdges)
+    
+    # Helper method to interate over the edges of node and add edges to the PQ
+    addEdges(nodeIndex):
+        # Mark the current node as visited
+        visited[nodeIndex] = true
+        
+        # Iterate over all edges going outward from the current node.
+        # Add edges to the PQ which point to unvisited nodes.
+        edges = g[nodeIndex]
+        for (edge : edges):
+            if !visited[edge.to]:
+                pq.enqueue(edge)    
+```
+----
+resource: 
+- https://www.youtube.com/watch?v=jsmMtJpPnhU&t=2s
+- https://www.youtube.com/watch?v=JZBQLXgSGfs&t=264s

@@ -218,6 +218,10 @@ public class LazyDijkstra {
         addDirectedEdge(graph, 4, 6, 9);
         addDirectedEdge(graph, 5, 6, 7);
 
+        /*
+            [0.0, 2.0, 5.0, 3.0, 5.0, 13.0, 14.0]
+            Shortest path from 0 to 6:[0, 1, 4, 6], with distance: 14
+         */
         Double[] distance = dijkstra(graph, 0);
         System.out.println(Arrays.toString(distance));
         System.out.println(findShortestPath(graph, 0, 6));

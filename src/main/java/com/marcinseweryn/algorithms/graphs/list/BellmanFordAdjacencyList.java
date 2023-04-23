@@ -6,7 +6,17 @@ import java.util.List;
 
 import static java.lang.System.out;
 
+/**
+ * The BellmanFordAdjacencyList class represents a graph data structure using an
+ * adjacency list, and provides methods to run the Bellman-Ford algorithm on
+ * this graph to find the shortest paths from a given starting vertex to all
+ * other vertices in the graph.
+ */
 public class BellmanFordAdjacencyList {
+
+    /**
+     * The Edge class represents a weighted directed edge in the graph.
+     */
     public static class Edge {
         double weight;
         int from;
@@ -19,6 +29,12 @@ public class BellmanFordAdjacencyList {
         }
     }
 
+    /**
+     * Creates a new adjacency list graph with the specified number of vertices.
+     *
+     * @param N the number of vertices in the graph
+     * @return a list of adjacency lists representing the graph
+     */
     public static List<List<Edge>> createGraph(final int N) {
         List<List<Edge>> graph = new ArrayList<>();
         for (int i = 0; i < N; i++) {
@@ -27,6 +43,18 @@ public class BellmanFordAdjacencyList {
         return graph;
     }
 
+    /**
+     * Runs the Bellman-Ford algorithm on the specified graph starting from
+     * the given vertex, and returns an array of distances representing the
+     * shortest path from the starting vertex to all other vertices in the
+     * graph.
+     *
+     * @param graph the graph to run the algorithm on
+     * @param N     the number of vertices in the graph
+     * @param start the starting vertex for the algorithm
+     * @return an array of distances representing the shortest path from the
+     * starting vertex to all other vertices in the graph
+     */
     public static double[] bellmanFord(List<List<Edge>> graph, int N,
                                        int start) {
         double[] distance = new double[N];
@@ -65,6 +93,13 @@ public class BellmanFordAdjacencyList {
         return distance;
     }
 
+    /**
+     * Creates a new edge with the specified weight and endpoints.
+     *
+     * @param weight the weight of the edge
+     * @param from   the starting vertex of the edge
+     * @param to     the ending vertex of the edge
+     */
     public static void addDirectedEdge(List<List<Edge>> graph, int from,
                                        int to, double weight) {
         graph.get(from).add(new Edge(weight, from, to));

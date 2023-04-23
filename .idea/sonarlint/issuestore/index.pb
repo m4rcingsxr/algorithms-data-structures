@@ -27,8 +27,6 @@ Ysrc/main/java/com/marcinseweryn/algorithms/graphs/matrix/SingleSourceShortestPa
 Psrc/main/java/com/marcinseweryn/algorithms/graphs/list/TopologicalSortStack.java,2/3/230844dd0176a50a5f377b9f62e00d4464792b1f
 {
 Ksrc/main/java/com/marcinseweryn/algorithms/graphs/list/TopologicalSort.java,3/1/317025ef111672fd7025e712397e536c04a38b65
-á
-Wsrc/main/java/com/marcinseweryn/algorithms/graphs/list/SingleSourceShortestPathBST.java,b/0/b023be6176b5a1be89a7cffb62591eb7bc2886a4
 ~
 Nsrc/main/java/com/marcinseweryn/algorithms/datastructures/tree/binary/BST.java,7/4/74ea4ec64d1b38cd9a0687f7ae8311b52125b864
 è
@@ -37,10 +35,6 @@ _src/main/java/com/marcinseweryn/algorithms/datastructures/tree/binary/BinaryTre
 Nsrc/main/java/com/marcinseweryn/algorithms/datastructures/tree/binary/AVL.java,d/c/dc795809338b9783c386eeeb566ae8f68491e27e
 ä
 Zsrc/main/java/com/marcinseweryn/algorithms/datastructures/tree/binary/BinaryTreeArray.java,2/9/29421a5affbe5b21f8422d38dea343c65c5c922e
-Ö
-Usrc/main/java/com/marcinseweryn/algorithms/graphs/list/DepthFirstSearchRecursive.java,2/f/2f1f380a21dfeb05b5e38123b4ff2889f1c68fa2
-~
-Nsrc/main/java/com/marcinseweryn/algorithms/graphs/list/BreadthFirstSearch.java,e/c/ecbda31719de39774e8839e3cb27e4d99174f851
 ~
 Nsrc/main/java/com/marcinseweryn/algorithms/datastructures/linkedlist/README.md,2/9/2935f98517665ebd3cd662e7dcfdb43c4008dda8
 ä
@@ -79,10 +73,5 @@ x
 Hsrc/main/java/com/marcinseweryn/algorithms/datastructures/tree/Trie.java,1/0/1013d85be5ebb06a19523d4f1d6b24a8658d3359
 x
 Hsrc/main/java/com/marcinseweryn/algorithms/datastructures/tree/README.md,2/5/25a2bf367994654c483e53e4c299137e175b103f
-:
-
-.gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
 v
 Fsrc/main/java/com/marcinseweryn/algorithms/searching/BinarySearch.java,e/1/e1abb9f3b7219881bd9bfb75561183f6275661fa
-{
-Ksrc/main/java/com/marcinseweryn/algorithms/graphs/matrix/FloydWarshall.java,b/8/b857b52f0ae89c9f62daf5f321d53eabba4735ec

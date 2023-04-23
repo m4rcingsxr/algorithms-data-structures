@@ -18,11 +18,35 @@ public class BellmanFordEdgeList {
         }
     }
 
+    /**
+     * Finds the shortest path from a given starting vertex to all other
+     * vertices in the graph using the Bellman-Ford algorithm.
+     * The graph is represented by an array of edges, and the number of
+     * vertices is given by the parameter N.
+     * The algorithm can handle graphs with negative edge weights but must
+     * not have negative weight cycles. If the graph
+     * contains a negative weight cycle, the algorithm can detect it and
+     * return a negative infinity value for at least one
+     * vertex distance.
+     *
+     * @param edges an array of edges representing the graph
+     * @param start the starting vertex for which to find the shortest paths
+     *              to all other vertices
+     * @param N     the number of vertices in the graph
+     * @return an array of doubles representing the shortest distances from
+     * the starting vertex to all other vertices.
+     *
+     * If a vertex is not reachable from the starting vertex, its distance is
+     * Double.POSITIVE_INFINITY. If the graph contains a negative weight cycle,
+     * the distance for at least one vertex is Double.NEGATIVE_INFINITY.
+     */
     public static double[] bellmanFord(Edge[] edges, int start, int N) {
         double[] distance = new double[N];
         Arrays.fill(distance, Double.POSITIVE_INFINITY);
         distance[start] = 0;
 
+        // Vertices - 1, does not matter in what order we process edges
+        // at the end we finish with the same result
         for (int i = 0; i < N - 1; i++) {
             for (Edge edge : edges) {
                 if (distance[edge.from] + edge.weight < distance[edge.to]) {

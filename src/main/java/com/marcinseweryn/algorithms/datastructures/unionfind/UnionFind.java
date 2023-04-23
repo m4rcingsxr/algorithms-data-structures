@@ -37,7 +37,7 @@ public class UnionFind {
     public UnionFind(int numElements) {
         if (numElements <= 0) {
             throw new IllegalArgumentException("Number of elements must be " +
-                                                       "positive.");
+                                                       "positive");
         }
 
         this.numElements = numComponents = numElements;
@@ -58,6 +58,7 @@ public class UnionFind {
      * to.
      */
     public int find(int element) {
+
         // Find the root of the component
         int root = element;
         while (root != parentElements[root]) {
@@ -109,6 +110,8 @@ public class UnionFind {
 
     // Unify the components/sets containing elements 'p' and 'q'
     public void unify(int p, int q) {
+
+        // find + path compression
         int root1 = find(p);
         int root2 = find(q);
 

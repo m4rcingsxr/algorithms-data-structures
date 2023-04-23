@@ -211,7 +211,17 @@ public class IndexedPriorityQueue<T extends Comparable<T>> {
         return value;
     }
 
-
+    /**
+     * Updates the element at the specified index in the heap with the
+     * specified value.
+     *
+     * @param elementIndex the index of the element to be updated
+     * @param value        the new value of the element
+     * @return the old value of the element before it was updated
+     * @throws IllegalArgumentException if the specified element index is out
+     *                                  of bounds or if the specified
+     *                                  value is null
+     */
     public T update(int elementIndex, T value) {
         keyExistsAndValueNotNullOrThrow(elementIndex, value);
         final int i = positionMap[elementIndex];

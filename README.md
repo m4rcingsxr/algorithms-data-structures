@@ -131,7 +131,9 @@ java -classpath c:\classdir;.;c:\archives\archive.jar MyProg
       - BREADTH-FIRST SEARCH [QUEUE](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/BreadthFirstSearch.java)
       - DEPTH-FIRST SEARCH [STACK](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/DepthFirstSearchStack.java) / [RECURSIVE](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/DepthFirstSearchRecursive.java)
       - TOPOLOGICAL SORT [RECURSIVE](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/TopologicalSortRecursive.java) /[STACK](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/TopologicalSortStack.java)
-      - SINGLE SOURCE SHORTEST PATH PROBLEM [BST](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/SingleSourceShortestPathBST.java)
+      - SINGLE SOURCE SHORTEST PATH PROBLEM 
+        - [BST](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/SingleSourceShortestPathBST.java)
+        - [BELLMAN FORD](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/BellmanFord.java)
       - ALL PAIRS SHORTEST PATH [FLOYD WARSHALL](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/FloydWarshall.java)
       - MINIMUM SPANNING TREE
         - [LAZY PRIM'S ALGORITHM](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/LazyPrim.java)

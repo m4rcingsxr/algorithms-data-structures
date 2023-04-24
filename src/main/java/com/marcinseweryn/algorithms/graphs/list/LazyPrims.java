@@ -2,7 +2,23 @@ package com.marcinseweryn.algorithms.graphs.list;
 
 import java.util.*;
 
+/**
+ * The LazyPrims class provides a static method for computing the Minimum
+ * Spanning Tree of an undirected weighted graph using the Lazy Prim's
+ * algorithm. The class also contains utility methods for creating and
+ * modifying a graph represented as an adjacency list.
+ */
 public class LazyPrims {
+
+    private LazyPrims() {
+    }
+
+    /**
+     * The Edge class represents a weighted edge in a graph.
+     * <p>
+     * It implements the Comparable interface to allow for sorting in a
+     * priority queue.
+     */
     public static class Edge implements Comparable<Edge> {
         int from;
         int to;
@@ -21,11 +37,7 @@ public class LazyPrims {
 
         @Override
         public String toString() {
-            return System.lineSeparator() + "Edge{" +
-                    "from=" + from +
-                    ", to=" + to +
-                    ", weight=" + weight +
-                    '}';
+            return System.lineSeparator() + "Edge{" + "from=" + from + ", " + "to=" + to + ", weight=" + weight + '}';
         }
 
         @Override
@@ -42,6 +54,12 @@ public class LazyPrims {
         }
     }
 
+    /**
+     * The Result class represents the result of the Prim's algorithm for
+     * computing the     Minimum Spanning Tree of a graph.     It contains
+     * the total weight of the MST and an array of Edge objects representing
+     * the MST.
+     */
     public static class Result {
 
         private final int mstSum;
@@ -64,6 +82,16 @@ public class LazyPrims {
         }
     }
 
+    /**
+     * Runs Prim's algorithm on the provided graph to find the minimum
+     * spanning tree.
+     *
+     * @param graph the graph to find the minimum spanning tree of
+     * @return a Result object containing the sum of the weights of the minimum
+     * spanning tree     and an array of Edge objects representing the edges
+     * in the
+     * minimum spanning tree   (null if the graph is disconnected)
+     */
     public static Result prims(List<List<Edge>> graph) {
         int mstSize = 0;
         int mstSum = 0;
@@ -96,6 +124,16 @@ public class LazyPrims {
         return new Result(mstSum, mst);
     }
 
+    /**
+     * Adds edges to the provided priority queue from the specified index in
+     * the graph, skipping edges that point to already visited nodes.
+     *
+     * @param graph   the graph to add edges from
+     * @param pq      the priority queue to add edges to
+     * @param index   the index of the node to add edges from
+     * @param visited a boolean array indicating whether each node has been
+     *                visited
+     */
     private static void addEdges(List<List<Edge>> graph, PriorityQueue<Edge> pq,
                                  int index, boolean[] visited) {
         visited[index] = true;
@@ -107,6 +145,12 @@ public class LazyPrims {
         }
     }
 
+    /**
+     * Creates a graph with the specified number of vertices.
+     *
+     * @param noVertices the number of vertices in the graph
+     * @return a List of Lists representing the graph (initially empty)
+     */
     public static List<List<Edge>> createGraph(int noVertices) {
         List<List<Edge>> graph = new ArrayList<>();
         for (int i = 0; i < noVertices; i++) {
@@ -115,11 +159,30 @@ public class LazyPrims {
         return graph;
     }
 
+    /**
+     * Adds a directed edge with the specified weight from the "from" vertex
+     * to the "to" vertex in the provided graph.
+     *
+     * @param graph  the graph to add the edge to
+     * @param from   the index of the "from" vertex
+     * @param to     the index of the "to" vertex
+     * @param weight the weight of the edge
+     */
     private static void addDirectedEdge(List<List<Edge>> graph, int from,
                                         int to, int weight) {
         graph.get(from).add(new Edge(from, to, weight));
     }
 
+    /**
+     * Adds an undirected edge with the specified weight between the "from"
+     * vertex and the "to" vertex
+     * in the provided graph.
+     *
+     * @param graph  the graph to add the edge to
+     * @param from   the index of the first vertex
+     * @param to     the index of the second vertex
+     * @param weight the weight of the edge
+     */
     public static void addUndirectedEdge(List<List<Edge>> graph, int from,
                                          int to, int weight) {
         addDirectedEdge(graph, from, to, weight);
@@ -176,5 +239,18 @@ public class LazyPrims {
         addDirectedEdge(g, 7, 5, 9);
         addDirectedEdge(g, 7, 6, 12);
         System.out.println(prims(g));
+
+        /*
+        Minimum Spanning Tree:
+        Edges:[
+        Edge{from=4, to=1, weight=0},
+        Edge{from=0, to=2, weight=1},
+        Edge{from=2, to=3, weight=2},
+        Edge{from=5, to=4, weight=1},
+        Edge{from=3, to=5, weight=2},
+        Edge{from=5, to=6, weight=6},
+        Edge{from=4, to=7, weight=8}]
+        Sum:20
+         */
     }
 }

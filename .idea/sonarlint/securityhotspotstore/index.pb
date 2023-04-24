@@ -87,8 +87,6 @@ Tsrc/main/java/com/marcinseweryn/algorithms/graphs/list/BellmanFordAdjacencyList
 Rsrc/main/java/com/marcinseweryn/algorithms/datastructures/unionfind/UnionFind.java,c/0/c0d25dd82ff049b69388f3e864570bc5eb9ad94b
 }
 Msrc/main/java/com/marcinseweryn/algorithms/datastructures/unionfind/README.md,3/5/35607e9cc1d946977d7dabf627b8c278cd137b47
-
-Osrc/main/java/com/marcinseweryn/algorithms/graphs/list/BellmanFordEdgeList.java,e/d/ed62ff734829cb973f9cbfba53a9900c9ff90212
 Ä
 Psrc/main/java/com/marcinseweryn/algorithms/graphs/list/TopologicalSortStack.java,2/3/230844dd0176a50a5f377b9f62e00d4464792b1f
 u
@@ -97,8 +95,6 @@ Esrc/main/java/com/marcinseweryn/algorithms/graphs/list/GraphNode.java,0/2/0211
 Ksrc/main/java/com/marcinseweryn/algorithms/graphs/list/KruskalEdgeList.java,5/c/5c86014cf69f5e69cb2c7f9d8a512c76cc7d78be
 {
 Ksrc/main/java/com/marcinseweryn/algorithms/graphs/list/TopologicalSort.java,3/1/317025ef111672fd7025e712397e536c04a38b65
-9
-	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 ~
 Nsrc/main/java/com/marcinseweryn/algorithms/graphs/list/BreadthFirstSearch.java,e/c/ecbda31719de39774e8839e3cb27e4d99174f851
 Å

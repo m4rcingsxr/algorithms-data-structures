@@ -133,6 +133,8 @@ java -classpath c:\classdir;.;c:\archives\archive.jar MyProg
       - TOPOLOGICAL SORT [RECURSIVE](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/TopologicalSortRecursive.java) /[STACK](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/TopologicalSortStack.java)
       - SINGLE SOURCE SHORTEST PATH PROBLEM [BST](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/SingleSourceShortestPathBST.java)
       - ALL PAIRS SHORTEST PATH [FLOYD WARSHALL](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/FloydWarshall.java)
+      - MINIMUM SPANNING TREE
+        - [LAZY PRIM'S ALGORITHM](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/LazyPrim.java)
     - [ADJACENCY LIST](src/main/java/com/marcinseweryn/algorithms/graphs/list/GraphList.java) 
         - BREADTH-FIRST SEARCH [BFS](src/main/java/com/marcinseweryn/algorithms/graphs/list/BreadthFirstSearch.java)
         - DEPTH-FIRST SEARCH [STACK](src/main/java/com/marcinseweryn/algorithms/graphs/list/DepthFirstSearchStack.java) / [RECURSIVE](src/main/java/com/marcinseweryn/algorithms/graphs/list/DepthFirstSearchRecursive.java)
@@ -144,4 +146,4 @@ java -classpath c:\classdir;.;c:\archives\archive.jar MyProg
             - [BELLMAN FORD(ADJACENCY LIST)](src/main/java/com/marcinseweryn/algorithms/graphs/list/BellmanFordAdjacencyList.java) / [BELLMAN FORD(EDGE LIST)](src/main/java/com/marcinseweryn/algorithms/graphs/list/BellmanFordEdgeList.java)
         - MINIMUM SPANNING TREE
           - [KRUSKAL'S ALGORITHM](src/main/java/com/marcinseweryn/algorithms/graphs/list/KruskalEdgeList.java)
-          - [LAZY PRIM'S ALGORITHM](src/main/java/com/marcinseweryn/algorithms/graphs/list/LazyPrim.java) / [EAGER PRIM'S ALGORITHM](src/main/java/com/marcinseweryn/algorithms/graphs/list/EagerPrim.java)
+          - [LAZY PRIM'S ALGORITHM](src/main/java/com/marcinseweryn/algorithms/graphs/list/LazyPrims.java) / [EAGER PRIM'S ALGORITHM](src/main/java/com/marcinseweryn/algorithms/graphs/list/EagerPrim.java)

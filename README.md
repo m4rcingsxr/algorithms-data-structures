@@ -144,3 +144,4 @@ java -classpath c:\classdir;.;c:\archives\archive.jar MyProg
             - [BELLMAN FORD(ADJACENCY LIST)](src/main/java/com/marcinseweryn/algorithms/graphs/list/BellmanFordAdjacencyList.java) / [BELLMAN FORD(EDGE LIST)](src/main/java/com/marcinseweryn/algorithms/graphs/list/BellmanFordEdgeList.java)
         - MINIMUM SPANNING TREE
           - [KRUSKAL'S ALGORITHM](src/main/java/com/marcinseweryn/algorithms/graphs/list/KruskalEdgeList.java)
+          - [LAZY PRIM'S ALGORITHM](src/main/java/com/marcinseweryn/algorithms/graphs/list/LazyPrim.java) / [EAGER PRIM'S ALGORITHM](src/main/java/com/marcinseweryn/algorithms/graphs/list/EagerPrim.java)

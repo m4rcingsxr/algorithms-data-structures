@@ -40,8 +40,7 @@ public class Lock {
         if (this.currentThread != Thread.currentThread()) {
             throw new IllegalMonitorStateException(
                     Thread.currentThread().getName() + " has not acquired " +
-                            "this" +
-                            " lock"
+                            "this lock"
             );
         }
         isLocked = false;

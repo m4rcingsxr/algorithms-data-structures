@@ -6,13 +6,22 @@ import java.util.Queue;
 /**
  * A fair lock implementation that ensures threads acquire the lock in the
  * order they request it.
+ * This implementation fix common problems:
+ * <ul>
+ *     <li>Nested Monitor lockout</li>
+ *     <li>Slipped conditions</li>
+ *     <li>Starvation</li>
+ * </ul>
  */
 public class FairLock {
 
     /**
-     * A helper object used to manage threads waiting for the lock.
+     * A helper object used to manage threads waiting for the lock.(Semaphore)
+     * Main purpose of this object is to avoid slipped conditions
      */
     private static class WaitObject {
+
+        // Avoid slipped condition
         private boolean isNotified;
 
         /**

@@ -1,4 +1,4 @@
-package com.marcinseweryn.algorithms.concurrency;
+package com.marcinseweryn.algorithms.concurrency.locks;
 
 /**
  * A simple Lock class that provides a lock and unlock mechanism.

@@ -17,7 +17,7 @@ public class CountingSemaphore {
      * @throws InterruptedException if the thread is interrupted while
      *                              waiting for a signal
      */
-    public synchronized void acquire() throws InterruptedException {
+    public synchronized void release() throws InterruptedException {
         while (countSignals == 0) {
             wait();
         }
@@ -28,7 +28,7 @@ public class CountingSemaphore {
      * Releases a signal to the semaphore, making it available for other
      * threads to acquire.
      */
-    public synchronized void release() {
+    public synchronized void acquire() {
         countSignals++;
         notify();
     }

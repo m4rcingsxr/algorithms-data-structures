@@ -5,12 +5,10 @@ import java.util.List;
 
 /**
  * This class provides methods for creating and performing depth-first search
- * (DFS)
- * on a graph using recursion. The class contains utility methods for
- * creating a graph
- * with a specified number of vertices, adding edges to the graph (both
- * directed and
- * undirected),and performing DFS on the graph starting from a specified vertex.
+ * (DFS) on a graph using recursion. The class contains utility methods for
+ * creating a graph with a specified number of vertices, adding edges to the
+ * graph (both directed and undirected),and performing DFS on the graph
+ * starting from a specified vertex.
  */
 public class DepthFirstSearchRecursive {
 

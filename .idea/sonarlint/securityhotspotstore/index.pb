@@ -17,8 +17,6 @@ u
 Esrc/main/java/com/marcinseweryn/algorithms/sorting/SelectionSort.java,b/7/b716f9c244d4b350876286405f32dd0d2dd33bb8
 y
 Isrc/test/java/com/marcinseweryn/algorithms/sorting/SelectionSortTest.java,7/1/71c40d8807864865bc301f3a46dcd1427a9d399c
-Å
-Qsrc/main/java/com/marcinseweryn/algorithms/graphs/list/DepthFirstSearchStack.java,a/5/a5abf3a83201af898f7d7e12a68f65493ef07fc2
 â
 Ysrc/main/java/com/marcinseweryn/algorithms/graphs/matrix/SingleSourceShortestPathBST.java,3/b/3b2222d797ddcbf0455bc2d07ad52ac330e5994b
 ~
@@ -79,8 +77,6 @@ Isrc/main/java/com/marcinseweryn/algorithms/graphs/list/EagerDijkstra.java,5/b/
 Ksrc/main/java/com/marcinseweryn/algorithms/graphs/matrix/FloydWarshall.java,b/8/b857b52f0ae89c9f62daf5f321d53eabba4735ec
 u
 Esrc/main/java/com/marcinseweryn/algorithms/graphs/list/GraphList.java,1/8/18046a9f380578a59123fc42fcdc415db2f67eb7
-Ö
-Usrc/main/java/com/marcinseweryn/algorithms/graphs/list/DepthFirstSearchRecursive.java,2/f/2f1f380a21dfeb05b5e38123b4ff2889f1c68fa2
 Ñ
 Tsrc/main/java/com/marcinseweryn/algorithms/graphs/list/BellmanFordAdjacencyList.java,8/7/8746d73749d4035a04b2e86d63359303002915ea
 Ç
@@ -93,8 +89,6 @@ u
 Esrc/main/java/com/marcinseweryn/algorithms/graphs/list/GraphNode.java,0/2/02112245dc5217fc235ae9cac17a7aaba462b6db
 {
 Ksrc/main/java/com/marcinseweryn/algorithms/graphs/list/KruskalEdgeList.java,5/c/5c86014cf69f5e69cb2c7f9d8a512c76cc7d78be
-{
-Ksrc/main/java/com/marcinseweryn/algorithms/graphs/list/TopologicalSort.java,3/1/317025ef111672fd7025e712397e536c04a38b65
 ~
 Nsrc/main/java/com/marcinseweryn/algorithms/graphs/list/BreadthFirstSearch.java,e/c/ecbda31719de39774e8839e3cb27e4d99174f851
 Å

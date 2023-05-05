@@ -124,7 +124,7 @@ java -classpath c:\classdir;.;c:\archives\archive.jar MyProg
     - [HEAP SORT](src/main/java/com/marcinseweryn/algorithms/sorting/HeapSort.java)
 
 - **SEARCHING**
-    - [BINARY SEARCHING](src/main/java/com/marcinseweryn/algorithms/searching/BinarySearch.java)
+    - [BINARY SEARCH](src/main/java/com/marcinseweryn/algorithms/searching/BinarySearch.java)
 
 - [GRAPHS](src/main/java/com/marcinseweryn/algorithms/graphs)
     - [ADJACENCY MATRIX](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/GraphMatrix.java)
@@ -149,3 +149,16 @@ java -classpath c:\classdir;.;c:\archives\archive.jar MyProg
         - MINIMUM SPANNING TREE
           - [KRUSKAL'S ALGORITHM](src/main/java/com/marcinseweryn/algorithms/graphs/list/KruskalEdgeList.java)
           - [LAZY PRIM'S ALGORITHM](src/main/java/com/marcinseweryn/algorithms/graphs/list/LazyPrims.java) / [EAGER PRIM'S ALGORITHM](src/main/java/com/marcinseweryn/algorithms/graphs/list/EagerPrim.java)
+
+- **Concurrency**
+    - **LOCKS**
+      - [SIMPLE LOCK](src/main/java/com/marcinseweryn/algorithms/concurrency/locks/Lock.java)
+      - [REENTRANT LOCK](src/main/java/com/marcinseweryn/algorithms/concurrency/locks/ReentrantLock.java)
+      - [FAIR LOCK](src/main/java/com/marcinseweryn/algorithms/concurrency/locks/FairLock.java)
+      - [READWRITE LOCK](src/main/java/com/marcinseweryn/algorithms/concurrency/locks/ReadWriteLock.java)
+    - **SEMAPHORES**
+      - [SIMPLE SEMAPHORE](src/main/java/com/marcinseweryn/algorithms/concurrency/semaphore/SimpleSemaphore.java)
+      - [COUNTING SEMAPHORE](src/main/java/com/marcinseweryn/algorithms/concurrency/semaphore/CountingSemaphore.java)
+      - [BOUNDED SEMAPHORE](src/main/java/com/marcinseweryn/algorithms/concurrency/semaphore/BoundedSemaphore.java)
+- [BLOCKING QUEUE](src/main/java/com/marcinseweryn/algorithms/concurrency/BlockingQueue.java)
+- [THREAD POOL](src/main/java/com/marcinseweryn/algorithms/concurrency/ThreadPool.java)

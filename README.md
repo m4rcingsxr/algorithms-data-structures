@@ -61,12 +61,12 @@ Get the test result report in html
 - Download and install [Java](https://www.oracle.com/pl/java/technologies/downloads/#java17)
 #### Setup folder structure
 1. Place your class files inside a directory—for example, /home/user/classdir.
-Note that this directory is the base directory for the package tree. If you
-add the class com.horstmann.corejava.Employee, then the Employee.class file must
-be located in the subdirectory /home/user/classdir/com/horstmann/corejava.
+   Note that this directory is the base directory for the package tree. If you
+   add the class com.horstmann.corejava.Employee, then the Employee.class file must
+   be located in the subdirectory /home/user/classdir/com/horstmann/corejava.
 2. Place any JAR files inside a directory—for example, /home/user/archives.
 3. Set the class path. The class path is the collection of all locations that can
-contain class files.
+   contain class files.
 #### Compile
 ```
 javac -classpath/jar MyProg.java
@@ -87,7 +87,7 @@ java -classpath c:\classdir;.;c:\archives\archive.jar MyProg
 # Data Structures
 
 - :link: [LINKED LIST](src/main/java/com/marcinseweryn/algorithms/datastructures/linkedlist)
-    - [DOUBLY LINKED LIST](src/main/java/com/marcinseweryn/algorithms/datastructures/linkedlist/LinkedList.java)
+    - [DOUBLY LINKED LIST](src/main/java/com/marcinseweryn/algorithms/datastructures/linkedlist/DoublyLinkedList.java)
     - [SINGLY LINKED LIST](src/main/java/com/marcinseweryn/algorithms/datastructures/linkedlist/SinglyLinkedList.java)
     - [SINGLY CIRCULAR LINKED LIST](src/main/java/com/marcinseweryn/algorithms/datastructures/linkedlist/CircularSinglyLinkedList.java)
     - [DOUBLY CIRCULAR LINKED LIST](src/main/java/com/marcinseweryn/algorithms/datastructures/linkedlist/CircularDoublyLinkedList.java)
@@ -100,19 +100,16 @@ java -classpath c:\classdir;.;c:\archives\archive.jar MyProg
 - :evergreen_tree: [TREE](src/main/java/com/marcinseweryn/algorithms/datastructures/tree)
     - [BINARY SEARCH TREE](src/main/java/com/marcinseweryn/algorithms/datastructures/tree/binary/BST.java)
     - [AVL TREE](src/main/java/com/marcinseweryn/algorithms/datastructures/tree/binary/AVL.java)
-    - [BINARY HEAP](src/main/java/com/marcinseweryn/algorithms/datastructures/tree/binary/BinaryHeap.java)
-    - [RED BLACK TREE](src/main/java/com/marcinseweryn/algorithms/datastructures/tree/binary/RedBlackTree.java)
     - [TRIE](src/main/java/com/marcinseweryn/algorithms/datastructures/tree/Trie.java)
 - :key: [HASHING - COLLISION RESOLUTION](src/main/java/com/marcinseweryn/algorithms/datastructures/hashing)
     - [SEPARATE CHAINING](src/main/java/com/marcinseweryn/algorithms/datastructures/hashing/SeparateChaining.java)
     - [LINEAR PROBING](src/main/java/com/marcinseweryn/algorithms/datastructures/hashing/LinearProbing.java)
     - [QUADRATIC PROBING](src/main/java/com/marcinseweryn/algorithms/datastructures/hashing/QuadraticProbing.java)
     - [DOUBLE HASHING](src/main/java/com/marcinseweryn/algorithms/datastructures/hashing/DoubleHashing.java)
-- [UNION FIND/DESCRIPTION](src/main/java/com/marcinseweryn/algorithms/datastructures/unionfind/README.md)
-  - [UNION FIND/SRC](src/main/java/com/marcinseweryn/algorithms/datastructures/unionfind/UnionFind.java)
 - [PRIORITY QUEUE](src/main/java/com/marcinseweryn/algorithms/datastructures/priorityqueue/README.md#priority-queue)
-    - [PRIORITY QUEUE FAST REMOVE](src/main/java/com/marcinseweryn/algorithms/datastructures/priorityqueue/PriorityQueue.java)
-    - [INDEXED PRIORITY QUEUE](src/main/java/com/marcinseweryn/algorithms/datastructures/priorityqueue/IndexedPriorityQueue.java)
+    - [BINARY HEAP FAST REMOVE](src/main/java/com/marcinseweryn/algorithms/datastructures/priorityqueue/PriorityQueue.java)
+    - [BINARY HEAP](src/main/java/com/marcinseweryn/algorithms/datastructures/tree/binary/BinaryHeap.java)
+    - [BINARY HEAP RECURSIVE](src/main/java/com/marcinseweryn/algorithms/datastructures/tree/binary/BinaryHeap.java)
 # Algorithms
 - [SORTING](src/main/java/com/marcinseweryn/algorithms/sorting)
     - [BUBBLE SORT](src/main/java/com/marcinseweryn/algorithms/sorting/BubbleSort.java)
@@ -124,28 +121,27 @@ java -classpath c:\classdir;.;c:\archives\archive.jar MyProg
     - [HEAP SORT](src/main/java/com/marcinseweryn/algorithms/sorting/HeapSort.java)
 
 - **SEARCHING**
-    - [BINARY SEARCHING](src/main/java/com/marcinseweryn/algorithms/searching/BinarySearch.java)
+    - [BINARY SEARCH](src/main/java/com/marcinseweryn/algorithms/searching/BinarySearch.java)
 
 - [GRAPHS](src/main/java/com/marcinseweryn/algorithms/graphs)
     - [ADJACENCY MATRIX](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/GraphMatrix.java)
-      - BREADTH-FIRST SEARCH [QUEUE](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/BreadthFirstSearch.java)
-      - DEPTH-FIRST SEARCH [STACK](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/DepthFirstSearchStack.java) / [RECURSIVE](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/DepthFirstSearchRecursive.java)
-      - TOPOLOGICAL SORT [RECURSIVE](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/TopologicalSortRecursive.java) /[STACK](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/TopologicalSortStack.java)
-      - SINGLE SOURCE SHORTEST PATH PROBLEM 
-        - [BST](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/SingleSourceShortestPathBST.java)
-        - [BELLMAN FORD](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/BellmanFord.java)
-      - ALL PAIRS SHORTEST PATH [FLOYD WARSHALL](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/FloydWarshall.java)
-      - MINIMUM SPANNING TREE
-        - [LAZY PRIM'S ALGORITHM](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/LazyPrim.java)
-    - [ADJACENCY LIST](src/main/java/com/marcinseweryn/algorithms/graphs/list/GraphList.java) 
+        - BREADTH-FIRST SEARCH [QUEUE](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/BreadthFirstSearch.java)
+        - DEPTH-FIRST SEARCH [STACK](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/DepthFirstSearchStack.java) / [RECURSIVE](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/DepthFirstSearchRecursive.java)
+        - TOPOLOGICAL SORT [RECURSIVE](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/TopologicalSortRecursive.java) /[STACK](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/TopologicalSortStack.java)
+        - SINGLE SOURCE SHORTEST PATH PROBLEM
+            - [BST](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/SingleSourceShortestPathBST.java)
+            - [BELLMAN FORD](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/BellmanFord.java)
+        - ALL PAIRS SHORTEST PATH [FLOYD WARSHALL](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/FloydWarshall.java)
+        - MINIMUM SPANNING TREE
+            - [LAZY PRIM'S ALGORITHM](src/main/java/com/marcinseweryn/algorithms/graphs/matrix/LazyPrim.java)
+    - [ADJACENCY LIST](src/main/java/com/marcinseweryn/algorithms/graphs/list/GraphList.java)
         - BREADTH-FIRST SEARCH [BFS](src/main/java/com/marcinseweryn/algorithms/graphs/list/BreadthFirstSearch.java)
         - DEPTH-FIRST SEARCH [STACK](src/main/java/com/marcinseweryn/algorithms/graphs/list/DepthFirstSearchStack.java) / [RECURSIVE](src/main/java/com/marcinseweryn/algorithms/graphs/list/DepthFirstSearchRecursive.java)
         - TOPOLOGICAL SORT [STACK](src/main/java/com/marcinseweryn/algorithms/graphs/list/TopologicalSortStack.java) / [RECURSIVE](src/main/java/com/marcinseweryn/algorithms/graphs/list/TopologicalSort.java)
-        - SINGLE SOURCE SHORTEST PATH PROBLEM 
-            - [BST](src/main/java/com/marcinseweryn/algorithms/graphs/list/SingleSourceShortestPathBST.java)
+        - SINGLE SOURCE SHORTEST PATH PROBLEM
+            - [BFS](src/main/java/com/marcinseweryn/algorithms/graphs/list/SingleSourceShortestPathBST.java)
             - [LAZY DIJKSTRA](src/main/java/com/marcinseweryn/algorithms/graphs/list/LazyDijkstra.java)
-            - [EAGER DIJKSTRA](src/main/java/com/marcinseweryn/algorithms/graphs/list/EagerDijkstra.java)
             - [BELLMAN FORD(ADJACENCY LIST)](src/main/java/com/marcinseweryn/algorithms/graphs/list/BellmanFordAdjacencyList.java) / [BELLMAN FORD(EDGE LIST)](src/main/java/com/marcinseweryn/algorithms/graphs/list/BellmanFordEdgeList.java)
         - MINIMUM SPANNING TREE
-          - [KRUSKAL'S ALGORITHM](src/main/java/com/marcinseweryn/algorithms/graphs/list/KruskalEdgeList.java)
-          - [LAZY PRIM'S ALGORITHM](src/main/java/com/marcinseweryn/algorithms/graphs/list/LazyPrims.java) / [EAGER PRIM'S ALGORITHM](src/main/java/com/marcinseweryn/algorithms/graphs/list/EagerPrim.java)
+            - [LAZY PRIM'S ALGORITHM](src/main/java/com/marcinseweryn/algorithms/graphs/list/LazyPrims.java) 
+

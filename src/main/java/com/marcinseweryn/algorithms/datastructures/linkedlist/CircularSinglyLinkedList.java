@@ -1,124 +1,159 @@
+
 package com.marcinseweryn.algorithms.datastructures.linkedlist;
 
-public class CircularSinglyLinkedList {
-    private Node head;
-    private Node tail;
+import java.util.Iterator;
+
+public class CircularSinglyLinkedList<T> implements LinkedList<T> {
+
+    protected Node<T> head;
+    protected Node<T> tail;
     private int size;
 
-    public void createCSLL(int value) {
-        Node node = new Node();
-        node.value = value;
-        head = node;
-        tail = node;
-        size = 1;
+    @Override
+    public boolean isEmpty() {
+        return this.size == 0;
     }
 
+    @Override
     public int size() {
         return this.size;
     }
 
-    public int get(int index) {
-        Node temp = head;
-        for (int i = 0; i < index; i++) {
-            temp = temp.next;
+    @Override
+    public T peekFirst() {
+        if(this.isEmpty()) return null;
+        return this.head.element;
+    }
+
+    @Override
+    public T peekLast() {
+        if(this.isEmpty()) return null;
+        return this.tail.element;
+    }
+
+    @Override
+    public void add(T element) {
+        this.addLast(element);
+    }
+
+    @Override
+    public void addLast(T element) {
+        this.add(this.size(), element);
+    }
+
+    @Override
+    public void addFirst(T element) {
+        this.add(0, element);
+    }
+
+    @Override
+    public void add(int index, T element) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException();
         }
-        if (temp == null) {
-            return -1;
+        Node<T> node = new Node<>(element);
+        if(this.isEmpty()) {
+            this.tail = this.head = node;
+            this.tail.next = this.head.previous = node;
         } else {
-            return temp.value;
+            if(index == 0) {
+                node.next = this.head;
+                tail.next = node;
+                this.head = node;
+            } else if (index == this.size()) {
+                this.tail.next = node;
+                node.next = this.head;
+                this.tail = node;
+            } else {
+                Node<T> current = this.findPrecedingElement(index);
+                node.next = current.next;
+                current.next = node;
+            }
         }
+        this.size++;
     }
 
-    public boolean isEmpty() {
-        return head == null;
-    }
-
-    public void add(int index, int value) {
-        Node node = new Node();
-        node.value = value;
-        if (isEmpty()) {
-            createCSLL(value);
-            return;
-        } else if (index == 0) {
-            node.next = head;
-            tail.next = node;
-            head = node;
-        } else if (index >= size) {
-            node.next = head;
-            tail.next = node;
-            tail = node;
-        } else {
-            Node tempNode = head;
-            for (int i = 0; i < index - 1; i++) {
-                tempNode = tempNode.next;
-            }
-            node.next = tempNode.next;
-            tempNode.next = node;
+    private Node<T> findPrecedingElement(int index) {
+        Node<T> current = this.head;
+        for (int i = 0; i < index - 1; i++) {
+            current = current.next;
         }
-        size++;
+        return current;
     }
 
-    public boolean remove(int index) {
-        if (isEmpty()) {
-            assert size == 0 : "size is not 0";
-            return false;
-        } else if (size == 1) {
-            head = null;
-            tail = null;
-        } else if (index == 0) {
-            head = head.next;
-            tail.next = head;
-        } else if (index >= size) {
-            Node tempNode = head;
-            for (int i = 0; i < size - 1; i++) {
-                tempNode = tempNode.next;
-            }
-            tempNode.next = head;
-            tail = tempNode;
-        } else {
-            Node tempNode = head;
-            for (int i = 0; i < index - 1; i++) {
-                tempNode = tempNode.next;
-            }
-            tempNode.next = tempNode.next.next;
-        }
-        size--;
-        return true;
-    }
-
-    public boolean search(int value) {
-        Node tempNode = head;
-        for (int i = 0; i < size - 1; i++) {
-            if (tempNode.value == value) {
-                return true;
-            }
-            tempNode = tempNode.next;
+    @Override
+    public boolean remove(T element) {
+        int index;
+        if((index = this.indexOf(element)) != -1) {
+            this.remove(index);
+            return true;
         }
         return false;
     }
 
-    public void deleteCSLL() {
-        head = null;
-        tail = null;
-        size = 0;
+    @Override
+    public T removeFirst() {
+        return this.remove(0);
     }
 
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        Node tempNode = head;
-        for (int i = 0; i < size; i++) {
-            sb.append(tempNode.value);
-            if (i < size - 1) {
-                sb.append("->");
-            }
-            tempNode = tempNode.next;
+    @Override
+    public T removeLast() {
+        return this.remove(this.size() - 1);
+    }
+
+    @Override
+    public T remove(int index) {
+        if (index < 0 || index >= this.size()) {
+            throw new IndexOutOfBoundsException();
         }
-        return sb.toString();
+
+        T temp;
+        if (index == 0) {
+            temp = this.head.element;
+            if(this.size() == 1) {
+                this.tail = this.head = null;
+            } else {
+                this.head = this.head.next;
+                this.tail.next = this.head;
+            }
+        } else if(index == this.size() - 1) {
+            Node<T> preceding = this.findPrecedingElement(index);
+            temp = this.tail.element;
+            preceding.next = this.head;
+            this.tail = preceding;
+        } else {
+            Node<T> preceding = this.findPrecedingElement(index);
+            temp = preceding.next.element;
+            preceding.next = preceding.next.next;
+        }
+        this.size--;
+        return temp;
     }
 
-    private static class Node {
-        private Node next;
-        private int value;
+    @Override
+    public boolean contains(T element) {
+        return this.indexOf(element) != -1;
     }
 
+    @Override
+    public int indexOf(T element) {
+        if (this.isEmpty()) return -1;  // Return -1 if the list is empty
+
+        Node<T> current = this.head;
+
+        for (int i = 0; i < this.size(); i++) {
+            if ((current.element != null && current.element.equals(element)) ||
+                    (current.element == null && element == null)) {
+                return i;
+            }
+            current = current.next;
+        }
+
+        return -1;  // Element not found
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new LinkedListIterator<>(this.head);
+    }
 }

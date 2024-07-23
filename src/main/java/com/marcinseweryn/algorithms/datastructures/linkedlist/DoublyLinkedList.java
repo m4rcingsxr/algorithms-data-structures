@@ -3,34 +3,35 @@ package com.marcinseweryn.algorithms.datastructures.linkedlist;
 import java.util.Iterator;
 
 /**
- * A generic singly linked list implementation that supports basic operations such as adding, removing,
- * and searching for elements. This list allows for efficient insertion and removal at the beginning
- * and end of the list, but is less efficient for middle insertions and deletions.
+ * A generic doubly linked list implementation that supports basic operations such as adding,
+ * removing, and searching for elements.
  *
- * @param <T> the type of elements held in this SinglyLinkedList
+ * @param <T> the type of elements held in this LinkedList
  */
-public class SinglyLinkedList<T> implements LinkedList<T> {
+public class DoublyLinkedList<T> implements LinkedList<T> {
 
     private Node<T> head;
     private Node<T> tail;
     private int size;
 
     /**
-     * Returns the number of elements in the linked list.
-     *
-     * @return the number of elements in the linked list
-     */
-    public int size() {
-        return this.size;
-    }
-
-    /**
      * Checks if the linked list is empty.
      *
      * @return true if the linked list contains no elements, false otherwise
      */
+    @Override
     public boolean isEmpty() {
-        return this.size() == 0;
+        return size == 0;
+    }
+
+    /**
+     * Returns the number of elements in the linked list.
+     *
+     * @return the number of elements in the linked list
+     */
+    @Override
+    public int size() {
+        return this.size;
     }
 
     /**
@@ -38,8 +39,9 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
      *
      * @return the first element of the linked list, or null if the list is empty
      */
+    @Override
     public T peekFirst() {
-        if (this.isEmpty()) return null;
+        if (this.size() == 0) return null;
         return this.head.element;
     }
 
@@ -48,8 +50,9 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
      *
      * @return the last element of the linked list, or null if the list is empty
      */
+    @Override
     public T peekLast() {
-        if (this.isEmpty()) return null;
+        if (this.size() == 0) return null;
         return this.tail.element;
     }
 
@@ -58,6 +61,7 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
      *
      * @param element the element to be added to the list
      */
+    @Override
     public void add(T element) {
         this.addLast(element);
     }
@@ -67,6 +71,7 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
      *
      * @param element the element to be added to the list
      */
+    @Override
     public void addLast(T element) {
         this.add(this.size(), element);
     }
@@ -76,6 +81,7 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
      *
      * @param element the element to be added to the list
      */
+    @Override
     public void addFirst(T element) {
         this.add(0, element);
     }
@@ -87,32 +93,41 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
      * @param element the element to be inserted
      * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index > size)
      */
+    @Override
     public void add(int index, T element) {
-        if (index < 0 || index > this.size()) {
+        if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException();
         }
 
         Node<T> node = new Node<>(element);
-
         // If the list is empty, initialize head and tail
         if (this.isEmpty()) {
-            this.head = this.tail = node;
+            this.head = node;
+            this.tail = node;
             this.size = 1;
         } else {
             // Insert at the beginning
             if (index == 0) {
                 node.next = this.head;
+                this.head.previous = node;
                 this.head = node;
             }
             // Insert at the end
             else if (index == this.size()) {
                 this.tail.next = node;
+                node.previous = tail;
                 this.tail = node;
             }
             // Insert in the middle
             else {
-                Node<T> current = findPrecedingElement(index);
+                Node<T> current = this.head;
+                for (int i = 0; i < index - 1; i++) {
+                    current = current.next;
+                }
+
+                node.previous = current;
                 node.next = current.next;
+                current.next.previous = node;
                 current.next = node;
             }
             this.size++;
@@ -125,6 +140,7 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
      * @param element the element to be removed
      * @return true if the list contained the specified element, false otherwise
      */
+    @Override
     public boolean remove(T element) {
         int index;
         if ((index = this.indexOf(element)) != -1) {
@@ -137,21 +153,23 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
     /**
      * Removes and returns the first element from the linked list.
      *
-     * @return the first element of the linked list
+     * @return the first element of the linked list, or null if the list is empty
      * @throws IndexOutOfBoundsException if the list is empty
      */
+    @Override
     public T removeFirst() {
-        return this.remove(0);
+        return remove(0);
     }
 
     /**
      * Removes and returns the last element from the linked list.
      *
-     * @return the last element of the linked list
+     * @return the last element of the linked list, or null if the list is empty
      * @throws IndexOutOfBoundsException if the list is empty
      */
+    @Override
     public T removeLast() {
-        return this.remove(this.size() - 1);
+        return remove(this.size() - 1);
     }
 
     /**
@@ -161,6 +179,7 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
      * @return the element previously at the specified index
      * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size)
      */
+    @Override
     public T remove(int index) {
         if (index < 0 || index >= this.size()) {
             throw new IndexOutOfBoundsException();
@@ -171,42 +190,33 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
         if (index == 0) {
             temp = this.head.element;
             if (this.size() == 1) {
-                this.head = this.tail = null;
+                this.tail = this.head = null;
+                this.size = 0;
+                return temp;
             } else {
                 this.head = this.head.next;
+                this.head.previous = null;
             }
         }
         // Remove the last element
         else if (index == this.size() - 1) {
             temp = this.tail.element;
-            this.tail = this.findPrecedingElement(index);
+            this.tail = this.tail.previous;
             this.tail.next = null;
         }
         // Remove an element from the middle
         else {
-            Node<T> preceding = this.findPrecedingElement(index);
-            temp = preceding.next.element;
-            preceding.next = preceding.next.next;
+            Node<T> current = this.head;
+            for (int i = 0; i < index - 1; i++) {
+                current = current.next;
+            }
+            temp = current.next.element;
+            current.next = current.next.next;
+            current.next.previous = current;
         }
 
-        this.size--;
+        size--;
         return temp;
-    }
-
-    /**
-     * Finds the node that precedes the element at the specified index.
-     *
-     * @param index the index of the target element
-     * @return the node preceding the target element
-     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size)
-     */
-    private Node<T> findPrecedingElement(int index) {
-        Node<T> current = this.head;
-        // Traverse the list to find the preceding node
-        for (int i = 0; i < index - 1; i++) {
-            current = current.next;
-        }
-        return current;
     }
 
     /**
@@ -215,6 +225,7 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
      * @param element the element to be checked for presence in the list
      * @return true if the list contains the specified element, false otherwise
      */
+    @Override
     public boolean contains(T element) {
         return this.indexOf(element) != -1;
     }
@@ -223,7 +234,8 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
      * Returns the index of the first occurrence of the specified element in the linked list.
      *
      * @param element the element to search for
-     * @return the index of the first occurrence of the specified element, or -1 if the element is not found
+     * @return the index of the first occurrence of the specified element, or -1 if the element
+     * is not found
      */
     @Override
     public int indexOf(T element) {
@@ -242,11 +254,6 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
         return current != null ? i : -1;
     }
 
-    /**
-     * Returns an iterator over the elements in this linked list in proper sequence.
-     *
-     * @return an iterator over the elements in this linked list
-     */
     @Override
     public Iterator<T> iterator() {
         return new LinkedListIterator<>(this.head);

@@ -11,31 +11,26 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CircularDoublyLinkedListTest {
+class DoublyLinkedListTest {
 
     @Test
     void givenNewLinkedList_whenCreated_thenShouldBeEmpty() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         assertTrue(list.isEmpty());
         assertEquals(0, list.size());
     }
 
     @Test
     void givenSingleElement_whenAdded_thenShouldPeekFirstAndLastCorrectly() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         list.add(10);
         assertEquals(10, list.peekFirst());
         assertEquals(10, list.peekLast());
-
-        // Ensure circular property for a single element
-        assertSame(list.head, list.tail);
-        assertSame(list.head, list.head.next);
-        assertSame(list.head, list.head.previous);
     }
 
     @Test
     void givenSingleElement_whenRemoved_thenShouldBeEmpty() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         list.add(10);
         list.removeFirst();
         assertTrue(list.isEmpty());
@@ -43,39 +38,29 @@ class CircularDoublyLinkedListTest {
     }
 
     @Test
-    void givenEmptyList_whenRemoveFirstCalled_thenShouldReturnNull() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
-        assertNull(list.removeFirst());
+    void givenEmptyList_whenRemoveFirstCalled_thenShouldThrowException() {
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+        assertThrows(IndexOutOfBoundsException.class, list::removeFirst);
     }
 
     @Test
-    void givenEmptyList_whenRemoveLastCalled_thenShouldReturnNull() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
-        assertNull(list.removeLast());
+    void givenEmptyList_whenRemoveLastCalled_thenShouldThrowException() {
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+        assertThrows(IndexOutOfBoundsException.class, list::removeLast);
     }
 
     @Test
     void givenEmptyList_whenAddFirstCalled_thenShouldAddElementAtStart() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         list.addFirst(10);
         assertEquals(10, list.peekFirst());
-
-        // Ensure circular property for a single element
-        assertSame(list.head, list.tail);
-        assertSame(list.head, list.head.next);
-        assertSame(list.head, list.head.previous);
     }
 
     @Test
     void givenEmptyList_whenAddLastCalled_thenShouldAddElementAtEnd() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         list.addLast(10);
         assertEquals(10, list.peekLast());
-
-        // Ensure circular property for a single element
-        assertSame(list.head, list.tail);
-        assertSame(list.head, list.head.next);
-        assertSame(list.head, list.head.previous);
     }
 
     static Stream<Arguments> givenInitialArrayAndElement_whenAddCalled_thenShouldAddElementAtCorrectIndex() {
@@ -91,7 +76,7 @@ class CircularDoublyLinkedListTest {
     @MethodSource
     void givenInitialArrayAndElement_whenAddCalled_thenShouldAddElementAtCorrectIndex(
             Integer[] initialArray, int index, Integer element, Integer[] expected) {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
 
         for (Integer i : initialArray) {
             list.add(i);
@@ -99,23 +84,9 @@ class CircularDoublyLinkedListTest {
 
         list.add(index, element);
         assertArrayEquals(expected, toArray(list));
-
-        // Ensure circular property and correct connections
-        assertSame(list.tail.next, list.head);
-        assertSame(list.head.previous, list.tail);
-        checkConnections(list);
     }
 
-    private void checkConnections(CircularDoublyLinkedList<Integer> list) {
-        Node<Integer> current = list.head;
-        for (int i = 0; i < list.size(); i++) {
-            assertSame(current, current.next.previous);
-            assertSame(current, current.previous.next);
-            current = current.next;
-        }
-    }
-
-    private Integer[] toArray(CircularDoublyLinkedList<Integer> list) {
+    private Integer[] toArray(DoublyLinkedList<Integer> list) {
         Integer[] array = new Integer[list.size()];
         int i = 0;
         for (Integer elem : list) {
@@ -126,7 +97,7 @@ class CircularDoublyLinkedListTest {
 
     @Test
     void givenInvalidIndex_whenAddCalled_thenShouldThrowException() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         assertThrows(IndexOutOfBoundsException.class, () -> list.add(-1, 10));
         assertThrows(IndexOutOfBoundsException.class, () -> list.add(1, 10));
     }
@@ -144,7 +115,8 @@ class CircularDoublyLinkedListTest {
     void givenInitialArrayAndIndex_whenRemoveCalled_thenShouldRemoveCorrectElement(
             Integer[] initialArray, int index, Integer expectedRemovedElement,
             Integer[] expectedList) {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+
 
         for (Integer i : initialArray) {
             list.add(i);
@@ -153,18 +125,11 @@ class CircularDoublyLinkedListTest {
         Integer removedElement = list.remove(index);
         assertEquals(expectedRemovedElement, removedElement);
         assertArrayEquals(expectedList, toArray(list));
-
-        // Ensure circular property and correct connections
-        if (!list.isEmpty()) {
-            assertSame(list.tail.next, list.head);
-            assertSame(list.head.previous, list.tail);
-            checkConnections(list);
-        }
     }
 
     @Test
     void givenNonEmptyList_whenRemoveElementNotPresent_thenShouldReturnFalse() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         list.add(10);
         list.add(20);
         assertFalse(list.remove(Integer.valueOf(30)));
@@ -172,21 +137,16 @@ class CircularDoublyLinkedListTest {
 
     @Test
     void givenNonEmptyList_whenRemoveElementPresent_thenShouldReturnTrueAndRemoveElement() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         list.add(10);
         list.add(20);
         assertTrue(list.remove(Integer.valueOf(20)));
         assertFalse(list.contains(20));
-
-        // Ensure circular property and correct connections
-        assertSame(list.tail.next, list.head);
-        assertSame(list.head.previous, list.tail);
-        checkConnections(list);
     }
 
     @Test
     void givenNonEmptyList_whenPeekFirst_thenShouldReturnFirstElement() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         list.add(10);
         list.add(20);
         assertEquals(10, list.peekFirst());
@@ -194,7 +154,7 @@ class CircularDoublyLinkedListTest {
 
     @Test
     void givenNonEmptyList_whenPeekLast_thenShouldReturnLastElement() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         list.add(10);
         list.add(20);
         assertEquals(20, list.peekLast());
@@ -202,10 +162,11 @@ class CircularDoublyLinkedListTest {
 
     @Test
     void givenEmptyList_whenPeekFirstOrLast_thenShouldReturnNull() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         assertNull(list.peekFirst());
         assertNull(list.peekLast());
     }
+
 
     static Stream<Arguments> givenInitialArrayAndElement_whenSearchCalled_thenShouldReturnCorrectResults() {
         return Stream.of(
@@ -219,7 +180,8 @@ class CircularDoublyLinkedListTest {
     @MethodSource
     void givenInitialArrayAndElement_whenSearchCalled_thenShouldReturnCorrectResults(
             Integer[] initialArray, Integer element, int expectedIndex, boolean expectedContains) {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+
 
         for (Integer i : initialArray) {
             list.add(i);
@@ -231,33 +193,33 @@ class CircularDoublyLinkedListTest {
 
     @Test
     void givenEmptyList_whenSearchElement_thenShouldReturnMinusOne() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         assertEquals(-1, list.indexOf(10));
     }
 
     @Test
     void givenNonEmptyList_whenCheckElementExists_thenShouldReturnTrue() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         list.add(10);
         assertTrue(list.contains(10));
     }
 
     @Test
     void givenNonEmptyList_whenCheckElementDoesNotExist_thenShouldReturnFalse() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         list.add(10);
         assertFalse(list.contains(20));
     }
 
     @Test
     void givenEmptyList_whenCheckAnyElement_thenShouldReturnFalse() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         assertFalse(list.contains(10));
     }
 
     @Test
     void givenNonEmptyList_whenIterate_thenShouldTraverseInCorrectOrder() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         list.add(10);
         list.add(20);
         list.add(30);
@@ -272,7 +234,7 @@ class CircularDoublyLinkedListTest {
 
     @Test
     void givenNonEmptyList_whenExhaustIterator_thenShouldThrowException() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         list.add(10);
         Iterator<Integer> iterator = list.iterator();
         iterator.next();
@@ -281,28 +243,28 @@ class CircularDoublyLinkedListTest {
 
     @Test
     void givenEmptyList_whenIterate_thenHasNextShouldReturnFalse() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         Iterator<Integer> iterator = list.iterator();
         assertFalse(iterator.hasNext());
     }
 
     @Test
     void givenEmptyList_whenNextCalled_thenShouldThrowException() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         Iterator<Integer> iterator = list.iterator();
         assertThrows(NoSuchElementException.class, iterator::next);
     }
 
     @Test
     void givenNullElement_whenAddedToList_thenShouldBeHandledCorrectly() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         list.add(null);
         assertTrue(list.contains(null));
     }
 
     @Test
     void givenNullElementInList_whenRemoved_thenShouldRemoveCorrectly() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         list.add(null);
         assertTrue(list.remove(null));
         assertFalse(list.contains(null));
@@ -310,23 +272,18 @@ class CircularDoublyLinkedListTest {
 
     @Test
     void givenLargeNumberOfElements_whenAdded_thenShouldHandleCorrectly() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         for (int i = 0; i < 10000; i++) {
             list.add(i);
         }
         assertEquals(10000, list.size());
         assertEquals(0, list.peekFirst());
         assertEquals(9999, list.peekLast());
-
-        // Ensure circular property and correct connections
-        assertSame(list.tail.next, list.head);
-        assertSame(list.head.previous, list.tail);
-        checkConnections(list);
     }
 
     @Test
     void givenLargeNumberOfElements_whenRemoved_thenShouldHandleCorrectly() {
-        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         for (int i = 0; i < 10000; i++) {
             list.add(i);
         }

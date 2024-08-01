@@ -3,319 +3,235 @@ package com.marcinseweryn.algorithms.datastructures.hashing;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
 /**
- * Class represent an implementation of a HashTable that's
- * using separate chaining for collision resolution. To proper
- * work of this hashtable key object must override equals and
- * hashcode. Collision occurs if keys are unequal and hashFunction
- * generate the same hashValue that represent index of associative
- * array
+ * The SeparateChaining class represents a hash table implemented using separate chaining.
+ * This hash table allows for inserting, searching, and deleting key-value pairs.
+ * It uses a hash function that leverages the hashCode() method of the key objects
+ * to compute the bucket index. When the load factor of the hash table exceeds 0.75,
+ * the hash table is rehashed to double its original size.
  *
- * @param <K> key
- * @param <V> value
- * @see Object#equals(Object)
- * @see Object#hashCode()
+ * This class also includes methods for calculating the load factor, checking the
+ * size and emptiness of the table, and converting the hash table to a string representation.
+ *
+ * @param <K> the type of keys maintained by this hash table
+ * @param <V> the type of mapped values
  */
-public class SeparateChaining<K, V>
-        implements Iterable<SeparateChaining.Entry<K, V>> {
+public class SeparateChaining<K, V> implements HashTable<K, V> {
+
+    private static final int INITIAL_CAPACITY = 16;  // Initial size of the hash table
+    private static final double LOAD_FACTOR_THRESHOLD = 0.75;  // Threshold for resizing
+    private int size;  // Number of key-value pairs in the hash table
+    private int capacity;  // Current capacity of the hash table
+    protected LinkedList<Entry<K, V>>[] hashTable;  // Array of linked lists to store key-value pairs
 
     /**
-     * Compile time constant represent default load factor
-     */
-    private static final double LOAD_FACTOR = 0.80;
-
-    /**
-     * Compile time constant represent default capacity
-     * of HashTable
-     */
-    private static final int DEFAULT_CAPACITY = 5;
-    private LinkedList<Entry<K, V>>[] hashTable;
-    private final double loadFactor;
-    private int capacity;
-    private int size;
-    private int maxElementToResize;
-
-    /**
-     * Constructs a new, empty hashtable with the specified initial capacity
-     * and the specified load factor.
-     *
-     * @param loadFactor decide when to resize HashTable
-     * @param capacity   of the HashTable
-     * @throws IllegalArgumentException for wrong arguments of loadFactor
-     *                                  and capacity
-     */
-    public SeparateChaining(double loadFactor, int capacity) {
-        if (loadFactor <= 0 || Double.isInfinite(loadFactor) || Double.isNaN(
-                loadFactor)) {
-            throw new IllegalArgumentException("loadFactor(" + loadFactor +
-                                                       ") - illegal argument");
-        } else if (capacity < 0) {
-            throw new IllegalArgumentException("capacity(" + capacity + ") - " +
-                                                       "illegal argument");
-        }
-        this.size = 0;
-        this.loadFactor = loadFactor;
-        this.capacity = capacity;
-        this.maxElementToResize = (int) (loadFactor * capacity);
-        this.hashTable = new LinkedList[capacity];
-    }
-
-    /**
-     * Constructs a new, empty hashtable with default initial
-     * capacity and default load factor
+     * Constructs an empty hash table with an initial capacity of 16.
      */
     public SeparateChaining() {
-        this(LOAD_FACTOR, DEFAULT_CAPACITY);
+        this.capacity = INITIAL_CAPACITY;
+        this.size = 0;
+        this.hashTable = new LinkedList[this.capacity];
     }
 
     /**
-     * Maps specified key to specified value in this HashTable.
-     * Key and Value cannot be null. If some value already
-     * occurs for specified keys then values will be replaced
+     * Inserts a key-value pair into the hash table.
+     * If the key already exists, the value is updated.
+     * Resizes the table if the load factor exceeds the threshold.
      *
-     * @param key   - Entry key
-     * @param value - Entry value
-     * @return The previous value of the specified key in HashTable
-     * or NULL if entry with this key does not exist
+     * @param key   the key to insert
+     * @param value the value associated with the key
+     * @throws IllegalArgumentException if the key is null
      */
-    public V put(K key, V value) {
-        return insert(key, value);
-    }
-
-    private V insert(K key, V value) {
-        if (value == null || key == null) {
-            throw new NullPointerException("Key & value != null");
-        }
-
-        Entry<K, V> entry = new Entry<>(key, value);
-        int hash = key.hashCode();
-
-        // 2's complement representation (positive/negative int) &
-        // 0x7FFFFFFF(max integer(2^31-1) - most significant bit == 0 (sign bit)
-        // in case of positive integers) with bitwise operator we make sure
-        // that index is always positive [0, cap). Always in capacity with %
-        int index = (hash & 0x7FFFFFFF) % hashTable.length;
-
-        return insertEntry(entry, index);
-    }
-
-    private V insertEntry(Entry<K, V> entry, int index) {
-        LinkedList<Entry<K, V>> bucket = hashTable[index]; // bucket might
-        // reference to null
-        K key = entry.key;
-
-        // Make sure that if we invoke getEntry then null will
-        // be returned <=> if LL does not contains element
-        if (bucket == null) {
-            hashTable[index] = new LinkedList<>();
-            // Reinitialize bucket cuz might reference to null
-            bucket = hashTable[index];
-            assert bucket != null;
-        }
-        Entry<K, V> current = getEntry(index, key);
-
-        // Entry does not exist in LL
-        if (current == null) {
-            bucket.add(entry);
-            size++;
-            if (size > maxElementToResize) {
-                resizeTable();
-            }
-
-            // indicate that entry with this key does not exist
-            return null;
-        } else {
-            V old = current.value;
-            current.value = entry.value;
-            return old;
-        }
-    }
-
-    /**
-     * Remove entry with specified key. Return value of
-     * the key pair if entry does exist. Return null if
-     * entry does not exist
-     *
-     * @param key - Entry key
-     * @return value pair of key if entry exist or null
-     * if entry with specified key does not exist
-     * @throws NullPointerException if provided key is null
-     */
-    public V remove(K key) {
-        // hash table do not accept null keys
+    @Override
+    public void put(K key, V value) {
         if (key == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("Key cannot be null");
         }
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % hashTable.length;
-        return removeEntry(index, key);
+
+        // Resize the table if the load factor exceeds the threshold
+        if (size >= capacity * LOAD_FACTOR_THRESHOLD) {
+            this.resize();
+        }
+
+        int index = this.hash(key);  // Compute the hash index for the key
+        if (hashTable[index] == null) {
+            hashTable[index] = new LinkedList<>();
+        }
+
+        // Check if the key already exists and update the value
+        for (Entry<K, V> entry : hashTable[index]) {
+            if (entry.key.equals(key)) {
+                entry.value = value;
+                return;
+            }
+        }
+
+        // If key does not exist, add a new entry to the linked list
+        hashTable[index].add(new Entry<>(key, value));
+        size++;
     }
 
-    private V removeEntry(int index, K key) {
-        Entry<K, V> entryToRemove = getEntry(index, key);
-        if (entryToRemove != null) {
-            LinkedList<Entry<K, V>> current = hashTable[index];
-            current.remove(entryToRemove);
-            size--;
-            return entryToRemove.value;
-        } else {
-            return null;
-        }
-    }
-
-    private void resizeTable() {
+    /**
+     * Resizes the hash table to double its current capacity.
+     * Rehashes all existing key-value pairs to the new table.
+     */
+    private void resize() {
         this.capacity *= 2;
-        this.maxElementToResize = (int) (this.loadFactor * capacity);
+        LinkedList<Entry<K, V>>[] oldTable = this.hashTable;
+        this.hashTable = new LinkedList[this.capacity];
+        this.size = 0;
 
-        LinkedList<Entry<K, V>>[] temp = hashTable;
-        hashTable = Arrays.copyOf(hashTable, capacity);
-
-        for (LinkedList<Entry<K, V>> entries : temp) {
-            if (entries != null) {
-                for (Entry<K, V> entry : entries) {
-                    int hash = entry.key.hashCode();
-                    int index = (hash & 0x7FFFFFFF) % hashTable.length;
-                    LinkedList<Entry<K, V>> bucket = hashTable[index];
-                    if (bucket == null) {
-                        hashTable[index] = new LinkedList<>();
-
-                        // Earlier might be null
-                        bucket = hashTable[index];
-                    }
-                    bucket.add(entry);
+        // Rehash all non-null entries from the old table into the new table
+        for (LinkedList<Entry<K, V>> bucket : oldTable) {
+            if (bucket != null) {
+                for (Entry<K, V> entry : bucket) {
+                    this.put(entry.key, entry.value);
                 }
             }
         }
     }
 
     /**
-     * Returns the value to which the specified key is mapped,
-     * or {@code null} if this map contains no mapping for the key.
+     * Computes the hash index for a given key using a bit-mixing algorithm.
+     * The hash code is computed using the key's hashCode() method.
+     * The high bits are mixed into the low bits to ensure a more uniform distribution.
+     *
+     * Hash function explanation:
+     * - Computes the hash code of the key.
+     * - Right shifts the hash code by 16 bits (moving high bits to lower positions).
+     * - XORs the original hash code with its shifted version to mix bits.
+     * - Applies a bitwise AND with (capacity - 1) to ensure the index is within bounds.
+     *
+     * @param key the key to hash
+     * @return the computed hash index
+     */
+    private int hash(K key) {
+        int h = key.hashCode();  // Get the hash code from the key
+        // Mix the hash bits and use bitwise AND to keep index within the capacity
+        return (h ^ (h >>> 16)) & (capacity - 1);
+    }
+
+    /**
+     * Retrieves the value associated with the specified key from the hash table.
+     * If the key does not exist, returns null.
      *
      * @param key the key whose associated value is to be returned
-     * @return the value to which the specified key is mapped, or
-     * {@code null} if this map contains no mapping for the key
-     * @throws NullPointerException if the specified key is null
+     * @return the value associated with the key, or null if the key is not found
      */
+    @Override
     public V get(K key) {
         if (key == null) {
-            throw new NullPointerException("Key cannot be null");
-        }
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % hashTable.length;
-        Entry<K, V> entry = getEntry(index, key);
-        return entry != null ? entry.value : null;
-    }
-
-    // Return null if LL is not created or key does not exist
-    private Entry<K, V> getEntry(int index, K key) {
-        LinkedList<Entry<K, V>> bucket = hashTable[index];
-        if (bucket == null) {
             return null;
         }
-        for (Entry<K, V> entry : hashTable[index]) {
-            if (key.equals(entry.key)) {
-                return entry;
-            }
-        }
-        return null;
-    }
 
-    /**
-     * Return {@code true} if specified key is mapped, or
-     * {@code false} if this map contains no mapping for the key
-     *
-     * @param key the key to check if associated value pair exist
-     * @return {@code true} if specified key is mapped, or
-     * {@code false} if this map contains no mapping for the key
-     * @throws NullPointerException if the specified key is null
-     */
-    public boolean containsKey(K key) {
-        if (key == null) {
-            throw new NullPointerException("Key cannot be null");
-        }
-        return keyMapExist(key);
-    }
-
-    private boolean keyMapExist(K key) {
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % hashTable.length;
-        return getEntry(index, key) != null;
-    }
-
-
-    /**
-     * Return {@code true} if this HashTable is empty
-     *
-     * @return {@code true} if this HashTable is empty
-     */
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    /**
-     * Return an iterator over hashtable pairs
-     *
-     * @return an iterator over hashtable pairs
-     */
-    @Override
-    public Iterator<Entry<K, V>> iterator() {
-        return getEntryList().iterator();
-    }
-
-    /**
-     * Return String representation of this HashTable
-     *
-     * @return String representation of this HashTable
-     */
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        Iterator<Entry<K, V>> tabIterator = iterator();
-        sb.append("[");
-        while (tabIterator.hasNext()) {
-            sb.append(tabIterator.next() + ",");
-        }
-        sb.deleteCharAt(sb.length() - 1);
-        sb.append("]");
-        return sb.toString();
-    }
-
-    private LinkedList<Entry<K, V>> getEntryList() {
-        LinkedList<Entry<K, V>> list = new LinkedList<>();
-        for (LinkedList<Entry<K, V>> entries : hashTable) {
-            if (entries != null) {
-                for (Entry<K, V> entry : entries) {
-                    list.add(entry);
+        int index = hash(key);  // Compute the hash index for the key
+        LinkedList<Entry<K, V>> bucket = hashTable[index];
+        if (bucket != null) {
+            for (Entry<K, V> entry : bucket) {
+                if (entry.key.equals(key)) {
+                    return entry.value;  // Return the value if key is found
                 }
             }
         }
-        return list;
+
+        return null;  // Return null if the key is not found
     }
 
-
-    protected static class Entry<K, V> {
-        private final K key;
-        private V value;
-
-        public K getKey() {
-            return key;
+    /**
+     * Removes the key-value pair associated with the specified key from the hash table.
+     * If the key does not exist, returns null.
+     *
+     * @param key the key to be removed
+     * @return the value that was associated with the key, or null if the key was not found
+     */
+    @Override
+    public V remove(K key) {
+        if (key == null) {
+            return null;
         }
 
-        public V getValue() {
-            return value;
+        int index = hash(key);  // Compute the hash index for the key
+        LinkedList<Entry<K, V>> bucket = hashTable[index];
+        if (bucket != null) {
+            Iterator<Entry<K, V>> iterator = bucket.iterator();
+            while (iterator.hasNext()) {
+                Entry<K, V> entry = iterator.next();
+                if (entry.key.equals(key)) {
+                    V value = entry.value;
+                    iterator.remove();
+                    size--;
+                    return value;  // Return the value associated with the removed key
+                }
+            }
         }
 
-        private Entry(K key, V value) {
-            this.key = key;
-            this.value = value;
+        return null;  // Return null if the key was not found
+    }
+
+    /**
+     * Returns the number of key-value pairs in the hash table.
+     *
+     * @return the number of key-value pairs in the hash table
+     */
+    @Override
+    public int size() {
+        return this.size;
+    }
+
+    /**
+     * Returns true if the hash table contains no key-value pairs.
+     *
+     * @return true if the hash table is empty, false otherwise
+     */
+    @Override
+    public boolean isEmpty() {
+        return this.size == 0;
+    }
+
+    @Override
+    public Iterator<Entry<K, V>> iterator() {
+        return new HashTableIterator();
+    }
+
+    private class HashTableIterator implements Iterator<Entry<K, V>> {
+        private int currentIndex = 0;  // Current index in the hash table array
+        private Iterator<Entry<K, V>> currentBucketIterator = null;  // Iterator for the current linked list bucket
+        private int entriesCounted = 0; // Number of entries counted so far
+
+        public HashTableIterator() {
+            moveToNextNonNullEntry();
         }
 
         @Override
-        public String toString() {
-            return "{" + key + "," + value + "}";
+        public boolean hasNext() {
+            return entriesCounted < size;
+        }
+
+        @Override
+        public Entry<K, V> next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("No more elements in the hash table");
+            }
+
+            Entry<K, V> entry = currentBucketIterator.next();
+            entriesCounted++;
+            if (!currentBucketIterator.hasNext()) {
+                moveToNextNonNullEntry();
+            }
+            return entry;
+        }
+
+        private void moveToNextNonNullEntry() {
+            while (currentIndex < capacity && (hashTable[currentIndex] == null || !hashTable[currentIndex].iterator().hasNext())) {
+                currentIndex++;
+            }
+            if (currentIndex < capacity) {
+                currentBucketIterator = hashTable[currentIndex].iterator();
+            }
         }
     }
-
 }
+

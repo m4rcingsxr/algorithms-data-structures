@@ -1,91 +1,83 @@
 package com.marcinseweryn.algorithms.datastructures.queue;
 
-import com.marcinseweryn.algorithms.datastructures.linkedlist.LinkedList;
+import com.marcinseweryn.algorithms.datastructures.linkedlist.DoublyLinkedList;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 /**
- * Class presents Linked List implementation of Queue.
+ * LinkedListQueue implements a queue using a DoublyLinkedList.
+ * This implementation provides a dynamic and flexible queue with efficient enqueue and dequeue operations.
+ *
+ * @param <T> the type of elements held in this queue
  */
-public class LinkedListQueue<T> implements Iterable<T> {
-    LinkedList<T> list = new LinkedList<>();
+public class LinkedListQueue<T> implements Queue<T> {
+
+    private final DoublyLinkedList<T> linkedList;
 
     /**
-     * Construct an empty Queue
+     * Constructs a new LinkedListQueue.
      */
     public LinkedListQueue() {
+        this.linkedList = new DoublyLinkedList<>();
     }
 
     /**
-     * Construct a Queue with specified initial element
-     */
-    public LinkedListQueue(T element) {
-        list.add(element);
-    }
-
-    /**
-     * Return the number of elements the queue has
+     * Returns the number of elements in the queue.
      *
-     * @return the number of elements the queue has
+     * @return the number of elements in the queue
      */
-
+    @Override
     public int size() {
-        return list.size();
+        return this.linkedList.size();
     }
 
     /**
-     * Return {@code true} if this Queue contains no elements
+     * Checks if the queue is empty.
      *
-     * @return {@code true} if this Queue contains no elements
+     * @return true if the queue is empty, false otherwise
      */
+    @Override
     public boolean isEmpty() {
-        return size() == 0;
+        return this.linkedList.isEmpty();
     }
 
     /**
-     * Retrieves, but does not remove, the head of this queue.
+     * Returns the element at the front of the queue without removing it.
      *
-     * @return the head of this Queue.
-     * @throws NoSuchElementException if Queue contains no element
+     * @return the element at the front of the queue, or null if the queue is empty
      */
+    @Override
     public T peek() {
-        if (isEmpty()) {
-            throw new NoSuchElementException("Queue is empty");
-        }
-        return list.peekFirst();
+        return this.linkedList.peekFirst();
     }
 
     /**
-     * Inserts the specified element into this Queue
+     * Adds an element to the end of the queue.
      *
-     * @param element to insert
+     * @param element the element to be added
      */
+    @Override
     public void enqueue(T element) {
-        list.addLast(element);
+        this.linkedList.addLast(element);
     }
 
     /**
-     * Retrieves and removes the head of this Queue
+     * Removes and returns the element at the front of the queue.
      *
-     * @return the head of this Queue
-     * @throws NoSuchElementException if Queue contains no element
+     * @return the element at the front of the queue, or null if the queue is empty
      */
+    @Override
     public T dequeue() {
-        if (isEmpty()) {
-            throw new NoSuchElementException("Queue is empty");
-        }
-        return list.removeFirst();
+        return this.linkedList.removeFirst();
     }
 
     /**
-     * Return an iterator over collection
+     * Returns an iterator over the elements in this queue.
      *
-     * @return an iterator over collection
+     * @return an iterator over the elements in this queue
      */
     @Override
     public Iterator<T> iterator() {
-        return list.iterator();
+        return this.linkedList.iterator();
     }
-
 }

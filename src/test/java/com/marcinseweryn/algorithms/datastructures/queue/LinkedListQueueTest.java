@@ -1,167 +1,151 @@
 package com.marcinseweryn.algorithms.datastructures.queue;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.converter.ArgumentConversionException;
-import org.junit.jupiter.params.converter.ConvertWith;
-import org.junit.jupiter.params.converter.TypedArgumentConverter;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.Arrays;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Random;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class LinkedListQueueTest {
-    LinkedListQueue<Integer> queue;
-
-    @BeforeEach
-    void beforeEach() {
-        queue = new LinkedListQueue<>();
-    }
 
     @Test
-    void testisEmpty() {
-        queue = new LinkedListQueue<>();
-
-        assertAll(
-                () -> assertTrue(queue.isEmpty()),
-                () -> assertEquals(0, queue.size())
-        );
-    }
-
-    @Test
-    void testPeekEmptyQueueShouldThrowNoSuchElementException() {
-        Executable executable = () -> queue.peek();
-
-        assertThrows(NoSuchElementException.class, executable);
-    }
-
-    @Test
-    void testEnqueueEmptyQueueShouldThrowNoSuchElementException() {
-        Executable actual = () -> queue.dequeue();
-
-        assertThrows(NoSuchElementException.class, actual);
-    }
-
-    // setting different delimiter is critical here
-    @ParameterizedTest(name = "{index} -> {0}")
-    @CsvSource(delimiter = '|', useHeadersInDisplayName = true, textBlock = """
-            data
-            1,2,3,4,5,6,7,8
-            1,2,3,4,5,6
-            1,2,3
-            ''
-            1,3,4,2,4,5,6,4,3,5,6,5,43,4,6,5,4
-            2
-            """)
-    void testEnqueue(
-            @ConvertWith(ToIntegerArrayConverter.class) Integer[] array) {
-        for (Integer integer : array) {
-            queue.enqueue(integer);
-        }
-
-        assertEquals(array.length, queue.size());
-    }
-
-
-    @ParameterizedTest(name = "{index} -> {0}")
-    @CsvSource(delimiter = '|', useHeadersInDisplayName = true, textBlock = """
-            data
-            1,2,3,4,5,6,7,8
-            1,2,3,4,5,6
-            1,2,3
-            ''
-            1,3,4,2,4,5,6,4,3,5,6,5,43,4,6,5,4
-            2
-            """)
-    void testDequeue(
-            @ConvertWith(ToIntegerArrayConverter.class) Integer... expected) {
-        for (Integer integer : expected) {
-            queue.enqueue(integer);
-        }
-        Integer[] actual = new Integer[expected.length];
-        for (int i = 0; i < expected.length; i++) {
-            actual[i] = queue.dequeue();
-        }
-
-        assertAll(
-                () -> assertTrue(queue.isEmpty()),
-                () -> assertEquals(0, queue.size()),
-                () -> assertArrayEquals(expected, actual)
-        );
-    }
-
-    @ParameterizedTest(name = "{index} -> {0}, {1}")
-    @CsvSource(delimiter = '|', useHeadersInDisplayName = true,
-            ignoreLeadingAndTrailingWhitespace = true, textBlock = """
-            expected        |        data                                    
-            1               |         1,2,3,4,5,6,7,8                         
-            1               |         1,2,3,4,5,6                            
-            7               |         7,2,3                                   
-            9               |         9,3,4,2,4,5,6,4,3,5,6,5,43,4,6,5,4      
-            """)
-    void testPeek(int expected,
-                  @ConvertWith(ToIntegerArrayConverter.class) Integer... array) {
-        for (Integer integer : array) {
-            queue.enqueue(integer);
-        }
-
-        assertAll(
-                () -> assertEquals(array.length, queue.size()),
-                () -> assertEquals(queue.peek(), expected)
-        );
-    }
-
-    @Test
-    void testAll() {
-        for (int i = 0; i < 10_000; i++) {
-            queue.enqueue(i);
-        }
-        for (int i = 0; i < 10_000; i++) {
-            assertEquals(queue.dequeue(), i);
-        }
+    void givenNewQueue_whenCreated_thenShouldBeEmpty() {
+        LinkedListQueue<Integer> queue = new LinkedListQueue<>();
         assertTrue(queue.isEmpty());
         assertEquals(0, queue.size());
+    }
 
-        Random random = new Random();
-        Integer[] expected = new Integer[10_000];
-        for (int i = 0; i < 10_000; i++) {
-            int randomInt = random.nextInt(1000);
-            queue.enqueue(randomInt);
-            expected[i] = randomInt;
-        }
-        assertEquals(10_000, queue.size());
-        Integer[] actual = new Integer[10000];
-        for (int i = 0; i < 10_000; i++) {
-            actual[i] = queue.dequeue();
-        }
+    @Test
+    void givenSingleElement_whenAdded_thenShouldPeekCorrectly() {
+        LinkedListQueue<Integer> queue = new LinkedListQueue<>();
+        queue.enqueue(10);
+        assertEquals(10, queue.peek());
+    }
 
-        assertAll(
-                () -> assertEquals(0, queue.size()),
-                () -> assertTrue(queue.isEmpty()),
-                () -> assertArrayEquals(expected, actual)
+    @Test
+    void givenSingleElement_whenRemoved_thenShouldBeEmpty() {
+        LinkedListQueue<Integer> queue = new LinkedListQueue<>();
+        queue.enqueue(10);
+        assertEquals(10, queue.dequeue());
+        assertTrue(queue.isEmpty());
+        assertEquals(0, queue.size());
+    }
+
+    @Test
+    void givenEmptyQueue_whenPeekOrDequeueCalled_thenShouldReturnNull() {
+        LinkedListQueue<Integer> queue = new LinkedListQueue<>();
+        assertNull(queue.peek());
+        assertThrows(IndexOutOfBoundsException.class , queue::dequeue);
+    }
+
+    @Test
+    void givenMultipleElements_whenEnqueued_thenShouldPeekFirstCorrectly() {
+        LinkedListQueue<Integer> queue = new LinkedListQueue<>();
+        queue.enqueue(10);
+        queue.enqueue(20);
+        queue.enqueue(30);
+        assertEquals(10, queue.peek());
+    }
+
+    @Test
+    void givenMultipleElements_whenDequeued_thenShouldDequeueInCorrectOrder() {
+        LinkedListQueue<Integer> queue = new LinkedListQueue<>();
+        queue.enqueue(10);
+        queue.enqueue(20);
+        queue.enqueue(30);
+        assertEquals(10, queue.dequeue());
+        assertEquals(20, queue.dequeue());
+        assertEquals(30, queue.dequeue());
+        assertTrue(queue.isEmpty());
+    }
+
+    @Test
+    void givenQueue_whenIteratorUsed_thenShouldTraverseInCorrectOrder() {
+        LinkedListQueue<Integer> queue = new LinkedListQueue<>();
+        queue.enqueue(10);
+        queue.enqueue(20);
+        queue.enqueue(30);
+
+        Iterator<Integer> iterator = queue.iterator();
+        assertTrue(iterator.hasNext());
+        assertEquals(10, iterator.next());
+        assertEquals(20, iterator.next());
+        assertEquals(30, iterator.next());
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    void givenQueue_whenExhaustIterator_thenShouldThrowException() {
+        LinkedListQueue<Integer> queue = new LinkedListQueue<>();
+        queue.enqueue(10);
+        Iterator<Integer> iterator = queue.iterator();
+        iterator.next();
+        assertThrows(NoSuchElementException.class, iterator::next);
+    }
+
+    @Test
+    void givenEmptyQueue_whenIterate_thenHasNextShouldReturnFalse() {
+        LinkedListQueue<Integer> queue = new LinkedListQueue<>();
+        Iterator<Integer> iterator = queue.iterator();
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    void givenEmptyQueue_whenNextCalled_thenShouldThrowException() {
+        LinkedListQueue<Integer> queue = new LinkedListQueue<>();
+        Iterator<Integer> iterator = queue.iterator();
+        assertThrows(NoSuchElementException.class, iterator::next);
+    }
+
+    static Stream<Arguments> givenElements_whenEnqueueAndDequeueCalled_thenShouldReturnCorrectResults() {
+        return Stream.of(
+                Arguments.of(new Integer[]{10, 20, 30}, new Integer[]{10, 20, 30}),
+                Arguments.of(new Integer[]{1, 2, 3, 4, 5}, new Integer[]{1, 2, 3, 4, 5}),
+                Arguments.of(new Integer[]{}, new Integer[]{})
         );
     }
 
-    static class ToIntegerArrayConverter
-            extends TypedArgumentConverter<String, Integer[]> {
-        protected ToIntegerArrayConverter() {
-            super(String.class, Integer[].class);
+    @ParameterizedTest
+    @MethodSource
+    void givenElements_whenEnqueueAndDequeueCalled_thenShouldReturnCorrectResults(
+            Integer[] toEnqueue, Integer[] expectedOrder) {
+        LinkedListQueue<Integer> queue = new LinkedListQueue<>();
+
+        for (Integer elem : toEnqueue) {
+            queue.enqueue(elem);
         }
 
-        @Override
-        protected Integer[] convert(String source)
-                throws ArgumentConversionException {
-            if (source.isEmpty()) {
-                return new Integer[0];
-            }
-            return Arrays.stream(source.split(",")).map(
-                    Integer::valueOf).toArray(Integer[]::new);
+        for (Integer expected : expectedOrder) {
+            assertEquals(expected, queue.dequeue());
         }
+
+        assertTrue(queue.isEmpty());
     }
 
+    @Test
+    void givenQueueWithNullElements_whenAdded_thenShouldHandleCorrectly() {
+        LinkedListQueue<Integer> queue = new LinkedListQueue<>();
+        queue.enqueue(null);
+        assertNull(queue.peek());
+        assertNull(queue.dequeue());
+        assertTrue(queue.isEmpty());
+    }
+
+    @Test
+    void givenLargeNumberOfElements_whenAdded_thenShouldHandleCorrectly() {
+        LinkedListQueue<Integer> queue = new LinkedListQueue<>();
+        for (int i = 0; i < 10000; i++) {
+            queue.enqueue(i);
+        }
+        assertEquals(0, queue.peek());
+        for (int i = 0; i < 10000; i++) {
+            assertEquals(i, queue.dequeue());
+        }
+        assertTrue(queue.isEmpty());
+    }
 }

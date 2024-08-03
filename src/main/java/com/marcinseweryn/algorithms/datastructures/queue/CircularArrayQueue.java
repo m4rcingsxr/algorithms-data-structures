@@ -1,102 +1,159 @@
 package com.marcinseweryn.algorithms.datastructures.queue;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * Class presents Circular Array implementation of Queue.
+ * CircularArrayQueue implements a queue using a circular array.
+ * This allows the queue to efficiently utilize the array space by wrapping around when it
+ * reaches the end.
+ *
+ * @param <T> the type of elements held in this queue
  */
-@SuppressWarnings("unchecked")
-public class CircularArrayQueue<T> {
-    Object[] arr;
-    private int beginning;
-    private int top;
+public class CircularArrayQueue<T> implements Queue<T> {
+
+    private T[] queue;
+    private int tail;
+    private int head;
 
     /**
-     * Construct an empty Queue with specified maximum capacity
+     * Constructs a new CircularArrayQueue with the specified maximum size.
      *
-     * @param maxCapacity max numbers of elements that this
-     *                    queue is able to contain
+     * @param maxSize the maximum size of the queue
      */
-    public CircularArrayQueue(int maxCapacity) {
-        arr = new Object[maxCapacity];
-        beginning = -1;
-        top = -1;
+    public CircularArrayQueue(int maxSize) {
+        this.queue = (T[]) new Object[maxSize];
+        // Initialize the head and tail to -1, indicating the queue is empty.
+        this.head = this.tail = -1;
     }
 
     /**
-     * Inserts the specified element into this Queue
+     * Returns the number of elements in the queue.
      *
-     * @param element to insert
-     * @throws IllegalStateException if the next inserted element
-     *                               exceeds capacity
+     * @return the number of elements in the queue
      */
+    @Override
+    public int size() {
+        if (this.isEmpty()) {
+            return 0;
+        } else if (this.tail >= this.head) {
+            return this.tail - this.head + 1;
+        } else {
+            return (this.queue.length - this.head) + this.tail + 1;
+        }
+    }
+
+    /**
+     * Checks if the queue is empty.
+     *
+     * @return true if the queue is empty, false otherwise
+     */
+    @Override
+    public boolean isEmpty() {
+        return this.tail == this.head && this.tail == -1;
+    }
+
+    /**
+     * Checks if the queue is full.
+     *
+     * @return true if the queue is full, false otherwise
+     */
+    private boolean isFull() {
+        return !this.isEmpty() && (this.tail + 1) % this.queue.length == this.head;
+    }
+
+    /**
+     * Returns the element at the front of the queue without removing it.
+     *
+     * @return the element at the front of the queue
+     * @throws IllegalStateException if the queue is empty
+     */
+    @Override
+    public T peek() {
+        if (this.isEmpty()) {
+            throw new IllegalStateException("Queue is empty");
+        }
+        return this.queue[head];
+    }
+
+    /**
+     * Adds an element to the end of the queue.
+     *
+     * @param element the element to be added
+     * @throws IllegalStateException if the queue is full
+     */
+    @Override
     public void enqueue(T element) {
-        if (isFull()) {
-            throw new IllegalStateException(
-                    "Queue is full[capacity(" + arr.length + ")]");
-        } else if (isEmpty()) {
-            beginning = 0;
-            top = 0;
+        if (this.isFull()) {
+            throw new IllegalStateException("Queue is full");
+        } else if (this.isEmpty()) {
+            this.head = this.tail = 0;  // When the queue is empty, reset both head and tail to 0.
         } else {
-            top = (top + 1) % arr.length;
+            // Move the tail to the next position, wrapping around if necessary.
+            this.tail = (this.tail + 1) % this.queue.length;
         }
-        arr[top] = element;
+        this.queue[this.tail] = element;  // Place the element at the tail position.
     }
 
     /**
-     * Retrieves and removes the head of this Queue
+     * Removes and returns the element at the front of the queue.
      *
-     * @return the head of this Queue
-     * @throws NoSuchElementException if Queue contains no element
+     * @return the element at the front of the queue
+     * @throws IllegalStateException if the queue is empty
      */
+    @Override
     public T dequeue() {
-        if (isEmpty()) {
-            throw new NoSuchElementException("Queue is empty");
+        if (this.isEmpty()) {
+            throw new IllegalStateException("Queue is empty");
         }
-        T temp = (T) arr[beginning];
-        arr[beginning] = null;
-        if (beginning == top) {
-            beginning = -1;
-            top = -1;
+
+        T temp = this.queue[head];
+
+        // Clear the element at the head position.
+        this.queue[this.head] = null;
+        if (this.head == this.tail) {
+            // If the queue becomes empty, reset both head and tail to -1.
+            this.tail = this.head = -1;
         } else {
-            beginning = (beginning + 1) % arr.length;
+            // Move the head to the next position, wrapping around if necessary.
+            this.head = (this.head + 1) % this.queue.length;
         }
         return temp;
     }
 
     /**
-     * Retrieves, but does not remove, the head of this queue.
+     * Returns an iterator over the elements in this queue.
      *
-     * @return the head of this Queue.
-     * @throws NoSuchElementException if Queue contains no element
+     * @return an iterator over the elements in this queue
      */
-    public T peek() {
-        if (isEmpty()) {
-            throw new NoSuchElementException("Queue is empty");
+    @Override
+    public Iterator<T> iterator() {
+        return new CircularArrayQueueIterator();
+    }
+
+    /**
+     * CircularArrayQueueIterator provides an iterator for the CircularArrayQueue.
+     * It allows traversal of the queue in a FIFO manner.
+     */
+    class CircularArrayQueueIterator implements Iterator<T> {
+        private int currentIndex = head;
+        private int elementsVisited = 0;
+        private final int totalElements = size();
+
+        @Override
+        public boolean hasNext() {
+            return elementsVisited < totalElements;
         }
-        return (T) arr[beginning];
+
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            T element = queue[currentIndex];
+            currentIndex = (currentIndex + 1) % queue.length;
+            elementsVisited++;
+            return element;
+        }
     }
-
-
-    /**
-     * Return {@code true} if this Queue contains no elements
-     *
-     * @return {@code true} if this Queue contains no elements
-     */
-    public boolean isEmpty() {
-        return beginning == -1 && top == -1;
-    }
-
-    /**
-     * Return {@code true} if the number of items in the
-     * queue is equal to the maximum capacity
-     *
-     * @return {@code true} if the number of items in the
-     * queue is equal to the maximum capacity
-     */
-    public boolean isFull() {
-        return (top + 1) % arr.length == beginning;
-    }
-
-
 }

@@ -7,30 +7,30 @@ import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StackArrayTest {
+class StackLinkedListTest {
 
     @Test
     void givenNewStack_whenCreated_thenShouldBeEmpty() {
-        StackArray<Integer> stack = new StackArray<>(10);
+        StackLinkedList<Integer> stack = new StackLinkedList<>();
         assertTrue(stack.isEmpty());
         assertEquals(0, stack.size());
     }
 
     @Test
     void givenEmptyStack_whenPopCalled_thenShouldThrowException() {
-        StackArray<Integer> stack = new StackArray<>(10);
+        StackLinkedList<Integer> stack = new StackLinkedList<>();
         assertThrows(EmptyStackException.class, stack::pop);
     }
 
     @Test
     void givenEmptyStack_whenPeekCalled_thenShouldThrowException() {
-        StackArray<Integer> stack = new StackArray<>(10);
+        StackLinkedList<Integer> stack = new StackLinkedList<>();
         assertThrows(EmptyStackException.class, stack::peek);
     }
 
     @Test
     void givenSingleElement_whenPushed_thenShouldBeAbleToPop() {
-        StackArray<Integer> stack = new StackArray<>(10);
+        StackLinkedList<Integer> stack = new StackLinkedList<>();
         stack.push(10);
         assertEquals(1, stack.size());
         assertEquals(10, stack.peek());
@@ -40,7 +40,7 @@ class StackArrayTest {
 
     @Test
     void givenMultipleElements_whenPushed_thenShouldPopInReverseOrder() {
-        StackArray<Integer> stack = new StackArray<>(10);
+        StackLinkedList<Integer> stack = new StackLinkedList<>();
         stack.push(10);
         stack.push(20);
         stack.push(30);
@@ -54,7 +54,7 @@ class StackArrayTest {
 
     @Test
     void givenStack_whenIterated_thenShouldIterateInLIFOOrder() {
-        StackArray<Integer> stack = new StackArray<>(10);
+        StackLinkedList<Integer> stack = new StackLinkedList<>();
         stack.push(10);
         stack.push(20);
         stack.push(30);
@@ -69,7 +69,7 @@ class StackArrayTest {
 
     @Test
     void givenMultipleElements_whenPeekCalled_thenShouldNotRemoveElement() {
-        StackArray<Integer> stack = new StackArray<>(10);
+        StackLinkedList<Integer> stack = new StackLinkedList<>();
         stack.push(10);
         stack.push(20);
         stack.push(30);
@@ -81,14 +81,14 @@ class StackArrayTest {
 
     @Test
     void givenEmptyStack_whenIteratorCalled_thenHasNextShouldReturnFalse() {
-        StackArray<Integer> stack = new StackArray<>(10);
+        StackLinkedList<Integer> stack = new StackLinkedList<>();
         Iterator<Integer> iterator = stack.iterator();
         assertFalse(iterator.hasNext());
     }
 
     @Test
     void givenLargeNumberOfElements_whenPushedAndPopped_thenShouldHandleCorrectly() {
-        StackArray<Integer> stack = new StackArray<>(10000);
+        StackLinkedList<Integer> stack = new StackLinkedList<>();
         int size = 10000;
         for (int i = 0; i < size; i++) {
             stack.push(i);
@@ -103,7 +103,7 @@ class StackArrayTest {
 
     @Test
     void givenStack_whenPushedNullElement_thenShouldHandleCorrectly() {
-        StackArray<Integer> stack = new StackArray<>(10);
+        StackLinkedList<Integer> stack = new StackLinkedList<>();
         stack.push(null);
         assertEquals(1, stack.size());
         assertNull(stack.peek());
@@ -113,9 +113,8 @@ class StackArrayTest {
 
     @Test
     void givenStack_whenPopAndPeekCalledOnEmptyStack_thenShouldThrowEmptyStackException() {
-        StackArray<Integer> stack = new StackArray<>(10);
+        StackLinkedList<Integer> stack = new StackLinkedList<>();
         assertThrows(EmptyStackException.class, stack::pop);
         assertThrows(EmptyStackException.class, stack::peek);
     }
 }
-

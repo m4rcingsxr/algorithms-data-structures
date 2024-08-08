@@ -2,116 +2,152 @@ package com.marcinseweryn.algorithms.datastructures.stack;
 
 import java.util.Arrays;
 import java.util.EmptyStackException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
- * Class represent array implementation of the Stack
+ * A stack implementation using an array as the underlying data structure.
+ * The stack follows a Last-In-First-Out (LIFO) principle, where elements are added and removed
+ * from the top of the stack.
+ *
+ * @param <T> the type of elements held in this stack
  */
-public class StackArray<T> {
+public class StackArray<T> implements Stack<T>{
 
-    private Object[] arr;
-    private int size;
-    private int top = 0;
-
-    /**
-     * Constructs an empty stack with an initial capacity.
-     * Stack's allowed to store 10 elements.
-     */
-    public StackArray() {
-        size = 10;
-        arr = new Object[size];
-    }
+    private T[] stack; // The array to hold stack elements
+    private int top;   // The index of the top element in the stack
 
     /**
-     * Constructs an empty stack with a specified capacity.
-     * Stack's allowed to store initialSize number of elements.
+     * Constructs a stack with an initial size. If a large number of elements are expected,
+     * it's advisable to provide a larger initial size to avoid frequent resizing.
      *
-     * @param initialSize - determines the initial capacity of stack
+     * @param initialSize the initial capacity of the stack
      */
     public StackArray(int initialSize) {
-        size = initialSize;
-        arr = new Object[size];
+        this.stack = (T[]) new Object[initialSize]; // Initialize the stack array
     }
 
     /**
-     * Return the number of elements in this Stack
+     * Returns the number of elements in the stack.
      *
-     * @return the number of elements in this Stack
+     * @return the number of elements in the stack
      */
+    @Override
     public int size() {
-        return top;
+        return this.top;
     }
 
     /**
-     * Return {@code true} if this Stack contains no elements
+     * Checks if the stack is empty.
      *
-     * @return {@code true} if this Stack contains no elements
+     * @return true if the stack contains no elements, false otherwise
      */
+    @Override
     public boolean isEmpty() {
-        return top == 0;
+        return this.size() == 0;
     }
 
     /**
-     * Remove and return last inserted element of this stack
+     * Removes and returns the element at the top of the stack.
      *
-     * @return last inserted element of this stack
-     * @throws EmptyStackException if stack contains no element
+     * @return the element at the top of the stack
+     * @throws EmptyStackException if the stack is empty
      */
+    @Override
     public T pop() {
-        if (isEmpty()) {
+        if (this.isEmpty()) {
             throw new EmptyStackException();
         }
-        T result = (T) arr[--top];
-
-        // Prevent memory leaks
-        arr[top] = null;
-        return result;
+        T temp = this.stack[--top]; // Decrement top and retrieve the top element
+        this.stack[top] = null;     // Nullify the slot to avoid memory leaks
+        return temp;
     }
 
     /**
-     * Insert specified element at the end of the Stack
+     * Pushes an element onto the top of the stack. Resizes the stack if it's full.
      *
-     * @param element to be inserted at the end of the Stack
+     * @param elem the element to be added to the stack
      */
-    public void push(T element) {
-        if (isFull()) {
-            increaseSize();
+    @Override
+    public void push(T elem) {
+        if(this.isFull()) { // Check if the stack is full
+            this.resize();  // Resize the stack array if needed
         }
-        arr[top++] = element;
+        this.stack[this.top++] = elem; // Add the element to the top and increment the top index
     }
 
-
+    /**
+     * Checks if the stack is full.
+     *
+     * @return true if the stack is full, false otherwise
+     */
     private boolean isFull() {
-        return top == size;
-    }
-
-    private void increaseSize() {
-        size *= 2;
-        arr = Arrays.copyOf(arr, size);
+        return this.stack.length == this.top;
     }
 
     /**
-     * Return last inserted element to this Stack
-     *
-     * @return last inserted element to this Stack
-     * @throws EmptyStackException if stack contains no element
+     * Resizes the stack array to double its current capacity.
      */
-    @SuppressWarnings("unchecked")
-    public T peek() {
-        if (isEmpty()) {
-            throw new EmptyStackException();
-        }
-
-        return (T) arr[top - 1];
+    private void resize() {
+        this.stack = Arrays.copyOf(stack, this.stack.length * 2);
     }
 
-
-    public String toString() {
-        StringBuilder sb = new StringBuilder("[");
-        for (int i = 0; i < size(); i++) {
-            sb.append(arr[i]).append(", ");
+    /**
+     * Retrieves, but does not remove, the element at the top of the stack.
+     *
+     * @return the element at the top of the stack
+     * @throws EmptyStackException if the stack is empty
+     */
+    @Override
+    public T peek() {
+        if (this.isEmpty()) {
+            throw new EmptyStackException();
         }
-        sb.delete(sb.length() - 2, sb.length());
-        sb.append("]");
-        return sb.toString();
+        return this.stack[this.top - 1]; // Return the top element without modifying the stack
+    }
+
+    /**
+     * Returns an iterator over the elements in this stack in LIFO order.
+     *
+     * @return an iterator over the elements in this stack
+     */
+    @Override
+    public Iterator<T> iterator() {
+        return new StackIterator(); // Return a new StackIterator instance
+    }
+
+    /**
+     * An iterator class for the StackArray that iterates over the stack elements
+     * from the bottom to the top.
+     */
+    class StackIterator implements Iterator<T> {
+
+        private int currentIndex; // The index of the next element to be returned by the iterator
+
+        /**
+         * Checks if there are more elements to iterate over.
+         *
+         * @return true if there are more elements, false otherwise
+         */
+        @Override
+        public boolean hasNext() {
+            return this.currentIndex < top; // Compare currentIndex with the top index
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if there are no more elements to return
+         */
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            T temp = stack[currentIndex]; // Retrieve the next element
+            currentIndex++;               // Increment currentIndex
+            return temp;
+        }
     }
 }

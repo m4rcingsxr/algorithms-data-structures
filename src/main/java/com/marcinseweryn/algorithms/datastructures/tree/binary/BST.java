@@ -1,404 +1,271 @@
 package com.marcinseweryn.algorithms.datastructures.tree.binary;
 
+import com.marcinseweryn.algorithms.datastructures.tree.BinaryNode;
+import com.marcinseweryn.algorithms.datastructures.tree.OrderedBinaryTree;
 
-import com.marcinseweryn.algorithms.datastructures.tree.TraversalType;
-
-import java.util.*;
+import java.util.Iterator;
 
 /**
- * Class contains an implementation of a Binary Search Tree.
- * Any data that's implement comparable interface is allowed.
- * BST include method such as inserting, removing, containment
- * checks and traversal method that's returning String representation
- * of chosen Traversal Type. Distinct keys and no duplicates.
+ * A binary search tree (BST) implementation that stores elements in an ordered fashion.
+ * Elements must implement the {@code Comparable} interface to ensure proper ordering.
  *
- * @author Marcin Seweryn
- * @version 1.0
- * @see com.marcinseweryn.algorithms.datastructures.tree.TraversalType
- * @see Comparable
+ * @param <T> the type of elements maintained by this BST, which must be comparable
  */
-public class BST<T extends Comparable<T>> {
-    private BinaryNode<T> root;
-    private int size = 0;
+public class BST<T extends Comparable<T>> implements OrderedBinaryTree<T> {
+
+    private BinaryNode<T> root;  // The root node of the BST
+    private int size;            // Number of elements in the BST
 
     /**
-     * Return {@code true} if BST is empty
+     * Retrieves the minimum element in the BST.
      *
-     * @return {@code true} if BST is empty
+     * @return the minimum element in the BST, or {@code null} if the tree is empty
      */
-    public boolean isEmpty() {
-        return size == 0 && root == null;
-    }
-
-    /**
-     * Return {@code true} if element was successfully inserted
-     *
-     * @param value - specified to be inserted
-     * @return {@code true} if element was successfully inserted
-     */
-    public boolean add(T value) {
-        if (contains(value)) {
-            return false;
-        } else {
-            root = add(root, value);
-            return true;
-        }
-    }
-
-    private BinaryNode<T> add(BinaryNode<T> node, T value) {
-        if (node == null) {
-            node = new BinaryNode<>(value);
-            node.height = 1;
-            size++;
-            return node;
-
-            // (value - node.left.value) < 0 <=> node.left.value > value
-        } else if (value.compareTo(node.value) < 0) {
-            node.left = add(node.left, value);
-        } else {
-            node.right = add(node.right, value);
-        }
-
-        node.height = height(node);
-        // Most of the time it remains the same
-        return node;
-    }
-
-    /**
-     * Return {@code true} if element was successfully deleted
-     *
-     * @param value - specified to be delete
-     * @return {@code true} if element was successfully deleted
-     */
-    public boolean remove(T value) {
-        if (contains(value)) {
-            root = remove(root, value);
-            size--;
-            return true;
-        }
-        return false;
-    }
-
-    private BinaryNode<T> remove(BinaryNode<T> node, T value) {
-        if (node == null) {
+    @Override
+    public T min() {
+        // If the tree is empty, return null
+        if (this.root == null) {
             return null;
         }
-        int compare = value.compareTo(node.value);
-
-        // Find value
-        if (compare < 0) {
-            node.left = remove(node.left, value);
-        } else if (compare > 0) {
-            node.right = remove(node.right, value);
-        } else {
-
-            // Case 1: 2 Children
-            if (node.left != null && node.right != null) {
-
-                // find inorder successor of right subtree for node
-                // or predecessor(largest value in left sub tree)
-                BinaryNode<T> successor = minNode(node.right);
-                node.value = successor.value;
-
-                // Remove inorder successor of removed node from right subtree
-                node.right = remove(node.right, successor.value);
-
-                // Case 2: 1 Children
-            } else if (node.left != null) {
-                node = node.left;
-            } else if (node.right != null) {
-                node = node.right;
-
-                // Case 3: Leaf
-            } else {
-
-                // Null will be assigned as left or right child of parent
-                return null;
-            }
-        }
-        node.height = height(node);
-        return node;
+        // Delegate to the helper method to find the minimum element
+        return this.min(this.root).element;
     }
 
     /**
-     * Return minimum value in BST.
+     * Helper method to find the minimum node starting from a given node.
      *
-     * @return minimum value in BST
+     * @param node the node from which to find the minimum element
+     * @return the node containing the minimum element
      */
-    public T min() {
-        return minNode(root).value;
-    }
-
-    private BinaryNode<T> minNode(BinaryNode<T> node) {
+    private BinaryNode<T> min(BinaryNode<T> node) {
+        // If there is no left child, this node is the minimum
         if (node.left == null) {
             return node;
         }
-        return minNode(node.left);
+        // Recursively call min on the left child to find the minimum element
+        return this.min(node.left);
     }
 
     /**
-     * Return maximum value in BST.
+     * Retrieves the maximum element in the BST.
      *
-     * @return maximum value in BST
+     * @return the maximum element in the BST, or {@code null} if the tree is empty
      */
+    @Override
     public T max() {
-        return maxNode(root).value;
+        // If the tree is empty, return null
+        if (this.root == null) {
+            return null;
+        }
+        // Delegate to the helper method to find the maximum element
+        return this.max(this.root).element;
     }
 
-    private BinaryNode<T> maxNode(BinaryNode<T> node) {
+    /**
+     * Helper method to find the maximum node starting from a given node.
+     *
+     * @param node the node from which to find the maximum element
+     * @return the node containing the maximum element
+     */
+    private BinaryNode<T> max(BinaryNode<T> node) {
+        // If there is no right child, this node is the maximum
         if (node.right == null) {
             return node;
         }
-        return maxNode(node.right);
-    }
-
-
-    private int height(BinaryNode<T> node) {
-
-        // (Both)Leaf
-        if (node == null) {
-            return 0;
-        }
-
-        // Recursively find height for both subtrees of max()
-        return 1 + Math.max(height(node.right), height(node.left));
+        // Recursively call max on the right child to find the maximum element
+        return this.max(node.right);
     }
 
     /**
-     * Return {@code true} if element exist in the BST
+     * Checks if the BST is empty.
      *
-     * @param value to check if contains in the BST
-     * @return {@code true} if element exist in the BST
+     * @return {@code true} if the tree is empty, {@code false} otherwise
      */
-    public boolean contains(T value) {
-        return contains(root, value);
-    }
-
-    private boolean contains(BinaryNode<T> node, T value) {
-        if (node == null) {
-            return false;
-        }
-        int compare = value.compareTo(node.value);
-        if (compare < 0) {
-            return contains(node.left, value);
-        } else if (compare > 0) {
-            return contains(node.right, value);
-        }
-        return node.value == value;
+    @Override
+    public boolean isEmpty() {
+        // The tree is empty if the size is 0
+        return this.size == 0;
     }
 
     /**
-     * Return chosen type of traversal representation
-     * as String
+     * Returns the number of elements in the BST.
      *
-     * @return traversal representation as String
+     * @return the size of the BST
      */
-    public String traversal(TraversalType type) {
-        StringBuilder sb = new StringBuilder("[");
-        switch (type) {
-
-            // Java 14
-            case PREORDER -> preOrder(root, sb);
-            case INORDER -> inOrder(root, sb);
-            case POSTORDER -> postOrder(root, sb);
-            case LEVELORDER -> levelOrder(sb);
-            default -> throw new IllegalArgumentException("No case");
-        }
-        sb.deleteCharAt(sb.length() - 1);
-        sb.append("]");
-        return sb.toString();
-    }
-
-    private void levelOrder(StringBuilder sb) {
-        Queue<BinaryNode<T>> queue = new ArrayDeque<>();
-        queue.add(root);
-        while (!queue.isEmpty()) {
-            BinaryNode<T> current = queue.remove();
-            sb.append(current.value + ",");
-            if (current.left != null) {
-                queue.add(current.left);
-            }
-            if (current.right != null) {
-                queue.add(current.right);
-            }
-        }
-    }
-
-    private void preOrder(BinaryNode<T> node, StringBuilder sb) {
-        if (node == null) {
-            return;
-        }
-        sb.append(node.value + ",");
-        preOrder(node.left, sb);
-        preOrder(node.right, sb);
-    }
-
-    private void inOrder(BinaryNode<T> node, StringBuilder sb) {
-        if (node == null) {
-            return;
-        }
-        inOrder(node.left, sb);
-        sb.append(node.value + ",");
-        inOrder(node.right, sb);
-    }
-
-    private void postOrder(BinaryNode<T> node, StringBuilder sb) {
-        if (node == null) {
-            return;
-        }
-        postOrder(node.left, sb);
-        postOrder(node.right, sb);
-        sb.append(node.value + ",");
-    }
-
-    public Iterator<BinaryNode<T>> traverseIterator(TraversalType type) {
-        List<BinaryNode<T>> list = new ArrayList<>();
-        switch (type) {
-            case PREORDER -> {
-                preOrderIterator(root, list);
-                return iter(list);
-            }
-            case INORDER -> {
-                inOrderIterator(root, list);
-                return iter(list);
-            }
-            case POSTORDER -> {
-                postOrderIterator(root, list);
-                return iter(list);
-            }
-            case LEVELORDER -> {
-                return levelOrderIterator(root, list);
-            }
-            default -> {
-                return null;
-            }
-        }
-    }
-
-
-    private Iterator<BinaryNode<T>> iter(List<BinaryNode<T>> list) {
-
-        final int nodeCount = size;
-        final Iterator<BinaryNode<T>> iterator = list.iterator();
-
-        return new Iterator<BinaryNode<T>>() {
-            @Override
-            public boolean hasNext() {
-                if (nodeCount != size) {
-                    throw new ConcurrentModificationException();
-                }
-                return iterator.hasNext();
-            }
-
-            @Override
-            public BinaryNode<T> next() {
-                return iterator.next();
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
-        };
-
-    }
-
-    private void postOrderIterator(BinaryNode<T> node,
-                                   List<BinaryNode<T>> list) {
-        if (node == null) {
-            return;
-        }
-        postOrderIterator(node.left, list);
-        postOrderIterator(node.right, list);
-        list.add(node);
-    }
-
-
-    private void inOrderIterator(BinaryNode<T> node, List<BinaryNode<T>> list) {
-        if (node == null) {
-            return;
-        }
-        inOrderIterator(node.left, list);
-        list.add(node);
-        inOrderIterator(node.right, list);
-    }
-
-    private void preOrderIterator(BinaryNode<T> node,
-                                  List<BinaryNode<T>> list) {
-        if (node == null) {
-            return;
-        }
-        list.add(node);
-        preOrderIterator(node.left, list);
-        preOrderIterator(node.right, list);
-    }
-
-    private Iterator<BinaryNode<T>> levelOrderIterator(BinaryNode<T> node,
-                                                       List<BinaryNode<T>> list) {
-        Queue<BinaryNode<T>> queue = new ArrayDeque<>();
-        queue.add(node);
-        while (!queue.isEmpty()) {
-            BinaryNode<T> current = queue.remove();
-            list.add(current);
-            if (current.left != null) {
-                queue.add(current.left);
-            }
-            if (current.right != null) {
-                queue.add(current.right);
-            }
-        }
-
-        final int nodeCount = size;
-        final Iterator<BinaryNode<T>> iterator = list.iterator();
-
-        return new Iterator<BinaryNode<T>>() {
-            @Override
-            public boolean hasNext() {
-                if (nodeCount != size) {
-                    throw new ConcurrentModificationException();
-                }
-                return iterator.hasNext();
-            }
-
-            @Override
-            public BinaryNode<T> next() {
-                return iterator.next();
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
-        };
-    }
-
-
-    public void clear() {
-        root = null;
-    }
-
+    @Override
     public int size() {
+        // Return the number of elements in the tree
         return this.size;
     }
 
-    static class BinaryNode<E> {
-        private BinaryNode<E> left;
-        private BinaryNode<E> right;
-        private E value;
-        private int height;
+    /**
+     * Adds an element to the BST.
+     *
+     * @param element the element to add
+     * @return {@code true} if the element was added successfully, {@code false} if the element already exists
+     */
+    @Override
+    public boolean add(T element) {
+        // If the element already exists, do not add it again
+        if (this.contains(element)) return false;
+        // Insert the element into the tree starting from the root
+        this.root = this.add(this.root, element);
+        return true;
+    }
 
-        public E getValue() {
-            return value;
+    /**
+     * Helper method to add an element to the BST starting from a given node.
+     *
+     * @param node the current node in the BST
+     * @param element the element to add
+     * @return the node after insertion
+     */
+    public BinaryNode<T> add(BinaryNode<T> node, T element) {
+        // If the current node is null, we've found the insertion point
+        if (node == null) {
+            node = new BinaryNode<>(element);  // Create a new node with the element
+            size++;  // Increment the size of the tree
+            return node;  // Return the newly created node
+        } else if (node.element.compareTo(element) > 0) {
+            // If the element is smaller than the current node, insert into the left subtree
+            node.left = this.add(node.left, element);
+        } else {
+            // If the element is greater than or equal to the current node, insert into the right subtree
+            node.right = this.add(node.right, element);
+        }
+        // Return the (potentially updated) current node
+        return node;
+    }
+
+    /**
+     * Removes an element from the BST.
+     *
+     * @param element the element to remove
+     * @return {@code true} if the element was removed successfully, {@code false} if the element was not found
+     */
+    @Override
+    public boolean remove(T element) {
+        // If the element does not exist in the tree, return false
+        if (!this.contains(element)) return false;
+        // Remove the element from the tree starting from the root
+        this.root = this.remove(this.root, element);
+        this.size--;  // Decrement the size of the tree
+        return true;
+    }
+
+    /**
+     * Helper method to remove an element from the BST starting from a given node.
+     *
+     * @param node the current node in the BST
+     * @param element the element to remove
+     * @return the node after removal
+     */
+    private BinaryNode<T> remove(BinaryNode<T> node, T element) {
+        // If the current node is null, we've reached the end without finding the element
+        if (node == null) {
+            return null;
         }
 
-        public int getHeight() {
-            return height;
+        // Traverse the tree to find the node to remove
+        if (node.element.compareTo(element) > 0) {
+            // If the element is smaller, continue searching in the left subtree
+            node.left = this.remove(node.left, element);
+        } else if (node.element.compareTo(element) < 0) {
+            // If the element is greater, continue searching in the right subtree
+            node.right = this.remove(node.right, element);
+        } else {
+            // Found the node to remove
+
+            // Case 1: The node has two children
+            if (node.left != null && node.right != null) {
+                // Find the minimum element in the right subtree (successor)
+                BinaryNode<T> successor = this.min(node.right);
+                // Replace the current node's element with the successor's element
+                node.element = successor.element;
+                // Recursively remove the successor from the right subtree
+                node.right = this.remove(node.right, successor.element);
+            } else if (node.left != null) {
+                // Case 2: The node has only a left child
+                return node.left;  // Replace the node with its left child
+            } else if (node.right != null) {
+                // Case 3: The node has only a right child
+                return node.right;  // Replace the node with its right child
+            } else {
+                // Case 4: The node has no children
+                return null;  // Remove the node by returning null
+            }
         }
 
-        public BinaryNode(E value) {
-            this.value = value;
+        // Return the (potentially updated) current node
+        return node;
+    }
+
+    /**
+     * Checks if the BST contains a given element.
+     *
+     * @param element the element to check for
+     * @return {@code true} if the element is found, {@code false} otherwise
+     */
+    @Override
+    public boolean contains(T element) {
+        // Start the search from the root of the tree
+        return this.contains(this.root, element);
+    }
+
+    /**
+     * Helper method to check if the BST contains a given element starting from a node.
+     *
+     * @param node the current node in the BST
+     * @param element the element to check for
+     * @return {@code true} if the element is found, {@code false} otherwise
+     */
+    private boolean contains(BinaryNode<T> node, T element) {
+        // If the current node is null, the element is not in the tree
+        if (node == null) {
+            return false;
+        }
+
+        // Check if the current node contains the element
+        if (node.element.equals(element)) {
+            return true;
+        }
+
+        // Traverse the tree to continue searching for the element
+        if (element.compareTo(node.element) < 0) {
+            // If the element is smaller, search in the left subtree
+            return this.contains(node.left, element);
+        } else {
+            // If the element is greater, search in the right subtree
+            return this.contains(node.right, element);
         }
     }
 
-}
+    /**
+     * Clears the BST, removing all elements.
+     */
+    @Override
+    public void clear() {
+        this.root = null;
+        this.size = 0;
+    }
 
+    @Override
+    public Iterator<T> levelOrderIterator() {
+        return BinaryTreeIteratorFactory.levelOrderIterator(this.root);
+    }
+
+    @Override
+    public Iterator<T> inOrderIterator() {
+        return BinaryTreeIteratorFactory.inOrderIterator(this.root);
+    }
+
+    @Override
+    public Iterator<T> postOrderIterator() {
+        return BinaryTreeIteratorFactory.postOrderIterator(this.root);
+    }
+
+    @Override
+    public Iterator<T> preOrderIterator() {
+        return BinaryTreeIteratorFactory.preOrderIterator(this.root);
+    }
+}

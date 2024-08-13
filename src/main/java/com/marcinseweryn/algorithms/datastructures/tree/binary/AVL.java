@@ -1,482 +1,397 @@
 package com.marcinseweryn.algorithms.datastructures.tree.binary;
 
-import com.marcinseweryn.algorithms.datastructures.tree.TraversalType;
+import com.marcinseweryn.algorithms.datastructures.tree.BinaryNode;
+import com.marcinseweryn.algorithms.datastructures.tree.OrderedBinaryTree;
 
-import java.util.*;
+import java.util.Iterator;
 
 /**
- * Class contains an implementation of the AVL Tree (self-balancing tree).
- * Any data that's implement comparable interface is allowed.
- * AVL include method such as inserting, removing, containment
- * checks and traversal method that's returning String representation
- * of chosen Traversal Type. Distinct keys and no duplicates.
+ * AVL Tree implementation.
+ * An AVL tree is a self-balancing binary search tree where the height of two child subtrees of any node differ by at most one.
+ * If at any time during insertion or deletion, the height difference becomes greater than one, the tree is rebalanced through rotations.
  *
- * @see com.marcinseweryn.algorithms.datastructures.tree.TraversalType
- * @see Comparable
+ * @param <T> the type of elements maintained by this AVL tree, which must be comparable
  */
-public class AVL<T extends Comparable<T>> {
+public class AVL<T extends Comparable<T>> implements OrderedBinaryTree<T> {
 
-    private BinaryNode<T> root;
+    protected BinaryNode<T> root;
     private int size;
 
     /**
-     * Create the empty AVL Tree
+     * Retrieves the minimum element in the AVL tree.
+     *
+     * @return the minimum element, or {@code null} if the tree is empty
      */
-    public AVL() {
-        // Default constructor
-    }
-
-    public BinaryNode<T> getRoot() {
-        return root;
+    @Override
+    public T min() {
+        // If the tree is empty, return null
+        if (this.root == null) return null;
+        // Find the minimum element starting from the root
+        return this.min(this.root).element;
     }
 
     /**
-     * Return number of elements inside AVL
+     * Helper method to find the minimum node starting from a given node.
      *
-     * @return number of elements inside
-     * AVL tree
+     * @param node the starting node
+     * @return the node containing the minimum element
      */
+    private BinaryNode<T> min(BinaryNode<T> node) {
+        // Traverse the left subtree until the leftmost node is found
+        if (node.left == null) {
+            return node;
+        }
+        return this.min(node.left);
+    }
+
+    /**
+     * Retrieves the maximum element in the AVL tree.
+     *
+     * @return the maximum element, or {@code null} if the tree is empty
+     */
+    @Override
+    public T max() {
+        // If the tree is empty, return null
+        if (this.root == null) return null;
+        // Find the maximum element starting from the root
+        return this.max(this.root);
+    }
+
+    /**
+     * Helper method to find the maximum element starting from a given node.
+     *
+     * @param node the starting node
+     * @return the maximum element
+     */
+    private T max(BinaryNode<T> node) {
+        // Traverse the right subtree until the rightmost node is found
+        if (node.right == null) {
+            return node.element;
+        }
+        return this.max(node.right);
+    }
+
+    /**
+     * Checks if the AVL tree is empty.
+     *
+     * @return {@code true} if the tree is empty, {@code false} otherwise
+     */
+    @Override
+    public boolean isEmpty() {
+        // The tree is empty if the size is 0
+        return this.size == 0;
+    }
+
+    /**
+     * Returns the number of elements in the AVL tree.
+     *
+     * @return the size of the AVL tree
+     */
+    @Override
     public int size() {
+        // Return the number of elements in the tree
         return this.size;
     }
 
     /**
-     * Insert specified element into the AVL Tree.
-     * Return {@code true} if element was successfully
-     * inserted.
+     * Adds an element to the AVL tree.
      *
-     * @param val to be inserted
-     * @return {@code true} if element was successfully
-     * inserted.
+     * @param element the element to add
+     * @return {@code true} if the element was added successfully, {@code false} if the element already exists
      */
-    public boolean add(T val) {
-        if (!contains(val) && val != null) {
-            root = add(root, val);
-            size++;
-            return true;
-        }
-        return false;
-    }
-
-    private BinaryNode<T> add(BinaryNode<T> node, T val) {
-        if (node == null) {
-            node = new BinaryNode<>(val, 1);
-            return node;
-        }
-        int compare = val.compareTo(node.val);
-
-        if (compare < 0) {
-            node.left = add(node.left, val);
-        } else {
-            node.right = add(node.right, val);
-        }
-
-        // Recursively update the height
-        node.height = height(node);
-
-        // Recursively check balance for parent
-        int balance = getBalance(node);
-        // Check if node is unbalanced
-        if (balance > 1 && val.compareTo(node.left.val) < 0) { // val < node
-            // .left.val (LL)
-            return rotateRight(node);
-        } else if (balance > 1 && val.compareTo(node.left.val) > 0) { // val
-            // > node.left.val (LR)
-            node.left = rotateLeft(node.left);
-            return rotateRight(node);
-        } else if (balance < -1 && val.compareTo(node.right.val) > 0) { //
-            // val > node.right.val (RR)
-            return rotateLeft(node);
-        } else if (balance < -1 && val.compareTo(node.right.val) < 0) { //
-            // vall < node.right.val (RL)
-            node.right = rotateRight(node.right);
-            return rotateLeft(node);
-        }
-
-        //Return updated node - no required rotation
-        return node;
-    }
-
-    private BinaryNode<T> rotateRight(BinaryNode<T> node) {
-        assert node != null;
-        BinaryNode<T> newRoot = node.left;
-        node.left = newRoot.right;
-        newRoot.right = node;
-        newRoot.height = height(newRoot);
-        node.height = height(node);
-        return newRoot;
-    }
-
-    private BinaryNode<T> rotateLeft(BinaryNode<T> node) {
-        BinaryNode<T> newRoot = node.right;
-        assert newRoot != null;
-        node.right = newRoot.left;
-        newRoot.left = node;
-        newRoot.height = height(newRoot);
-        node.height = height(node);
-        return newRoot;
-    }
-
-
-    private int height(BinaryNode<T> node) {
-        if (node == null) {
-            return 0;
-        }
-        return 1 + Math.max(height(node.left), height(node.right));
-    }
-
-    private int getBalance(BinaryNode<T> node) {
-        if (node != null) {
-            return height(node.left) - height(node.right);
-        }
-        return 0;
-    }
-
-    /**
-     * Return {@code true} if AVL Tree contains specified
-     * element
-     *
-     * @param val to check if exist in AVL Tree
-     * @return {@code true} if AVL Tree contains specified
-     * element
-     */
-    public boolean contains(T val) {
-        return contains(root, val);
-    }
-
-    private boolean contains(BinaryNode<T> node, T val) {
-        if (node == null) {
-            return false;
-        }
-        int compare = val.compareTo(node.val);
-        if (compare < 0) {
-            return contains(node.left, val);
-        } else if (compare > 0) {
-            return contains(node.right, val);
-        }
+    @Override
+    public boolean add(T element) {
+        // If the element already exists, do not add it again
+        if (this.contains(element)) return false;
+        // Insert the element into the tree starting from the root
+        this.root = this.add(this.root, element);
+        this.size++;  // Increment the size of the tree
         return true;
     }
 
     /**
-     * Remove specified element from the AVL Tree.
-     * Return {@code true} if element was successfully
-     * removed.
+     * Helper method to add an element to the AVL tree starting from a given node.
      *
-     * @param val to be removed.
-     * @return {@code true} if element was successfully
-     * removed.
+     * @param node the current node in the AVL tree
+     * @param element the element to add
+     * @return the node after insertion and balancing
      */
-    public boolean remove(T val) {
-        if (root != null && contains(val)) {
-            root = remove(root, val);
-            size--;
-            return true;
+    private BinaryNode<T> add(BinaryNode<T> node, T element) {
+        // If the current node is null, we've found the insertion point
+        if (node == null) {
+            node = new BinaryNode<>(element);  // Create a new node with the element
+            node.height = 1;  // Initialize the node height
+            return node;  // Return the newly created node
+        } else if (element.compareTo(node.element) < 0) {
+            // If the element is smaller than the current node, insert into the left subtree
+            node.left = this.add(node.left, element);
         } else {
-            return false;
+            // If the element is greater than or equal to the current node, insert into the right subtree
+            node.right = this.add(node.right, element);
         }
-    }
 
-    private BinaryNode<T> remove(BinaryNode<T> node, T val) {
-        int compare = val.compareTo(node.val);
-        if (compare < 0) {
-            node.left = remove(node.left, val);
-        } else if (compare > 0) {
-            node.right = remove(node.right, val);
-        } else {
+        // Update the height of the current node
+        node.height = this.height(node);
+        // Calculate the balance factor of the current node
+        int balance = this.balance(node);
 
-            // Node has 2 children
-            if (node.left != null && node.right != null) {
-                BinaryNode<T> successor = getSuccessor(node.right);
-                node.val = successor.val;
-                node.right = remove(node.right, successor.val);
-            } else if (node.left != null) { // 1 child
-                node = node.left;
-            } else if (node.right != null) { // 1 child
-                node = node.right;
-            } else { // Leaf
-                node = null;
-                return node;
-            }
+        // Rebalance the tree if necessary
+        if (balance > 1 && element.compareTo(node.left.element) < 0) {
+            // Left Left Case
+            return this.rotateRight(node);
+        } else if (balance > 1 && element.compareTo(node.left.element) > 0) {
+            // Left Right Case
+            node.left = this.rotateLeft(node.left);
+            return this.rotateRight(node);
+        } else if (balance < -1 && element.compareTo(node.right.element) > 0) {
+            // Right Right Case
+            return this.rotateLeft(node);
+        } else if (balance < -1 && element.compareTo(node.right.element) < 0) {
+            // Right Left Case
+            node.right = this.rotateRight(node.right);
+            return this.rotateLeft(node);
         }
-        node.height = height(node);
 
-        // Tree is rebalanced if needed
-        return rebalance(node);
-    }
-
-    private BinaryNode<T> rebalance(BinaryNode<T> node) {
-        int balance = height(node.left) - height(node.right);
-
-        if (balance > 1 && getBalance(node.left) >= 0) {
-            return rotateRight(node);
-        } else if (balance > 1 && getBalance(node.left) < 0) {
-            node.left = rotateLeft(node.left);
-            return rotateRight(node);
-        } else if (balance < -1 && getBalance(node.right) <= 0) {
-            return rotateLeft(node);
-        } else if (balance < -1 && getBalance(node.right) > 0) {
-            node.right = rotateRight(node.right);
-            return rotateLeft(node);
-        }
-        // No need to rotate
+        // Return the (potentially updated) current node
         return node;
     }
 
     /**
-     * Return minimum value in AVL Tree.
+     * Removes an element from the AVL tree.
      *
-     * @return minimum value in AVL Tree
+     * @param element the element to remove
+     * @return {@code true} if the element was removed successfully, {@code false} if the element was not found
      */
-    public T min() {
-        return minNode(root).val;
-    }
-
-    private BinaryNode<T> minNode(BinaryNode<T> node) {
-        if (node.left == null) {
-            return node;
-        }
-        return minNode(node.left);
+    @Override
+    public boolean remove(T element) {
+        // If the element does not exist in the tree, return false
+        if (!this.contains(element)) return false;
+        // Remove the element from the tree starting from the root
+        this.root = this.remove(this.root, element);
+        this.size--;  // Decrement the size of the tree
+        return true;
     }
 
     /**
-     * Return maximum value in AVL Tree.
+     * Helper method to remove an element from the AVL tree starting from a given node.
      *
-     * @return maximum value in AVL Tree
+     * @param node the current node in the AVL tree
+     * @param element the element to remove
+     * @return the node after removal and balancing
      */
-    public T max() {
-        return maxNode(root).val;
-    }
+    private BinaryNode<T> remove(BinaryNode<T> node, T element) {
+        // If the current node is null, the element is not found in the tree
+        if (node == null) {
+            return null;
+        } else if (element.compareTo(node.element) < 0) {
+            // If the element is smaller, continue searching in the left subtree
+            node.left = this.remove(node.left, element);
+        } else if (element.compareTo(node.element) > 0) {
+            // If the element is greater, continue searching in the right subtree
+            node.right = this.remove(node.right, element);
+        } else {
+            // Found the node to remove
 
-    private BinaryNode<T> maxNode(BinaryNode<T> node) {
-        if (node.right == null) {
-            return node;
+            // Case 1: The node has two children
+            if (node.left != null && node.right != null) {
+                // Find the minimum element in the right subtree (successor)
+                BinaryNode<T> successor = this.min(node.right);
+                // Replace the current node's element with the successor's element
+                node.element = successor.element;
+                // Recursively remove the successor from the right subtree
+                node.right = this.remove(node.right, successor.element);
+            } else if (node.left != null) {
+                // Case 2: The node has only a left child
+                return node.left;  // Replace the node with its left child
+            } else if (node.right != null) {
+                // Case 3: The node has only a right child
+                return node.right;  // Replace the node with its right child
+            } else {
+                // Case 4: The node has no children
+                return null;  // Remove the node by returning null
+            }
         }
-        return maxNode(node.right);
-    }
 
+        // Update the height of the current node
+        node.height = this.height(node);
+        // Calculate the balance factor of the current node
+        int balance = this.balance(node);
 
-    private BinaryNode<T> getSuccessor(BinaryNode<T> node) {
-        if (node.left == null) {
-            return node;
+        // Rebalance the tree if necessary
+        if (balance > 1 && this.balance(node.left) >= 0) {
+            // Left Left Case (perfect left tree - LL condition)
+            return this.rotateRight(node);
+        } else if (balance > 1 && this.balance(node.left) < 0) {
+            // Left Right Case
+            node.left = this.rotateLeft(node.left);
+            return this.rotateRight(node);
+        } else if (balance < -1 && this.balance(node.right) <= 0) {
+            // Right Right Case (perfect right tree - RR condition)
+            return this.rotateLeft(node);
+        } else if (balance < -1 && this.balance(node.right) > 0) {
+            // Right Left Case
+            node.right = this.rotateRight(node.right);
+            return this.rotateLeft(node);
         }
-        return getSuccessor(node.left);
+
+        // Return the (potentially updated) current node
+        return node;
     }
 
     /**
-     * Return chosen type of traversal representation
-     * as String
+     * Calculates the balance factor of a node.
      *
-     * @return traversal representation as String
+     * @param node the node to calculate the balance factor for
+     * @return the balance factor (height of left subtree - height of right subtree)
      */
-    public String traversal(TraversalType type) {
-        StringBuilder sb = new StringBuilder("[");
-        switch (type) {
-
-            // Java 14
-            case PREORDER -> preOrder(root, sb);
-            case INORDER -> inOrder(root, sb);
-            case POSTORDER -> postOrder(root, sb);
-            case LEVELORDER -> levelOrder(sb);
-            default -> throw new IllegalArgumentException("No case");
-        }
-        sb.deleteCharAt(sb.length() - 1);
-        sb.append("]");
-        return sb.toString();
+    private int balance(BinaryNode<T> node) {
+        // The balance factor is the height difference between the left and right subtrees
+        return this.height(node.left) - this.height(node.right);
     }
 
-    private void levelOrder(StringBuilder sb) {
-        Queue<BinaryNode<T>> queue = new ArrayDeque<>();
-        queue.add(root);
-        while (!queue.isEmpty()) {
-            BinaryNode<T> current = queue.remove();
-            sb.append(current.val + ",");
-            if (current.left != null) {
-                queue.add(current.left);
-            }
-            if (current.right != null) {
-                queue.add(current.right);
-            }
-        }
-    }
-
-    private void preOrder(BinaryNode<T> node, StringBuilder sb) {
+    /**
+     * Calculates the height of a node.
+     *
+     * @param node the node to calculate the height for
+     * @return the height of the node
+     */
+    private int height(BinaryNode<T> node) {
+        // Base case: the height of a null node is 0
         if (node == null) {
-            return;
-        }
-        sb.append(node.val + ",");
-        preOrder(node.left, sb);
-        preOrder(node.right, sb);
-    }
-
-    private void inOrder(BinaryNode<T> node, StringBuilder sb) {
-        if (node == null) {
-            return;
-        }
-        inOrder(node.left, sb);
-        sb.append(node.val + ",");
-        inOrder(node.right, sb);
-    }
-
-    private void postOrder(BinaryNode<T> node, StringBuilder sb) {
-        if (node == null) {
-            return;
-        }
-        postOrder(node.left, sb);
-        postOrder(node.right, sb);
-        sb.append(node.val + ",");
-    }
-
-    public Iterator<BinaryNode<T>> traverseIterator(TraversalType type) {
-        List<BinaryNode<T>> list = new ArrayList<>();
-        switch (type) {
-            case PREORDER -> {
-                preOrderIterator(root, list);
-                return iter(list);
-            }
-            case INORDER -> {
-                inOrderIterator(root, list);
-                return iter(list);
-            }
-            case POSTORDER -> {
-                postOrderIterator(root, list);
-                return iter(list);
-            }
-            case LEVELORDER -> {
-                return levelOrderIterator(root, list);
-            }
-            default -> {
-                return null;
-            }
-        }
-    }
-
-    private Iterator<BinaryNode<T>> iter(List<BinaryNode<T>> list) {
-
-        final int nodeCount = size;
-        final Iterator<BinaryNode<T>> iterator = list.iterator();
-
-        return new Iterator<BinaryNode<T>>() {
-            @Override
-            public boolean hasNext() {
-                if (nodeCount != size) {
-                    throw new ConcurrentModificationException();
-                }
-                return iterator.hasNext();
-            }
-
-            @Override
-            public BinaryNode<T> next() {
-                return iterator.next();
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
-        };
-
-    }
-
-    private Iterator<BinaryNode<T>> levelOrderIterator(BinaryNode<T> node,
-                                                       List<BinaryNode<T>> list) {
-        Queue<BinaryNode<T>> queue = new ArrayDeque<>();
-        queue.add(node);
-        while (!queue.isEmpty()) {
-            BinaryNode<T> current = queue.remove();
-            list.add(current);
-            if (current.left != null) {
-                queue.add(current.left);
-            }
-            if (current.right != null) {
-                queue.add(current.right);
-            }
+            return 0;
         }
 
-        final int nodeCount = size;
-        final Iterator<BinaryNode<T>> iterator = list.iterator();
-
-        return new Iterator<BinaryNode<T>>() {
-            @Override
-            public boolean hasNext() {
-                if (nodeCount != size) {
-                    throw new ConcurrentModificationException();
-                }
-                return iterator.hasNext();
-            }
-
-            @Override
-            public BinaryNode<T> next() {
-                return iterator.next();
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
-        };
+        // Height is 1 + the maximum height of the left and right subtrees
+        return 1 + Math.max(this.height(node.left), this.height(node.right));
     }
 
+    /**
+     * Performs a right rotation around an unbalanced node.
+     *
+     * @param unbalancedNode the node that is unbalanced
+     * @return the new root of the subtree after the rotation
+     */
+    private BinaryNode<T> rotateRight(BinaryNode<T> unbalancedNode) {
+        // Perform the right rotation
+        BinaryNode<T> newRoot = unbalancedNode.left;
+        unbalancedNode.left = newRoot.right;
+        newRoot.right = unbalancedNode;
 
-    private void postOrderIterator(BinaryNode<T> node,
-                                   List<BinaryNode<T>> list) {
-        if (node == null) {
-            return;
+        // Update the heights of the nodes involved in the rotation
+        unbalancedNode.height = this.height(unbalancedNode);
+        newRoot.height = this.height(newRoot);
+
+        // Return the new root of the subtree
+        return newRoot;
+    }
+
+    /**
+     * Performs a left rotation around an unbalanced node.
+     *
+     * @param unbalancedNode the node that is unbalanced
+     * @return the new root of the subtree after the rotation
+     */
+    private BinaryNode<T> rotateLeft(BinaryNode<T> unbalancedNode) {
+        // Perform the left rotation
+        BinaryNode<T> newRoot = unbalancedNode.right;
+        unbalancedNode.right = newRoot.left;
+        newRoot.left = unbalancedNode;
+
+        // Update the heights of the nodes involved in the rotation
+        unbalancedNode.height = this.height(unbalancedNode);
+        newRoot.height = this.height(newRoot);
+
+        // Return the new root of the subtree
+        return newRoot;
+    }
+
+    /**
+     * Checks if the AVL tree contains a given element.
+     *
+     * @param element the element to check for
+     * @return {@code true} if the element is found, {@code false} otherwise
+     */
+    @Override
+    public boolean contains(T element) {
+        // Start the search from the root of the tree
+        return this.contains(this.root, element);
+    }
+
+    /**
+     * Helper method to check if the AVL tree contains a given element starting from a node.
+     *
+     * @param node the current node in the AVL tree
+     * @param element the element to check for
+     * @return {@code true} if the element is found, {@code false} otherwise
+     */
+    private boolean contains(BinaryNode<T> node, T element) {
+        // If the current node is null, the element is not in the tree
+        if (node == null) return false;
+
+        // Compare the element with the current node's element
+        if (element.compareTo(node.element) < 0) {
+            // If the element is smaller, search in the left subtree
+            return this.contains(node.left, element);
+        } else if (element.compareTo(node.element) > 0) {
+            // If the element is greater, search in the right subtree
+            return this.contains(node.right, element);
         }
-        postOrderIterator(node.left, list);
-        postOrderIterator(node.right, list);
-        list.add(node);
+        // The element is equal to the current node's element
+        return true;
     }
 
-
-    private void inOrderIterator(BinaryNode<T> node, List<BinaryNode<T>> list) {
-        if (node == null) {
-            return;
-        }
-        inOrderIterator(node.left, list);
-        list.add(node);
-        inOrderIterator(node.right, list);
-    }
-
-    private void preOrderIterator(BinaryNode<T> node,
-                                  List<BinaryNode<T>> list) {
-        if (node == null) {
-            return;
-        }
-        list.add(node);
-        preOrderIterator(node.left, list);
-        preOrderIterator(node.right, list);
-    }
-
-
+    /**
+     * Clears the AVL tree, removing all elements.
+     */
+    @Override
     public void clear() {
-        root = null;
+        // Set the root to null, effectively clearing the tree
+        this.root = null;
+        // Reset the size to 0
+        this.size = 0;
     }
 
-    public static class BinaryNode<E> {
-        private BinaryNode<E> left;
-        private BinaryNode<E> right;
-        private E val;
-        private int height = 0;
+    /**
+     * Returns an iterator that performs a level-order traversal of the AVL tree.
+     *
+     * @return an iterator for level-order traversal
+     */
+    @Override
+    public Iterator<T> levelOrderIterator() {
+        // Use the factory to create a level-order iterator
+        return BinaryTreeIteratorFactory.levelOrderIterator(this.root);
+    }
 
-        public BinaryNode<E> getLeft() {
-            return left;
-        }
+    /**
+     * Returns an iterator that performs an in-order traversal of the AVL tree.
+     *
+     * @return an iterator for in-order traversal
+     */
+    @Override
+    public Iterator<T> inOrderIterator() {
+        // Use the factory to create an in-order iterator
+        return BinaryTreeIteratorFactory.inOrderIterator(this.root);
+    }
 
-        public BinaryNode<E> getRight() {
-            return right;
-        }
+    /**
+     * Returns an iterator that performs a post-order traversal of the AVL tree.
+     *
+     * @return an iterator for post-order traversal
+     */
+    @Override
+    public Iterator<T> postOrderIterator() {
+        // Use the factory to create a post-order iterator
+        return BinaryTreeIteratorFactory.postOrderIterator(this.root);
+    }
 
-        public E getVal() {
-            return val;
-        }
-
-        public int getHeight() {
-            return height;
-        }
-
-        public BinaryNode(E val, int height) {
-            this.val = val;
-            this.height = height;
-        }
+    /**
+     * Returns an iterator that performs a pre-order traversal of the AVL tree.
+     *
+     * @return an iterator for pre-order traversal
+     */
+    @Override
+    public Iterator<T> preOrderIterator() {
+        // Use the factory to create a pre-order iterator
+        return BinaryTreeIteratorFactory.preOrderIterator(this.root);
     }
 }

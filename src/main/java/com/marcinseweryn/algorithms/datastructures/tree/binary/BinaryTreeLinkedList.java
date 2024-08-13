@@ -1,236 +1,224 @@
 package com.marcinseweryn.algorithms.datastructures.tree.binary;
 
+import com.marcinseweryn.algorithms.datastructures.queue.LinkedListQueue;
+import com.marcinseweryn.algorithms.datastructures.queue.Queue;
+import com.marcinseweryn.algorithms.datastructures.tree.BinaryNode;
+import com.marcinseweryn.algorithms.datastructures.tree.BinaryTree;
 
-import com.marcinseweryn.algorithms.datastructures.tree.TraversalType;
-
-import java.util.ArrayDeque;
-import java.util.NoSuchElementException;
-import java.util.Queue;
+import java.util.Iterator;
 
 /**
- * Class represent Linked List implementation of Binary Tree
+ * A class representing a binary tree implemented using linked nodes. The tree
+ * stores elements in level order.
+ *
+ * @param <T> the type of elements held in this tree, must be comparable
  */
-public class BinaryTreeLinkedList<T> {
-    BinaryNode<T> root;
+public class BinaryTreeLinkedList<T extends Comparable<T>> implements BinaryTree<T> {
+
+    private BinaryNode<T> root;
+    private int size;
 
     /**
-     * Construct empty Binary Tree
-     */
-    public BinaryTreeLinkedList() {
-        // Default constructor
-    }
-
-
-    /**
-     * Return {@code true} if BT contains no elements
+     * Checks if the tree is empty.
      *
-     * @return {@code true} if BT contains no elements
+     * @return true if the tree has no elements, false otherwise
      */
+    @Override
     public boolean isEmpty() {
-        return root == null;
+        return this.root == null;
     }
 
     /**
-     * Insert specified element into Binary Tree.
+     * Returns the number of elements in the tree.
      *
-     * @param value to be inserted to BT
+     * @return the size of the tree
      */
-    public void add(T value) {
-        if (isEmpty()) {
-            root = new BinaryNode<>(value, null, null);
+    @Override
+    public int size() {
+        return this.size;
+    }
+
+    /**
+     * Adds an element to the tree in level order. Duplicate elements are not allowed.
+     *
+     * @param element the element to add
+     * @return true if the element was added, false if it already exists in the tree
+     */
+    @Override
+    public boolean add(T element) {
+        if (this.contains(element)) return false;
+
+        BinaryNode<T> node = new BinaryNode<>(element);
+        if (this.isEmpty()) {
+            this.root = node;
         } else {
-            BinaryNode<T> newNode = new BinaryNode<>(value, null, null);
-            Queue<BinaryNode<T>> queue = new ArrayDeque<>();
-            queue.add(root);
+            Queue<BinaryNode<T>> queue = new LinkedListQueue<>();
+            queue.enqueue(this.root);
+
+            // Perform level-order traversal until we find an empty spot
             while (!queue.isEmpty()) {
-                BinaryNode<T> current = queue.remove();
+                BinaryNode<T> current = queue.dequeue();
+
+                // Check left child
                 if (current.left == null) {
-                    current.left = newNode;
+                    current.left = node;
                     break;
-                } else if (current.right == null) {
-                    current.right = newNode;
-                    break;
-                } else {
-                    queue.add(current.left);
-                    queue.add(current.right);
                 }
+
+                // Check right child
+                if (current.right == null) {
+                    current.right = node;
+                    break;
+                }
+
+                // Continue level-order traversal
+                queue.enqueue(current.left);
+                queue.enqueue(current.right);
             }
         }
+        size++;
+        return true;
     }
 
     /**
-     * Removes specified element from the BT
+     * Removes the element from the tree if it exists.
      *
-     * @param value to be removed from BT
+     * @param element the element to remove
+     * @return true if the element was found and removed, false otherwise
      */
-    public void remove(T value) {
-        if (isEmpty()) {
-            throw new IllegalStateException("BT is empty");
-        }
-        Queue<BinaryNode<T>> queue = new ArrayDeque<>();
-        queue.add(root);
+    @Override
+    public boolean remove(T element) {
+        if (this.isEmpty()) return false;
+
+        Queue<BinaryNode<T>> queue = new LinkedListQueue<>();
+        queue.enqueue(this.root);
+        BinaryNode<T> targetNode = null;
         BinaryNode<T> current;
-        do {
-            current = queue.remove();
-            if (current.left != null) {
-                queue.add(current.left);
-            }
-            if (current.right != null) {
-                queue.add(current.right);
-            }
-        } while (!queue.isEmpty() && current.value != value);
 
-        if (current.value != value) {
-            throw new NoSuchElementException("Value does not exist in BT");
-        } else {
-            BinaryNode<T> deepestNode = deleteDeepestNode();
-            if (deepestNode != null) {
-                current.value = deleteDeepestNode().value;
-            }
-        }
-    }
-
-
-    private BinaryNode<T> deleteDeepestNode() {
-        if (root.left == null) {
-            clear();
-        } else {
-            Queue<BinaryNode<T>> queue = new ArrayDeque<>();
-            queue.add(root);
-            BinaryNode<T> current = null;
-            BinaryNode<T> previous;
-            BinaryNode<T> temp;
-            while (!queue.isEmpty()) {
-                previous = current;
-                current = queue.remove();
-                if (current.left == null) {
-                    if (previous == null) {
-                        temp = current;
-                        clear();
-                        return temp;
-                    }
-                    temp = current;
-                    previous.right = null;
-                    return temp;
-                } else if (current.right == null) {
-                    temp = current.left;
-                    current.left = null;
-                    return temp;
-                }
-                queue.add(current.left);
-                queue.add(current.right);
-            }
-        }
-        return root;
-    }
-
-    /**
-     * Return {@code true} if BT contains specified element
-     *
-     * @param element to check if it exists in BT
-     * @return {@code true} if BT contains specified element
-     */
-    public boolean contains(T element) {
-        Queue<BinaryNode<T>> queue = new ArrayDeque<>();
-        queue.add(root);
-        BinaryNode<T> current;
+        // Perform level-order traversal to find the node to remove
         while (!queue.isEmpty()) {
-            current = queue.remove();
-            if (current.value.equals(element)) {
-                return true;
+            current = queue.dequeue();
+            if (current.element.equals(element)) {
+                targetNode = current;
+                break;
             }
             if (current.left != null) {
-                queue.add(current.left);
+                queue.enqueue(current.left);
             }
             if (current.right != null) {
-                queue.add(current.right);
+                queue.enqueue(current.right);
             }
+        }
+
+        // If the element is not found, return false
+        if (targetNode == null) return false;
+
+        // Replace the target node's element with the deepest node's element and remove the deepest node
+        BinaryNode<T> deepestNode = deleteDeepestNode();
+        if (deepestNode != null) {
+            targetNode.element = deepestNode.element;
+            if(this.size > 0) this.size--; // ensure clear() was not called
+            return true;
         }
         return false;
     }
 
     /**
-     * Return chosen type of traversal representation
-     * as String
+     * Deletes the deepest node in the tree and returns it.
      *
-     * @return traversal representation as String
+     * @return the deepest node that was deleted, or null if the tree was empty
      */
-    public String traversal(TraversalType type) {
-        StringBuilder sb = new StringBuilder("[");
-        switch (type) {
+    private BinaryNode<T> deleteDeepestNode() {
+        Queue<BinaryNode<T>> queue = new LinkedListQueue<>();
+        queue.enqueue(this.root);
 
-            // Java 14
-            case PREORDER -> preOrder(root, sb);
-            case INORDER -> inOrder(root, sb);
-            case POSTORDER -> postOrder(root, sb);
-            case LEVELORDER -> levelOrder(sb);
-            default -> throw new IllegalArgumentException("No case");
+        BinaryNode<T> previous = null;
+        BinaryNode<T> temp = null;
+        BinaryNode<T> current = null;
+
+        while(!queue.isEmpty()) {
+            previous = current;
+            current = queue.dequeue();
+
+            if(current.left == null) { // leaf
+                if(previous == null) { // only root
+                    temp = this.root;
+                    this.clear();
+                    return temp;
+                }
+                temp = previous.right;
+                previous.right = null;
+                return temp;
+            } else if(current.right == null) { // 1 child
+                temp = current.left;
+                current.left = null;
+                return temp;
+            }
+
+            queue.enqueue(current.left);
+            queue.enqueue(current.right);
         }
-        sb.deleteCharAt(sb.length() - 1);
-        sb.append("]");
-        return sb.toString();
+
+        return null;
     }
 
-    private void levelOrder(StringBuilder sb) {
-        Queue<BinaryNode<T>> queue = new ArrayDeque<>();
-        queue.add(root);
+    /**
+     * Checks if the tree contains the specified element.
+     *
+     * @param element the element to check for
+     * @return true if the element is found, false otherwise
+     */
+    @Override
+    public boolean contains(T element) {
+        if (this.isEmpty()) return false;
+
+        Queue<BinaryNode<T>> queue = new LinkedListQueue<>();
+        queue.enqueue(this.root);
+
+        // Perform level-order traversal to find the element
         while (!queue.isEmpty()) {
-            BinaryNode<T> current = queue.remove();
-            sb.append(current.value + ",");
+            BinaryNode<T> current = queue.dequeue();
+            if (current.element.equals(element)) {
+                return true;
+            }
             if (current.left != null) {
-                queue.add(current.left);
+                queue.enqueue(current.left);
             }
             if (current.right != null) {
-                queue.add(current.right);
+                queue.enqueue(current.right);
             }
         }
-    }
-
-    private void preOrder(BinaryNode<T> node, StringBuilder sb) {
-        if (node == null) {
-            return;
-        }
-        sb.append(node.value + ",");
-        preOrder(node.left, sb);
-        preOrder(node.right, sb);
-    }
-
-    private void inOrder(BinaryNode<T> node, StringBuilder sb) {
-        if (node == null) {
-            return;
-        }
-        inOrder(node.left, sb);
-        sb.append(node.value + ",");
-        inOrder(node.right, sb);
-    }
-
-    private void postOrder(BinaryNode<T> node, StringBuilder sb) {
-        if (node == null) {
-            return;
-        }
-        postOrder(node.left, sb);
-        postOrder(node.right, sb);
-        sb.append(node.value + ",");
+        return false;
     }
 
 
     /**
-     * Remove all elements from the BT
+     * Clears the tree by removing all elements.
      */
+    @Override
     public void clear() {
-        root = null;
+        this.root = null;
+        this.size = 0;
     }
 
+    @Override
+    public Iterator<T> levelOrderIterator() {
+        return BinaryTreeIteratorFactory.levelOrderIterator(this.root);
+    }
 
-    private static class BinaryNode<E> {
-        private BinaryNode<E> left;
-        private BinaryNode<E> right;
-        private E value;
+    @Override
+    public Iterator<T> inOrderIterator() {
+        return BinaryTreeIteratorFactory.inOrderIterator(this.root);
+    }
 
-        public BinaryNode(E value, BinaryNode<E> left, BinaryNode<E> right) {
-            this.left = left;
-            this.right = right;
-            this.value = value;
-        }
+    @Override
+    public Iterator<T> postOrderIterator() {
+        return BinaryTreeIteratorFactory.postOrderIterator(this.root);
+    }
+
+    @Override
+    public Iterator<T> preOrderIterator() {
+        return BinaryTreeIteratorFactory.preOrderIterator(this.root);
     }
 }
+

@@ -1,365 +1,323 @@
 package com.marcinseweryn.algorithms.datastructures.tree.binary;
 
-import com.marcinseweryn.algorithms.datastructures.tree.TraversalType;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.Iterator;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class AVLTest {
-    static AVL<Integer> avl;
-    static TestBinaryNode root;
 
-    @BeforeEach
-    void beforeEach() {
-        avl = new AVL<>();
-        root = null;
+    @Test
+    void givenNewAVL_whenCreated_thenShouldBeEmpty() {
+        AVL<Integer> tree = new AVL<>();
+        assertNull(tree.root);
+        assertTrue(tree.isEmpty());
+        assertEquals(0, tree.size());
     }
 
     @Test
-    void testAddRemoveNullShouldReturnFalse() {
-        assertFalse(avl.add(null));
-        assertFalse(avl.remove(null));
+    void givenSingleElement_whenAdded_thenShouldBePresentInTree() {
+        AVL<Integer> tree = new AVL<>();
+        tree.add(10);
+        assertEquals(1, tree.size());
+        assertEquals(1, tree.root.height);
+        assertTrue(tree.contains(10));
     }
 
     @Test
-    void testRightRightCondition() {
-        //      9                              10
-        //        10            ->         9       20
-        //           20
-        avl.add(9);
-        avl.add(10);
-        avl.add(20);
-
-        // Imitate expected state
-        root = TestBinaryNode.add(root, 10);
-        root = TestBinaryNode.add(root, 20);
-        root = TestBinaryNode.add(root, 9);
-
-        assertTrue(validateTraversal());
-
-        //         11  - unbalanced RL                      15     - Balanced
-        //       10  15                        ->       11      17
-        //         14  17                             10  14      18
-        //               18
-        avl = new AVL<>();
-        root = null;
-        avl.add(11);
-        avl.add(10);
-        avl.add(15);
-        avl.add(14);
-        avl.add(17);
-        avl.add(18);
-        root = TestBinaryNode.add(root, 15);
-        root = TestBinaryNode.add(root, 11);
-        root = TestBinaryNode.add(root, 17);
-        root = TestBinaryNode.add(root, 10);
-        root = TestBinaryNode.add(root, 14);
-        root = TestBinaryNode.add(root, 18);
-
-        assertTrue(validateTraversal());
+    void givenDuplicateElement_whenAdded_thenShouldNotAdd() {
+        AVL<Integer> tree = new AVL<>();
+        tree.add(10);
+        assertFalse(tree.add(10));
+        assertEquals(1, tree.size());
     }
 
     @Test
-    void testLeftLeftCondition() {
-        //      9                              8
-        //    8                 ->          5     9
-        //  5
-        avl.add(9);
-        avl.add(8);
-        avl.add(5);
-
-        // Imitate expected state
-        root = TestBinaryNode.add(root, 8);
-        root = TestBinaryNode.add(root, 5);
-        root = TestBinaryNode.add(root, 9);
-
-        assertTrue(validateTraversal());
-
-        //          8    -- unbalanced LL                5
-        //       5     9                              4      8
-        //     4  6                          ->     3      6   9
-        //    3
-        avl.add(6);
-        avl.add(4);
-        avl.add(3);
-        root = null;
-        root = TestBinaryNode.add(root, 5);
-        root = TestBinaryNode.add(root, 4);
-        root = TestBinaryNode.add(root, 8);
-        root = TestBinaryNode.add(root, 3);
-        root = TestBinaryNode.add(root, 6);
-        root = TestBinaryNode.add(root, 9);
-
-        assertTrue(validateTraversal());
+    void givenTreeWithElements_whenRemovedLeaf_thenShouldDecreaseSize() {
+        AVL<Integer> tree = new AVL<>();
+        tree.add(10);
+        tree.add(20);
+        tree.add(30);
+        assertTrue(tree.remove(30));
+        assertEquals(2, tree.size());
     }
 
     @Test
-    void testLeftRightCondition() {
-        //      10             10             9
-        //    8          ->   8       ->   8     10
-        //      9            9
-        avl.add(10);
-        avl.add(8);
-        avl.add(9);
+    void givenTreeWithElements_whenRemovedElementWithChildren_thenShouldReplaceWithSuccessor() {
+        AVL<Integer> tree = new AVL<>();
+        tree.add(10);
+        tree.add(5);
+        tree.add(15);
+        tree.add(12);
+        tree.add(20);
 
-        // Imitate expected state
-        root = TestBinaryNode.add(root, 9);
-        root = TestBinaryNode.add(root, 8);
-        root = TestBinaryNode.add(root, 10);
+        assertTrue(tree.remove(15));
+        assertEquals(4, tree.size());
 
-        assertTrue(validateTraversal());
+        Iterator<Integer> iterator = tree.inOrderIterator();
+        assertEquals(5, iterator.next());
+        assertEquals(10, iterator.next());
+        assertEquals(12, iterator.next());
+        assertEquals(20, iterator.next());
     }
 
     @Test
-    void testAddRightLeftCondition() {
-        //      10             10                11
-        //        15     ->      11        ->  10  15
-        //      11                 15
-        avl.add(10);
-        avl.add(15);
-        avl.add(11);
-
-        // Imitate expected state
-        root = TestBinaryNode.add(root, 11);
-        root = TestBinaryNode.add(root, 10);
-        root = TestBinaryNode.add(root, 15);
-        assertTrue(validateTraversal());
-
-        //         11  - unbalanced RL                      15     - Balanced
-        //       10  15                        ->       11      17
-        //         14  17                             10  14  16
-        //           16
-        avl.add(17);
-        avl.add(14);
-        avl.add(16);
-        root = null;
-        root = TestBinaryNode.add(root, 15);
-        root = TestBinaryNode.add(root, 11);
-        root = TestBinaryNode.add(root, 17);
-        root = TestBinaryNode.add(root, 10);
-        root = TestBinaryNode.add(root, 14);
-        root = TestBinaryNode.add(root, 16);
-        assertTrue(validateTraversal());
+    void givenNonexistentElement_whenRemoved_thenShouldReturnFalse() {
+        AVL<Integer> tree = new AVL<>();
+        tree.add(10);
+        tree.add(20);
+        assertFalse(tree.remove(30));
+        assertEquals(2, tree.size());
     }
 
     @Test
-    void testRemoveRightLeftCondition() {
-        //      10             10                11
-        //    9   15     ->      11        ->  10  15
-        //      11                 15
-        avl.add(10);
-        avl.add(9);
-        avl.add(15);
-        avl.add(11);
-        assertTrue(validateBalance(avl.getRoot()));
-        assertTrue(avl.remove(9));
-        assertTrue(validateBalance(avl.getRoot()));
-
-        // Imitate expected state - balanced
-        root = TestBinaryNode.add(root, 11);
-        root = TestBinaryNode.add(root, 10);
-        root = TestBinaryNode.add(root, 15);
-        assertTrue(validateTraversal());
-
-        //         11  - unbalanced RL                      15     - Balanced
-        //       10  15                        ->       11      17
-        //     9    14  17                             10  14  16
-        //            16
-        avl.add(17);
-        avl.add(9);
-        avl.add(14);
-        avl.add(16);
-
-        assertTrue(avl.remove(9));
-        assertTrue(validateBalance(avl.getRoot()));
-
-        root = null;
-        root = TestBinaryNode.add(root, 15);
-        root = TestBinaryNode.add(root, 11);
-        root = TestBinaryNode.add(root, 17);
-        root = TestBinaryNode.add(root, 10);
-        root = TestBinaryNode.add(root, 14);
-        root = TestBinaryNode.add(root, 16);
-        assertTrue(validateTraversal());
+    void givenTree_whenContainsCalled_thenShouldFindCorrectElement() {
+        AVL<Integer> tree = new AVL<>();
+        tree.add(10);
+        tree.add(20);
+        assertTrue(tree.contains(10));
+        assertFalse(tree.contains(30));
     }
 
     @Test
-    void testInsertionBalanceRoot() {
-        for (int i = 0; i < 100_000; i++) {
-            avl.add(new Random().nextInt(100));
-            assertTrue(validateBalance(avl.getRoot()));
-        }
+    void givenTree_whenCleared_thenShouldBeEmpty() {
+        AVL<Integer> tree = new AVL<>();
+        tree.add(10);
+        tree.add(20);
+        tree.clear();
+        assertTrue(tree.isEmpty());
+        assertEquals(0, tree.size());
     }
 
     @Test
-    void testDeletionBalanceRoot() {
-        for (int i = 0; i < 100_000; i++) {
-            avl.add(new Random().nextInt(100));
-            assertTrue(validateBalance(avl.getRoot()));
-        }
-
-        for (int i = 0; i < 100_000; i++) {
-            avl.remove(new Random().nextInt(100));
-            assertTrue(validateBalance(avl.getRoot()));
-        }
+    void givenTreeWithOneElement_whenRemoved_thenTreeShouldBeEmpty() {
+        AVL<Integer> tree = new AVL<>();
+        tree.add(10);
+        tree.remove(10);
+        assertTrue(tree.isEmpty());
+        assertEquals(0, tree.size());
     }
 
+    @Test
+    void givenTreeWithElements_whenIteratedInOrder_thenShouldReturnElementsInOrder() {
+        AVL<Integer> tree = new AVL<>();
+        tree.add(40);
+        tree.add(20);
+        tree.add(60);
+        tree.add(10);
+        tree.add(30);
+        tree.add(50);
+        tree.add(70);
 
-    static boolean validateBalance(AVL.BinaryNode<Integer> node) {
-        if (node != null && node.getLeft() != null && node.getRight() != null) {
-            return node.getLeft().getHeight() - node.getRight().getHeight() <= 1 &&
-                    node.getLeft().getHeight() - node.getRight().getHeight() >= -1;
-        }
-        return true;
+        Iterator<Integer> inOrder = tree.inOrderIterator();
+        assertTrue(inOrder.hasNext());
+        assertEquals(10, inOrder.next());
+        assertEquals(20, inOrder.next());
+        assertEquals(30, inOrder.next());
+        assertEquals(40, inOrder.next());
+        assertEquals(50, inOrder.next());
+        assertEquals(60, inOrder.next());
+        assertEquals(70, inOrder.next());
+        assertFalse(inOrder.hasNext());
+
+        Iterator<Integer> levelOrder = tree.levelOrderIterator();
+        assertTrue(levelOrder.hasNext());
+        assertEquals(40, levelOrder.next());
+        assertEquals(20, levelOrder.next());
+        assertEquals(60, levelOrder.next());
+        assertEquals(10, levelOrder.next());
+        assertEquals(30, levelOrder.next());
+        assertEquals(50, levelOrder.next());
+        assertEquals(70, levelOrder.next());
+        assertFalse(levelOrder.hasNext());
+
+        Iterator<Integer> preOrder = tree.preOrderIterator();
+        assertTrue(preOrder.hasNext());
+        assertEquals(40, preOrder.next());
+        assertEquals(20, preOrder.next());
+        assertEquals(10, preOrder.next());
+        assertEquals(30, preOrder.next());
+        assertEquals(60, preOrder.next());
+        assertEquals(50, preOrder.next());
+        assertEquals(70, preOrder.next());
+        assertFalse(preOrder.hasNext());
+
+        Iterator<Integer> postOrder = tree.postOrderIterator();
+        assertTrue(postOrder.hasNext());
+        assertEquals(10, postOrder.next());
+        assertEquals(30, postOrder.next());
+        assertEquals(20, postOrder.next());
+        assertEquals(50, postOrder.next());
+        assertEquals(70, postOrder.next());
+        assertEquals(60, postOrder.next());
+        assertEquals(40, postOrder.next());
+        assertFalse(postOrder.hasNext());
     }
 
-    static boolean validateTraversal() {
-
-        assert root != null;
-        // inOrder test
-        TestBinaryNode.inOrder(root);
-        Iterator<AVL.BinaryNode<Integer>> avlInorder =
-                avl.traverseIterator(TraversalType.INORDER);
-        Iterator<TestBinaryNode> inOrder = TestBinaryNode.getList().iterator();
-        for (int i = 0; i < avl.size(); i++) {
-            int actual = avlInorder.next().getVal();
-            int expected = inOrder.next().value;
-            if (actual != expected) {
-                return false;
-            }
-        }
-
-        // levelOrder
-        TestBinaryNode.levelOrder(root);
-        Iterator<TestBinaryNode> levelOrder =
-                TestBinaryNode.getList().iterator();
-        Iterator<AVL.BinaryNode<Integer>> avlLevelOrder =
-                avl.traverseIterator(TraversalType.LEVELORDER);
-        for (int i = 0; i < avl.size(); i++) {
-            int actual = avlLevelOrder.next().getVal();
-            int expected = levelOrder.next().value;
-
-            if (actual != expected) {
-                return false;
-            }
-        }
-
-        // preOrder
-        TestBinaryNode.preOrder(root);
-        Iterator<TestBinaryNode> preOrder = TestBinaryNode.getList().iterator();
-        Iterator<AVL.BinaryNode<Integer>> avlPreorder =
-                avl.traverseIterator(TraversalType.PREORDER);
-
-        for (int i = 0; i < avl.size(); i++) {
-            int actual = avlPreorder.next().getVal();
-            int expected = preOrder.next().value;
-            if (actual != expected) {
-                return false;
-            }
-        }
-
-        // postOrder
-        TestBinaryNode.postOrder(root);
-        Iterator<TestBinaryNode> postOrder =
-                TestBinaryNode.getList().iterator();
-        Iterator<AVL.BinaryNode<Integer>> avlPostorder =
-                avl.traverseIterator(TraversalType.POSTORDER);
-        for (int i = 0; i < avl.size(); i++) {
-            int actual = avlPostorder.next().getVal();
-            int expected = postOrder.next().value;
-
-            if (actual != expected) {
-                return false;
-            }
-        }
-
-        return true;
+    @Test
+    void givenEmptyTree_whenRemoveCalled_thenShouldReturnFalse() {
+        AVL<Integer> tree = new AVL<>();
+        assertFalse(tree.remove(10));
     }
 
-    static class TestBinaryNode {
-        Integer value;
-        TestBinaryNode left;
-        TestBinaryNode right;
-        private static List<TestBinaryNode> list = new ArrayList<>();
+    @Test
+    void givenEmptyTree_whenContainsCalled_thenShouldReturnFalse() {
+        AVL<Integer> tree = new AVL<>();
+        assertFalse(tree.contains(10));
+    }
 
-        TestBinaryNode(Integer value, TestBinaryNode left,
-                       TestBinaryNode right) {
-            this.value = value;
-            this.left = left;
-            this.right = right;
+    @Test
+    void givenLargeNumberOfElements_whenAdded_thenShouldHandleCorrectly() {
+        AVL<Integer> tree = new AVL<>();
+        for (int i = 0; i < 10000; i++) {
+            tree.add(i);
+        }
+        assertEquals(10000, tree.size());
+        assertTrue(tree.contains(0));
+        assertTrue(tree.contains(9999));
+
+        Iterator<Integer> iterator = tree.inOrderIterator();
+        for (int i = 0; i < 10000; i++) {
+            assertTrue(iterator.hasNext());
+            assertEquals(i, iterator.next());
+        }
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    void givenLargeNumberOfElements_whenRemoved_thenShouldHandleCorrectly() {
+        AVL<Integer> tree = new AVL<>();
+        for (int i = 0; i < 10000; i++) {
+            tree.add(i);
+        }
+        for (int i = 0; i < 10000; i++) {
+            tree.remove(i);
+        }
+        assertTrue(tree.isEmpty());
+        assertEquals(0, tree.size());
+    }
+
+    @Test
+    void givenElementsThatCauseLLRotation_whenAdded_thenTreeShouldRebalance() {
+        AVL<Integer> tree = new AVL<>();
+        tree.add(30);
+        tree.add(20);
+        tree.add(10);  // This should trigger LL rotation
+
+        assertEquals(2, tree.root.height);  // Height should be updated correctly
+        assertEquals(20, tree.root.element);  // The root should be 20 after rotation
+        assertEquals(10, tree.root.left.element);
+        assertEquals(30, tree.root.right.element);
+    }
+
+    @Test
+    void givenElementsThatCauseRRRotation_whenAdded_thenTreeShouldRebalance() {
+        AVL<Integer> tree = new AVL<>();
+        tree.add(10);
+        tree.add(20);
+        tree.add(30);  // This should trigger RR rotation
+
+        assertEquals(2, tree.root.height);  // Height should be updated correctly
+        assertEquals(20, tree.root.element);  // The root should be 20 after rotation
+        assertEquals(10, tree.root.left.element);
+        assertEquals(30, tree.root.right.element);
+    }
+
+    @Test
+    void givenElementsThatCauseLRRotation_whenAdded_thenTreeShouldRebalance() {
+        AVL<Integer> tree = new AVL<>();
+        tree.add(30);
+        tree.add(10);
+        tree.add(20);  // This should trigger LR rotation
+
+        assertEquals(2, tree.root.height);  // Height should be updated correctly
+        assertEquals(20, tree.root.element);  // The root should be 20 after rotation
+        assertEquals(10, tree.root.left.element);
+        assertEquals(30, tree.root.right.element);
+    }
+
+    @Test
+    void givenElementsThatCauseRLRotation_whenAdded_thenTreeShouldRebalance() {
+        AVL<Integer> tree = new AVL<>();
+        tree.add(10);
+        tree.add(30);
+        tree.add(20);  // This should trigger RL rotation
+
+        assertEquals(2, tree.root.height);  // Height should be updated correctly
+        assertEquals(20, tree.root.element);  // The root should be 20 after rotation
+        assertEquals(10, tree.root.left.element);
+        assertEquals(30, tree.root.right.element);
+    }
+
+    @Test
+    void givenAVLTree_whenHeightChecked_thenShouldBeCorrectlyUpdated() {
+        AVL<Integer> tree = new AVL<>();
+        assertNull(tree.root);
+        assertTrue(tree.isEmpty());
+
+        tree.add(10);
+        assertEquals(1, tree.root.height);
+
+        tree.add(20);
+        assertEquals(2, tree.root.height);
+
+        tree.add(30);  // This should cause a rotation, reducing the height to 2
+        assertEquals(2, tree.root.height);
+    }
+
+    @Test
+    void givenAVLTree_whenRebalanced_thenHeightShouldBeUpdatedCorrectly() {
+        AVL<Integer> tree = new AVL<>();
+        tree.add(10);
+        tree.add(20);
+        tree.add(30);  // RR rotation should occur
+
+        assertEquals(2, tree.root.height);  // Height should be 2 after rotation
+        assertEquals(1, tree.root.left.height);
+        assertEquals(1, tree.root.right.height);
+
+        tree.add(40);
+        tree.add(50);  // RR rotation should occur
+
+        assertEquals(3, tree.root.height);  // Height should increase to 3
+        assertEquals(2, tree.root.right.height);  // The right subtree's height should be 2
+    }
+
+    @Test
+    void givenAVLTree_whenNodeRemoved_thenShouldRebalanceAndMaintainCorrectHeight() {
+        AVL<Integer> tree = new AVL<>();
+        tree.add(10);
+        tree.add(20);
+        tree.add(30);  // RR rotation should occur
+
+        tree.remove(10);  // Remove a leaf node
+        assertEquals(2, tree.root.height);  // Height should remain 2
+        assertEquals(1, tree.root.right.height);
+
+        tree.remove(30);  // Remove another node causing rotation
+        assertEquals(1, tree.root.height);  // Height should decrease to 1
+        assertNull(tree.root.left);
+        assertNull(tree.root.right);
+    }
+
+    @Test
+    void givenAVLTree_whenRemovingElementsInComplexPattern_thenShouldRemainBalanced() {
+        AVL<Integer> tree = new AVL<>();
+        int[] elements = {10, 20, 30, 40, 50, 25};
+
+        for (int el : elements) {
+            tree.add(el);
         }
 
-        static List<TestBinaryNode> getList() {
-            List<TestBinaryNode> temp = new ArrayList<>();
-            for (TestBinaryNode testBinaryNode : list) {
-                temp.add(testBinaryNode);
-            }
-            list = new ArrayList<>();
-            return temp;
-        }
+        tree.remove(50);
+        tree.remove(40);
+        tree.remove(10);
 
-        static TestBinaryNode add(TestBinaryNode node, int value) {
-            if (node == null) {
-                node = new TestBinaryNode(value, null, null);
-            } else if (value < node.value) {
-                node.left = add(node.left, value);
-            } else {
-                node.right = add(node.right, value);
-            }
-            return node;
-        }
-
-        static void inOrder(TestBinaryNode node) {
-            if (node == null) {
-                return;
-            }
-            inOrder(node.left);
-            list.add(node);
-            inOrder(node.right);
-        }
-
-        static void postOrder(TestBinaryNode node) {
-            if (node == null) {
-                return;
-            }
-            postOrder(node.left);
-            postOrder(node.right);
-            list.add(node);
-        }
-
-        static void levelOrder(TestBinaryNode node) {
-            Queue<TestBinaryNode> queue = new ArrayDeque<>();
-            queue.add(node);
-            while (!queue.isEmpty()) {
-                TestBinaryNode current = queue.remove();
-                list.add(current);
-                if (current.left != null) {
-                    queue.add(current.left);
-                }
-                if (current.right != null) {
-                    queue.add(current.right);
-                }
-            }
-        }
-
-        static void preOrder(TestBinaryNode node) {
-            if (node == null) {
-                return;
-            }
-            list.add(node);
-            preOrder(node.left);
-            preOrder(node.right);
-        }
-
-        static int height(TestBinaryNode node) {
-            if (node == null) {
-                return 0;
-            }
-            return 1 + Math.max(height(node.left), height(node.right));
-        }
+        // The tree should rebalance itself
+        assertEquals(2, tree.root.height);  // Height should be updated correctly
+        assertTrue(tree.contains(20));
+        assertTrue(tree.contains(25));
+        assertTrue(tree.contains(30));
     }
 }

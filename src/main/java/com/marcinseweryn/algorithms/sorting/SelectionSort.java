@@ -1,76 +1,81 @@
 package com.marcinseweryn.algorithms.sorting;
 
 import java.util.Arrays;
-
-import static java.lang.System.out;
+import java.util.Comparator;
 
 /**
- * Implements the SelectionSort algorithm to sort an array of elements in
- * ascending/descending order.
- * SelectionSort works by repeatedly finding the minimum element in the
- * unsorted part of the array,
- * swapping it with the first unsorted element, and then advancing the
- * boundary between the sorted
- * and unsorted parts of the array.
+ * This class implements the Selection Sort algorithm for sorting arrays.
+ * <p>
+ * Selection Sort is an in-place comparison sorting algorithm that divides the array
+ * into a sorted and an unsorted region. It repeatedly selects the smallest (or largest)
+ * element from the unsorted region and moves it to the end of the sorted region.
+ * </p>
+ *
+ * <p><b>Time Complexity:</b></p>
+ * <ul>
+ *     <li><b>Best Case:</b> O(n^2) - Selection Sort always performs O(n^2) comparisons.</li>
+ *     <li><b>Average Case:</b> O(n^2) - The number of comparisons remains O(n^2) regardless of the initial order.</li>
+ *     <li><b>Worst Case:</b> O(n^2) - Selection Sort performs O(n^2) swaps in the worst case.</li>
+ * </ul>
+ *
+ * <p><b>Space Complexity:</b> O(1) - Selection Sort is an in-place sorting algorithm that requires only a constant amount of extra space.</p>
+ *
+ * <p><b>Stability:</b> Selection Sort is not a stable sorting algorithm, meaning it may change the relative order of equal elements.</p>
+ *
+ * @param <T> the type of elements in the array
  */
 public class SelectionSort {
-    private SelectionSort() {
-        // Utility class
-    }
 
-    public static <T extends Comparable<T>> void sort(T[] array) {
-        if (array == null) {
-            throw new NullPointerException();
-        }
-        int N = array.length;
-        for (int i = 0; i < N - 1; i++) {
-            T min = array[i];
-            int minIndex = i;
-            for (int j = i + 1; j < N; j++) {
-                if (array[j].compareTo(min) < 0) {
-                    min = array[j];
-                    minIndex = j;
+    // Private constructor to prevent instantiation
+    private SelectionSort() {}
+
+    /**
+     * Sorts the specified array using the Selection Sort algorithm.
+     *
+     * @param arr        the array to be sorted
+     * @param comparator the comparator to determine the order of the elements
+     * @param <T>        the type of elements in the array
+     *
+     * Time Complexity: O(n^2)
+     * Space Complexity: O(1) (in-place sorting)
+     */
+    public static<T> void sort(T[] arr, Comparator<T> comparator) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            int min = i; // Assume the minimum is the first element
+            for (int j = i + 1; j < arr.length; j++) {
+                // Find the index of the minimum element in the remaining unsorted part
+                if(comparator.compare(arr[j], arr[min]) < 0) {
+                    min = j;
                 }
             }
-            array[minIndex] = array[i];
-            array[i] = min;
+            // Swap the found minimum element with the first element of the unsorted part
+            swap(arr, i, min);
         }
     }
 
-    public static <T extends Comparable<T>> void descendingSort(T[] array) {
-        if (array == null) {
-            throw new NullPointerException();
-        }
-        int N = array.length;
-        for (int i = 0; i < N - 1; i++) {
-            T max = array[i];
-            int maxIndex = i;
-            for (int j = i + 1; j < N; j++) {
-                if (array[j].compareTo(max) > 0) {
-                    max = array[j];
-                    maxIndex = j;
-                }
-            }
-            array[maxIndex] = array[i];
-            array[i] = max;
-        }
+    /**
+     * Swaps two elements in an array.
+     *
+     * @param arr the array in which elements are to be swapped
+     * @param i   the index of the first element to swap
+     * @param j   the index of the second element to swap
+     * @param <T> the type of elements in the array
+     */
+    private static<T> void swap(T[] arr, int i, int j) {
+        T temp = arr[j];
+        arr[j] = arr[i];
+        arr[i] = temp;
     }
 
     public static void main(String[] args) {
-        out.println("-----------SELECTION SORT------------");
-        out.println("Integer[]");
-        Integer[] array = {2, 8, 1, 3, 6, 7, 5, 4};
-        out.println(Arrays.toString(array) + "\nAscending:");
-        SelectionSort.sort(array);
-        out.println(Arrays.toString(array) + "\nDescending:");
-        SelectionSort.descendingSort(array);
-        out.println(Arrays.toString(array) + "\nString[]");
-        String[] stringArray = {"z", "Z", "C", "D", "X", "v", "Y", "A", "a",
-                                "L", "M"};
-        out.println(Arrays.toString(stringArray) + "\nAscending");
-        SelectionSort.sort(stringArray);
-        out.println(Arrays.toString(stringArray) + "\nDescending");
-        SelectionSort.descendingSort(stringArray);
-        out.print(Arrays.toString(stringArray));
+        Integer[] intArray = {5, 3, 8, 1, 2, 7};
+        System.out.println("Before sorting (integers): " + Arrays.toString(intArray));
+        SelectionSort.sort(intArray, Comparator.naturalOrder());
+        System.out.println("After sorting (integers): " + Arrays.toString(intArray));
+        String[] strArray = {"apple", "orange", "banana", "pear", "grape"};
+        System.out.println("Before sorting (strings): " + Arrays.toString(strArray));
+        SelectionSort.sort(strArray, Comparator.naturalOrder());
+        System.out.println("After sorting (strings): " + Arrays.toString(strArray));
     }
+
 }

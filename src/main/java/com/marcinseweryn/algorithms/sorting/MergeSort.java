@@ -1,101 +1,124 @@
 package com.marcinseweryn.algorithms.sorting;
 
 import java.util.Arrays;
-
-import static java.lang.System.out;
+import java.util.Comparator;
 
 /**
- * Implements the MergeSort algorithm to sort an array of elements in
- * ascending order.
- * MergeSort works by dividing the array into two halves, recursively sorting
- * each half,
- * and then merging the two sorted halves into a single sorted array.
+ * This class implements the Merge Sort algorithm for sorting arrays.
+ * <p>
+ * Merge Sort is a divide-and-conquer algorithm that recursively divides
+ * the array into halves, sorts each half, and merges them back together.
+ * </p>
+ * <p><b>Time Complexity:</b> O(n log n) for all cases (best, average, and worst) because the array is always split in half and requires linear time to merge.</p>
+ * <p><b>Space Complexity:</b> O(n) due to the temporary arrays used for merging.</p>
  */
 public class MergeSort {
+
+    // Private constructor to prevent instantiation
     private MergeSort() {
-        // Utility class
     }
 
     /**
-     * Sorts the given array of comparable elements using the merge sort
-     * algorithm.
+     * Sorts the specified array using the Merge Sort algorithm.
      *
-     * @param array the array of comparable elements to be sorted
-     * @param <T>   the type of elements in the array to be sorted
+     * @param arr        the array to be sorted
+     * @param comparator the comparator to determine the order of the elements
+     * @param start      the starting index of the array to be sorted
+     * @param end        the ending index of the array to be sorted
+     * @param <T>        the type of elements in the array
+     *
+     * Time Complexity: O(n log n)
+     * Space Complexity: O(n) due to the additional arrays used for merging
      */
-    public static <T extends Comparable<T>> void sort(Object[] array) {
-        int arrayLength = array.length;
-
-        // Base case: if the array has length less than 2,
-        // it is already sorted
-        if (arrayLength < 2) return;
-
-        // Divide the array into two halves and recursively sort each half
-        int mid = arrayLength / 2;
-        Object[] left = new Object[mid];
-        Object[] right = new Object[arrayLength - mid];
-        System.arraycopy(array, 0, left, 0, mid);
-        if (arrayLength - mid >= 0)
-            System.arraycopy(array, mid, right, 0, arrayLength - mid);
-        sort(left);
-        sort(right);
-
-        // Merge the sorted halves back into a single sorted array
-        merge(left, right, array);
+    public static <T> void sort(T[] arr, Comparator<T> comparator, int start, int end) {
+        if (start < end) {
+            int mid = (start + end) / 2;
+            sort(arr, comparator, start, mid);       // Sort the first half
+            sort(arr, comparator, mid + 1, end);     // Sort the second half
+            merge(arr, comparator, start, mid, end); // Merge the sorted halves
+        }
     }
 
-
     /**
-     * Merges two sorted arrays into a single sorted array.
+     * Merges two sorted subarrays into a single sorted subarray.
+     * The first subarray is arr[left...mid]
+     * The second subarray is arr[mid+1...right]
      *
-     * @param left  the left half of the array to be merged
-     * @param right the right half of the array to be merged
-     * @param array the array to hold the merged result
-     * @param <T>   the type of elements in the arrays to be merged, must
-     *              implement Comparable
+     * @param arr        the array to merge
+     * @param comparator the comparator to determine the order of the elements
+     * @param left       the starting index of the first subarray
+     * @param mid        the ending index of the first subarray
+     * @param right      the ending index of the second subarray
+     * @param <T>        the type of elements in the array
+     *
+     * Time Complexity: O(n)
+     * Space Complexity: O(n) for the temporary arrays used during the merge process
      */
-    private static <T extends Comparable<T>> void merge(Object[] left,
-                                                        Object[] right,
-                                                        Object[] array) {
+    private static <T> void merge(T[] arr, Comparator<T> comparator, int left, int mid, int right) {
+        int length1 = mid - left + 1;
+        int length2 = right - mid;
 
-        // Initialize variables to track the indices of the left and
-        // right sub-arrays, as well as the merged array
-        int k = 0;
-        int i = 0;
-        int j = 0;
+        // Create temporary arrays for left and right subarrays
+        T[] leftArr = (T[]) new Object[length1];
+        T[] rightArr = (T[]) new Object[length2];
 
-        //  Iterate over both sub-arrays and compare their elements,
-        //  copying them to the merged array in the appropriate order
-        while (i < left.length && j < right.length) {
-            if (((T) left[i]).compareTo((T) right[j]) < 0) {
-                array[k++] = left[i++];
+        // Copy data to temporary arrays
+        for (int i = 0; i < length1; i++) {
+            leftArr[i] = arr[left + i];
+        }
+        for (int i = 0; i < length2; i++) {
+            rightArr[i] = arr[mid + 1 + i];
+        }
+
+        int i = 0, j = 0, k = left;
+
+        // Merge the temporary arrays back into the original array
+        while (i < length1 && j < length2) {
+            if (comparator.compare(leftArr[i], rightArr[j]) <= 0) {
+                arr[k] = leftArr[i];
+                i++;
             } else {
-                array[k++] = right[j++];
+                arr[k] = rightArr[j];
+                j++;
             }
+            k++;
         }
 
-        // Copy any remaining elements from the left
-        // or right sub-array to the merged array
-        while (i < left.length) {
-            array[k++] = left[i++];
+        // Copy any remaining elements of leftArr, if any
+        while (i < length1) {
+            arr[k] = leftArr[i];
+            i++;
+            k++;
         }
-        while (j < right.length) {
-            array[k++] = right[j++];
+
+        // Copy any remaining elements of rightArr, if any
+        while (j < length2) {
+            arr[k] = rightArr[j];
+            j++;
+            k++;
         }
     }
 
     public static void main(String[] args) {
-        out.println("-----------MERGE SORT------------");
-        out.println("Integer[]");
-        Integer[] array = {2, 8, 1, 3, 6, 7, 5, 4};
-        out.println("unsorted" + Arrays.toString(array));
-        MergeSort.sort(array);
-        out.println("sorted" + Arrays.toString(array));
-        out.println("String[]");
-        String[] stringArray = {"z", "Z", "C", "D", "X", "v", "Y", "A", "a",
-                                "L", "M"};
-        out.println("unsorted" + Arrays.toString(stringArray));
-        MergeSort.sort(stringArray);
-        out.println("sorted" + Arrays.toString(stringArray));
+        // Create a sample array of integers
+        Integer[] array = {5, 3, 8, 1, 2, 7};
+
+        // Print the array before sorting
+        System.out.println("Before sorting: " + Arrays.toString(array));
+
+        // Sort the array in ascending order
+        MergeSort.sort(array, Comparator.naturalOrder(), 0, array.length - 1);
+        System.out.println("After ascending sort: " + Arrays.toString(array));
+
+        // Reset the array to its original state
+        array = new Integer[]{5, 3, 8, 1, 2, 7};
+
+        // Print the array before sorting in descending order
+        System.out.println("Before sorting (descending): " + Arrays.toString(array));
+
+        // Sort the array in descending order
+        MergeSort.sort(array, Comparator.reverseOrder(), 0, array.length - 1);
+        System.out.println("After descending sort: " + Arrays.toString(array));
     }
+
 }

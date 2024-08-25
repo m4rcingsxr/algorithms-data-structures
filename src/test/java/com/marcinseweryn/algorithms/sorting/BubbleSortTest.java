@@ -1,65 +1,59 @@
 package com.marcinseweryn.algorithms.sorting;
 
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.converter.ArgumentConversionException;
-import org.junit.jupiter.params.converter.ConvertWith;
-import org.junit.jupiter.params.converter.TypedArgumentConverter;
-import org.junit.jupiter.params.provider.CsvFileSource;
-
-import java.util.Arrays;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-
+import org.junit.jupiter.api.Test;
+import java.util.Comparator;
+import static org.junit.jupiter.api.Assertions.*;
 
 class BubbleSortTest {
 
-    @ParameterizedTest(name = "[{index}] => {0}")
-    @CsvFileSource(delimiter = '|', resources = "resources/BubbleSort.csv",
-            useHeadersInDisplayName = true)
-    void bubbleSortTest(
-            @ConvertWith(ToIntegerArrayConverter.class) Integer... in) {
-        Integer[] expected = Arrays.copyOf(in, in.length);
-        Arrays.sort(expected);
-        Integer[] actual = in;
-        BubbleSort.sort(actual);
-
-        assertArrayEquals(expected, actual);
+    @Test
+    void givenEmptyArray_whenSortCalled_thenArrayRemainsEmpty() {
+        Integer[] array = {};
+        BubbleSort.sort(array, Comparator.naturalOrder());
+        assertEquals(0, array.length, "Empty array should remain unchanged.");
     }
 
-    @RepeatedTest(10)
-    void bubbleSortRandomTest() {
-        Integer[] actual = getRandomArray(10);
-        Integer[] expected = Arrays.copyOf(actual, actual.length);
-
-        // When
-        Arrays.sort(expected);
-        BubbleSort.sort(actual);
-        // Then
-        assertArrayEquals(expected, actual);
+    @Test
+    void givenSingleElementArray_whenSortCalled_thenArrayRemainsUnchanged() {
+        Integer[] array = {42};
+        BubbleSort.sort(array, Comparator.naturalOrder());
+        assertArrayEquals(new Integer[]{42}, array, "Array with a single element should remain unchanged.");
     }
 
-    private static Integer[] getRandomArray(Integer size) {
-        int randomSize = (int) (Math.random() * size + 1);
-        Integer[] arr = new Integer[randomSize];
-        for (int i = 0; i < randomSize; i++) {
-            int random = (int) (Math.random() * 100);
-            arr[i] = random;
-        }
-        return arr;
+    @Test
+    void givenAlreadySortedArray_whenSortCalled_thenArrayRemainsSorted() {
+        Integer[] array = {1, 2, 3, 4, 5};
+        BubbleSort.sort(array, Comparator.naturalOrder());
+        assertArrayEquals(new Integer[]{1, 2, 3, 4, 5}, array, "Already sorted array should remain sorted.");
     }
 
-    public static class ToIntegerArrayConverter
-            extends TypedArgumentConverter<String, Integer[]> {
-        protected ToIntegerArrayConverter() {
-            super(String.class, Integer[].class);
-        }
-
-        @Override
-        protected Integer[] convert(String source)
-                throws ArgumentConversionException {
-            return Arrays.stream(source.split(","))
-                    .map(Integer::valueOf).toArray(Integer[]::new);
-        }
+    @Test
+    void givenReverseSortedArray_whenSortCalled_thenArrayIsSortedAscending() {
+        Integer[] array = {5, 4, 3, 2, 1};
+        BubbleSort.sort(array, Comparator.naturalOrder());
+        assertArrayEquals(new Integer[]{1, 2, 3, 4, 5}, array, "Reverse sorted array should be sorted in ascending order.");
     }
+
+    @Test
+    void givenArrayWithDuplicates_whenSortCalled_thenArrayIsSortedAndDuplicatesHandled() {
+        Integer[] array = {3, 1, 2, 3, 2};
+        BubbleSort.sort(array, Comparator.naturalOrder());
+        assertArrayEquals(new Integer[]{1, 2, 2, 3, 3}, array, "Array with duplicates should be sorted correctly.");
+    }
+
+    @Test
+    void givenArrayWithNegativeNumbers_whenSortCalled_thenArrayIsSortedCorrectly() {
+        Integer[] array = {3, -1, -4, 2, 0};
+        BubbleSort.sort(array, Comparator.naturalOrder());
+        assertArrayEquals(new Integer[]{-4, -1, 0, 2, 3}, array, "Array with negative numbers should be sorted correctly.");
+    }
+
+    @Test
+    void givenArrayWithCustomComparator_whenSortCalled_thenArrayIsSortedAccordingToComparator() {
+        String[] array = {"apple", "banana", "pear", "grape"};
+        Comparator<String> lengthComparator = Comparator.comparingInt(String::length);
+        BubbleSort.sort(array, lengthComparator);
+        assertArrayEquals(new String[]{"pear", "apple", "grape", "banana"}, array, "Array should be sorted by string length.");
+    }
+
 }

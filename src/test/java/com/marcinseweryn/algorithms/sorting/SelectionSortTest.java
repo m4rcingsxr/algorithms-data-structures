@@ -1,80 +1,79 @@
 package com.marcinseweryn.algorithms.sorting;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.Test;
+import java.util.Comparator;
+import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-
-@DisplayName("SelectionSort")
 class SelectionSortTest {
 
-    @DisplayName("ascendingSort")
-    @ParameterizedTest(name = "{index} => array={0}, sorted={1}")
-    @MethodSource()
-    void testAscendingSort(Integer[] array, Integer[] sorted) {
-        SelectionSort.sort(array);
-        assertArrayEquals(sorted, array);
+    @Test
+    void givenEmptyArray_whenSortCalled_thenArrayRemainsEmpty() {
+        Integer[] array = {};
+        SelectionSort.sort(array, Comparator.naturalOrder());
+        assertEquals(0, array.length, "Empty array should remain unchanged.");
     }
 
-    @DisplayName("descendingSort")
-    @ParameterizedTest(name = "{index} => array={0}, sorted={1}")
-    @MethodSource
-    void testDescendingSort(Integer[] array, Integer[] sorted) {
-        SelectionSort.descendingSort(array);
-        assertArrayEquals(sorted, array);
+    @Test
+    void givenSingleElementArray_whenSortCalled_thenArrayRemainsUnchanged() {
+        Integer[] array = {42};
+        SelectionSort.sort(array, Comparator.naturalOrder());
+        assertArrayEquals(new Integer[]{42}, array, "Array with a single element should remain unchanged.");
     }
 
-    private static Stream<Arguments> testAscendingSort() {
-        Integer[] array1 = {2, 8, 1, 3, 6, 7, 5, 4};
-        Integer[] sorted1 = {1, 2, 3, 4, 5, 6, 7, 8};
-
-        Integer[] array2 = {2, -8, 1, 0, -6, 7, -5, 4};
-        Integer[] sorted2 = {-8, -6, -5, 0, 1, 2, 4, 7};
-
-        Integer[] array3 = {5, 4, 3, 2, 1};
-        Integer[] sorted3 = {1, 2, 3, 4, 5};
-
-        Integer[] array4 = {1, 1, 1, 1, 1};
-        Integer[] sorted4 = {1, 1, 1, 1, 1};
-
-        Integer[] array5 = {1, 2, 3, 4, 5};
-        Integer[] sorted5 = {1, 2, 3, 4, 5};
-
-        return Stream.of(
-                Arguments.of(array1, sorted1),
-                Arguments.of(array2, sorted2),
-                Arguments.of(array3, sorted3),
-                Arguments.of(array4, sorted4),
-                Arguments.of(array5, sorted5)
-        );
+    @Test
+    void givenAlreadySortedArray_whenSortCalled_thenArrayRemainsSorted() {
+        Integer[] array = {1, 2, 3, 4, 5};
+        SelectionSort.sort(array, Comparator.naturalOrder());
+        assertArrayEquals(new Integer[]{1, 2, 3, 4, 5}, array, "Already sorted array should remain sorted.");
     }
 
-    static Stream<Object[]> testDescendingSort() {
-        return Stream.of(
-                new Object[]{
-                        new Integer[]{},
-                        new Integer[]{}
-                },
-                new Object[]{
-                        new Integer[]{1},
-                        new Integer[]{1}
-                },
-                new Object[]{
-                        new Integer[]{3, 1, 2},
-                        new Integer[]{3, 2, 1}
-                },
-                new Object[]{
-                        new Integer[]{6, 4, 7, 5, 3, 1, 2},
-                        new Integer[]{7, 6, 5, 4, 3, 2, 1}
-                },
-                new Object[]{
-                        new Integer[]{-5, 2, 0, -3, 10, 5, -1},
-                        new Integer[]{10, 5, 2, 0, -1, -3, -5}
-                }
-        );
+    @Test
+    void givenReverseSortedArray_whenSortCalled_thenArrayIsSortedAscending() {
+        Integer[] array = {5, 4, 3, 2, 1};
+        SelectionSort.sort(array, Comparator.naturalOrder());
+        assertArrayEquals(new Integer[]{1, 2, 3, 4, 5}, array, "Reverse sorted array should be sorted in ascending order.");
+    }
+
+    @Test
+    void givenArrayWithDuplicates_whenSortCalled_thenArrayIsSortedAndDuplicatesHandled() {
+        Integer[] array = {3, 1, 2, 3, 2};
+        SelectionSort.sort(array, Comparator.naturalOrder());
+        assertArrayEquals(new Integer[]{1, 2, 2, 3, 3}, array, "Array with duplicates should be sorted correctly.");
+    }
+
+    @Test
+    void givenArrayWithNegativeNumbers_whenSortCalled_thenArrayIsSortedCorrectly() {
+        Integer[] array = {3, -1, -4, 2, 0};
+        SelectionSort.sort(array, Comparator.naturalOrder());
+        assertArrayEquals(new Integer[]{-4, -1, 0, 2, 3}, array, "Array with negative numbers should be sorted correctly.");
+    }
+
+    @Test
+    void givenArrayWithCustomComparator_whenSortCalled_thenArrayIsSortedAccordingToComparator() {
+        String[] array = {"apple", "banana", "pear", "grape"};
+        Comparator<String> lengthComparator = Comparator.comparingInt(String::length);
+        SelectionSort.sort(array, lengthComparator);
+        assertArrayEquals(new String[]{"pear", "apple", "grape", "banana"}, array, "Array should be sorted by string length.");
+    }
+
+    @Test
+    void givenArrayWithMixedPositiveAndNegativeNumbers_whenSortCalled_thenArrayIsSortedCorrectly() {
+        Integer[] array = {-5, 3, -1, 0, 2, -3, 4};
+        SelectionSort.sort(array, Comparator.naturalOrder());
+        assertArrayEquals(new Integer[]{-5, -3, -1, 0, 2, 3, 4}, array, "Array with mixed positive and negative numbers should be sorted correctly.");
+    }
+
+    @Test
+    void givenArrayWithIdenticalElements_whenSortCalled_thenArrayRemainsUnchanged() {
+        Integer[] array = {7, 7, 7, 7, 7};
+        SelectionSort.sort(array, Comparator.naturalOrder());
+        assertArrayEquals(new Integer[]{7, 7, 7, 7, 7}, array, "Array with identical elements should remain unchanged.");
+    }
+
+    @Test
+    void givenArray_whenSortCalledWithReverseOrderComparator_thenArrayIsSortedDescending() {
+        Integer[] array = {1, 2, 3, 4, 5};
+        SelectionSort.sort(array, Comparator.reverseOrder());
+        assertArrayEquals(new Integer[]{5, 4, 3, 2, 1}, array, "Array should be sorted in descending order using reverse order comparator.");
     }
 }

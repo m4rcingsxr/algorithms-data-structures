@@ -1,70 +1,69 @@
 package com.marcinseweryn.algorithms.graphs.list;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.stream.Stream;
 
-import static com.marcinseweryn.algorithms.graphs.list.BreadthFirstSearch.addUndirectedEdge;
-import static com.marcinseweryn.algorithms.graphs.list.BreadthFirstSearch.createGraph;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BreadthFirstSearchTest {
+    private static List<List<Integer>> graph;
 
-    @DisplayName("Should traverse graph using BFS")
-    @ParameterizedTest(name = "Graph {index}")
-    @MethodSource("graphsProvider")
-    void bfs(List<List<Integer>> graph, int start, String expected) {
-        String actual = BreadthFirstSearch.bfs(graph, start);
-        assertEquals(expected, actual);
+    @BeforeAll
+    static void setUp() {
+        //                 1     12
+        //               /   \ /   \
+        //             10     8     2   4
+        //               \   /       \ /
+        //                9          3       5
+        //                  \       /       /
+        //                   0  -- 7  -- 6
+        //                    \
+        //                    11
+        graph = BreadthFirstSearch.createGraph(13);
+        BreadthFirstSearch.addUndirectedEdge(graph, 0, 7);
+        BreadthFirstSearch.addUndirectedEdge(graph, 0, 9);
+        BreadthFirstSearch.addUndirectedEdge(graph, 0, 11);
+        BreadthFirstSearch.addUndirectedEdge(graph, 7, 6);
+        BreadthFirstSearch.addUndirectedEdge(graph, 7, 3);
+        BreadthFirstSearch.addUndirectedEdge(graph, 6, 5);
+        BreadthFirstSearch.addUndirectedEdge(graph, 3, 4);
+        BreadthFirstSearch.addUndirectedEdge(graph, 2, 3);
+        BreadthFirstSearch.addUndirectedEdge(graph, 2, 12);
+        BreadthFirstSearch.addUndirectedEdge(graph, 12, 8);
+        BreadthFirstSearch.addUndirectedEdge(graph, 8, 1);
+        BreadthFirstSearch.addUndirectedEdge(graph, 1, 10);
+        BreadthFirstSearch.addUndirectedEdge(graph, 10, 9);
+        BreadthFirstSearch.addUndirectedEdge(graph, 9, 8);
     }
 
-    private static Stream<Arguments> graphsProvider() {
-        List<List<Integer>> graph1 = createGraph(7);
-        addUndirectedEdge(graph1, 0, 1);
-        addUndirectedEdge(graph1, 0, 2);
-        addUndirectedEdge(graph1, 1, 3);
-        addUndirectedEdge(graph1, 1, 4);
-        addUndirectedEdge(graph1, 2, 5);
-        addUndirectedEdge(graph1, 2, 6);
-        String expected1 = "Breadth First Search from vertex 0:[0 1 2 3 4 5 6]";
-        Arguments arg1 = Arguments.of(graph1, 0, expected1);
+    @Test
+    void whenPerformingBFSFromVertex0_thenCorrectTraversalOrder() {
+        List<Integer> traversalOrder = BreadthFirstSearch.bfs(graph, 0);
 
-        List<List<Integer>> graph2 = createGraph(6);
-        addUndirectedEdge(graph2, 0, 1);
-        addUndirectedEdge(graph2, 0, 2);
-        addUndirectedEdge(graph2, 1, 3);
-        addUndirectedEdge(graph2, 1, 4);
-        addUndirectedEdge(graph2, 2, 5);
-        String expected2 = "Breadth First Search from vertex 0:[0 1 2 3 4 5]";
-        Arguments arg2 = Arguments.of(graph2, 0, expected2);
+        List<Integer> expectedOrder = List.of(0, 7, 9, 11, 6, 3, 10, 8, 5, 4, 2, 1, 12);
+        assertEquals(expectedOrder, traversalOrder);
+    }
 
-        List<List<Integer>> graph3 = createGraph(10);
-        addUndirectedEdge(graph3, 0, 1);
-        addUndirectedEdge(graph3, 0, 2);
-        addUndirectedEdge(graph3, 1, 3);
-        addUndirectedEdge(graph3, 1, 4);
-        addUndirectedEdge(graph3, 2, 5);
-        addUndirectedEdge(graph3, 2, 6);
-        addUndirectedEdge(graph3, 3, 7);
-        addUndirectedEdge(graph3, 3, 8);
-        addUndirectedEdge(graph3, 4, 9);
-        String expected3 = "Breadth First Search from vertex 0:[0 1 2 3 4 5 6" +
-                " 7 8 9]";
-        Arguments arg3 = Arguments.of(graph3, 0, expected3);
+    @Test
+    void whenPerformingBFSFromVertex1_thenCorrectTraversalOrder() {
+        int startVertex = 1;
 
-        List<List<Integer>> graph4 = createGraph(4);
-        addUndirectedEdge(graph4, 0, 1);
-        addUndirectedEdge(graph4, 0, 2);
-        addUndirectedEdge(graph4, 1, 3);
-        String expected4 = "Breadth First Search from vertex 0:[0 1 2 3]";
-        Arguments arg4 = Arguments.of(graph4, 0, expected4);
+        List<Integer> traversalOrder = BreadthFirstSearch.bfs(graph, startVertex);
 
-        return Stream.of(
-                arg1, arg2, arg3, arg4
-        );
+        List<Integer> expectedOrder = List.of(1, 8, 10, 12, 9, 2, 0, 3, 7, 11, 4, 6, 5);
+        assertEquals(expectedOrder, traversalOrder);
+    }
+
+    @Test
+    void whenPerformingBFSFromVertex5_thenCorrectTraversalOrder() {
+        int startVertex = 5;
+
+        List<Integer> traversalOrder = BreadthFirstSearch.bfs(graph, startVertex);
+
+        List<Integer> expectedOrder = List.of(5, 6, 7, 0, 3, 9, 11, 4, 2, 10, 8, 12, 1);
+        assertEquals(expectedOrder, traversalOrder);
     }
 }

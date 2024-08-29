@@ -1,5 +1,7 @@
 package com.marcinseweryn.algorithms.graphs.list;
 
+import com.marcinseweryn.algorithms.graphs.GraphNode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,11 +30,11 @@ public class GraphList<T> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < nodeList.size(); i++) {
-            sb.append(nodeList.get(i).getElement()).append(": ");
-            for (int j = 0; j < nodeList.get(i).getNeighbors().size(); j++) {
-                sb.append(nodeList.get(i).getNeighbors().get(j).getElement());
-                if (j < nodeList.get(i).getNeighbors().size() - 1) {
+        for (GraphNode<T> tGraphNode : nodeList) {
+            sb.append(tGraphNode.getElement()).append(": ");
+            for (int j = 0; j < tGraphNode.getNeighbors().size(); j++) {
+                sb.append(tGraphNode.getNeighbors().get(j).getElement());
+                if (j < tGraphNode.getNeighbors().size() - 1) {
                     sb.append("->");
                 }
             }
@@ -50,22 +52,20 @@ public class GraphList<T> {
         nodeList.add(new GraphNode<>("E"));
         GraphList<String> graphList = new GraphList<>(nodeList);
 
-        // Connections
         graphList.addUndirectedEdge(0, 1);
         graphList.addUndirectedEdge(0, 2);
         graphList.addUndirectedEdge(0, 3);
         graphList.addUndirectedEdge(1, 4);
         graphList.addUndirectedEdge(2, 3);
         graphList.addUndirectedEdge(3, 4);
-        out.println(graphList);
-        out.println();
+        System.out.println(graphList);
 
         /*
-        A: B->C->D
-        B: A->E
-        C: A->D
-        D: A->C->E
-        E: B->D
-      */
+            A: B->C->D
+            B: A->E
+            C: A->D
+            D: A->C->E
+            E: B->D
+         */
     }
 }

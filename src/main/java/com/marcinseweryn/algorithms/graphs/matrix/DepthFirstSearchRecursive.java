@@ -1,78 +1,54 @@
 package com.marcinseweryn.algorithms.graphs.matrix;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * This class contains a static method for performing
- * depth first search on a graph recursively.
+ * The {@code DepthFirstSearchRecursive} class provides a method to perform Depth-First Search (DFS)
+ * on a graph represented by an adjacency matrix using recursion. DFS explores as far along a branch as
+ * possible before backtracking.
+ *
+ * <p>The adjacency matrix representation of the graph is a 2D array where the cell at index [i][j] is 1
+ * if there is an edge between vertex i and vertex j, and 0 otherwise. The DFS algorithm uses recursion
+ * to traverse the graph depth-wise, exploring each vertex's adjacent vertices before moving on to the next vertex.</p>
+ *
+ * <h2>Time Complexity</h2>
+ * <p>The time complexity of the DFS traversal is O(V^2), where V is the number of vertices in the graph.
+ * This complexity arises because the adjacency matrix requires checking each cell to determine the presence of edges.</p>
+ *
+ * <h2>Space Complexity</h2>
+ * <p>The space complexity of the DFS traversal is O(V), where V is the number of vertices. This space is used
+ * for the recursive call stack and the visited array. The recursive call stack depth is proportional to the number
+ * of vertices in the worst case (when the graph is a single path). The space complexity does not depend on the number of edges.</p>
+ *
+ * <h2>Applicable Graph Types</h2>
+ * <ul>
+ *   <li>Undirected graphs.</li>
+ *   <li>Directed graphs.</li>
+ *   <li>Graphs where edge weights are irrelevant, as DFS focuses on vertex connectivity rather than edge weights.</li>
+ * </ul>
  */
 public class DepthFirstSearchRecursive {
 
-    private DepthFirstSearchRecursive() {
-        // Utility class
-    }
+    private DepthFirstSearchRecursive() {}
 
-    /**
-     * This method performs depth first search on a given graph starting
-     * from a specified vertex, and returns the result as a string.
-     *
-     * @param graph the graph represented as an adjacency matrix
-     * @param start the vertex to start the search from
-     * @return a string representation of the depth first search path
-     */
-    public static String dfs(int[][] graph, int start) {
-
-        // Create a boolean array to keep track of visited vertices
+    public static List<Integer> dfs(int[][] graph, int start) {
         boolean[] visited = new boolean[graph.length];
-
-        // Create and set up a StringBuilder object to build
-        // the depth first search path string
-        StringBuilder dfs = new StringBuilder();
-        dfs.append(String.format("Depth First Search starting from vertex " +
-                                         "%d:[", start));
-
-        // Call the recursive dfs method to perform the search
-        if (graph.length != 0) {
-            dfs(graph, visited, start, dfs);
-            dfs.replace(dfs.length() - 1, dfs.length(), "]");
-        } else {
-            dfs.append("]");
-        }
-
-        // Replace the trailing comma with a closing bracket
-
-        // Return the depth first search path as a string
-        return dfs.toString();
+        List<Integer> dfs = new ArrayList<>();
+        dfs(graph, start, dfs, visited);
+        return dfs;
     }
 
-    /**
-     * This is a recursive helper method that performs depth first search on a
-     * given graph starting from a specified vertex, and appends the vertices
-     * visited to the given StringBuilder object.
-     *
-     * @param graph   the graph represented as an adjacency matrix
-     * @param visited a boolean array to keep track of visited vertices
-     * @param index   the current vertex being visited
-     * @param sb      the StringBuilder object to append the visited vertices to
-     */
-    private static void dfs(int[][] graph, boolean[] visited, int index,
-                            StringBuilder sb) {
-
-        // Base case:
-        // If the current vertex has already been visited, return
-        if (visited[index]) return;
-
-        // Append the current vertex to the StringBuilder object
-        sb.append(index).append(",");
-
-        // Mark the current vertex as visited
-        visited[index] = true;
-
-        // Recursively visit all adjacent vertices
-        for (int i = 0; i < graph[index].length; i++) {
-            if (graph[index][i] != 0) {
-                dfs(graph, visited, i, sb);
+    private static void dfs(int[][] graph, int vertex, List<Integer> dfs, boolean[] visited) {
+        visited[vertex] = true;
+        dfs.add(vertex);
+        for (int i = 0; i < graph[vertex].length; i++) {
+            if(graph[vertex][i] == 1 && !visited[i]) {
+                dfs(graph, i, dfs, visited);
             }
         }
     }
+
 
     public static void main(String[] args) {
 
@@ -100,10 +76,7 @@ public class DepthFirstSearchRecursive {
                 {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0}
         };
-        System.out.println(dfs(matrix, 0));
 
-        // Output:
-        //Depth First Search starting from vertex 0:[0,7,3,2,12,8,1,10,9,4,6,
-        // 5,11]
+        System.out.println(dfs(matrix, 0)); // [0, 7, 3, 2, 12, 8, 1, 10, 9, 4, 6, 5, 11]
     }
 }

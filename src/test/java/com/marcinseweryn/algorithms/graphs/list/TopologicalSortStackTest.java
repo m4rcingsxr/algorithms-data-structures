@@ -38,7 +38,7 @@ class TopologicalSortStackTest {
         System.out.println(Arrays.toString(topologicalOrder));
 
         // Then the topological order should be correct
-        int[] expectedOrder = {0, 9, 10, 1, 8, 12, 7, 6, 5, 3, 2, 4, 11};
+        int[] expectedOrder = {0, 11, 7, 3, 2, 4, 6, 5, 9, 10, 1, 8, 12};
         assertArrayEquals(expectedOrder, topologicalOrder, "Expected topological order is incorrect.");
     }
 

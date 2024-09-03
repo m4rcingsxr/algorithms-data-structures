@@ -1,42 +1,91 @@
 # :boom: data-structures & algorithms :boom:
-Data Structures are the programmatic way of storing data so that data can be used efficiently. Algorithm is a step-by-step procedure, which defines a set of instructions to be executed in a certain order to get the desired output.
-# Contributing
-This repository is open for contributing. You can add new or improve already existing algorithm. I would appreciate if you check out [CONTRIBUTING.md](docs/CONTRIBUTING.md) file before creating pull request. Thanks for Your time. :blush:
-# Running algorithm
-This project is customized to build with [Gradle Build Tool](https://gradle.org/). Gradle is an open-source build automation tool flexible enough to build almost any type of software :green_heart:
-## Build with Gradle
-The recommended way to execute any Gradle build is with the help of the Gradle Wrapper. The Wrapper is a script that invokes a declared version of Gradle, downloading it beforehand if necessary. All you need to do is to run commands below:
+Data Structures are fundamental concepts in computer science used to organize and store data efficiently. They define a systematic way to manage and manipulate data, which enhances the performance of algorithms and applications. By choosing the appropriate data structure, you can improve both the speed and resource usage of your programs.
 
+Algorithms are well-defined procedures or sets of instructions designed to perform specific tasks or solve problems. They provide a step-by-step approach to processing data and achieving desired results. Algorithms are essential for tasks ranging from sorting and searching to complex operations in machine learning and data analysis.
 
+# Building and Running the Project
+This project is built using [Apache Maven](https://maven.apache.org/), a build automation tool used primarily for Java projects. It handles project dependencies, builds the code, and runs tests.
 
-## Compile and run with JDK
-#### Setup Java
-- Download and install [Java](https://www.oracle.com/pl/java/technologies/downloads/#java17)
-#### Setup folder structure
-1. Place your class files inside a directory—for example, /home/user/classdir.
-   Note that this directory is the base directory for the package tree. If you
-   add the class com.horstmann.corejava.Employee, then the Employee.class file must
-   be located in the subdirectory /home/user/classdir/com/horstmann/corejava.
-2. Place any JAR files inside a directory—for example, /home/user/archives.
-3. Set the class path. The class path is the collection of all locations that can
-   contain class files.
-#### Compile
-```
-javac -classpath/jar MyProg.java
-```
-#### Run
-```
-java -classpath classes/jar MyProg
-```
-e.g.
-```
-java -classpath /home/user/classdir:.:/home/user/archives/archive.jar MyProg
-```
-or
-```
-java -classpath c:\classdir;.;c:\archives\archive.jar MyProg
-```
+## Java Version
+The project uses Java 17. Ensure you have Java 17 installed on your machine. If not, you can download and install it from [here](https://openjdk.org/).
 
+# Running a Single Java Class
+To run a specific Java class that contains a main method, you can use the Maven Exec Plugin. This can be done with either a locally installed Maven version or the Maven Wrapper.
+
+### Using the Maven Wrapper
+1. Navigate to the Project Root Directory:
+
+   Open a terminal and navigate to the root directory of your project.
+2. Execute the Main Class:
+
+   Run the following command, replacing com.example.MainClass with the fully qualified name of your Java class:
+    ```shell
+      ./mvnw exec:java -Dexec.mainClass="com.example.MainClass"
+    ```    
+   <b>For windows</b>
+      ```shell
+      mvnw.cmd exec:java -Dexec.mainClass="com.example.MainClass"
+    ``` 
+### Using Installed Maven
+1. Navigate to the Project Root Directory:
+
+   Open a terminal and navigate to the root directory of your project.
+2. Execute the Main Class:
+
+   Run the following command, replacing com.example.MainClass with the fully qualified name of your Java class:
+   ```shell
+    mvn exec:java -Dexec.mainClass="com.example.MainClass"
+    ```
+
+# Running Specific Tests
+To run a specific test class or method using Maven, you can use the Maven Surefire Plugin.
+
+### Using the Maven Wrapper
+1. Navigate to the Project Root Directory:
+
+    Open a terminal and navigate to the root directory of your project.
+
+2. Run a Specific Test Class:
+
+    Replace com.example.MyTestClass with the fully qualified name of your test class:
+
+    ```shell
+      ./mvnw -Dtest=com.example.MyTestClass test
+    ```
+   
+    <b>For Windows</b>
+    ```shell
+      mvnw.cmd -Dtest=com.example.MyTestClass test
+    ```
+
+3. Run a Specific Test Method:
+
+   Replace com.example.MyTestClass#myTestMethod with the fully qualified name of your test method:
+    ```shell
+    ./mvnw -Dtest=com.example.MyTestClass#myTestMethod test
+    ```
+
+   <b>For Windows</b>
+    ```shell
+      mvnw.cmd -Dtest=com.example.MyTestClass#myTestMethod test
+    ```
+
+### Using Installed Maven
+1. Navigate to the Project Root Directory:
+
+    Open a terminal and navigate to the root directory of your project.
+2. Run a Specific Test Class:
+
+    Replace com.example.MyTestClass with the fully qualified name of your test class:
+    ```shell
+      mvn -Dtest=com.example.MyTestClass test
+    ```
+3. Run a Specific Test Method:
+
+   Replace com.example.MyTestClass#myTestMethod with the fully qualified name of your test method:
+    ```shell
+    mvn -Dtest=com.example.MyTestClass#myTestMethod test
+    ```
 # Data Structures
 
 - :link: [LINKED LIST](src/main/java/com/marcinseweryn/algorithms/datastructures/linkedlist)

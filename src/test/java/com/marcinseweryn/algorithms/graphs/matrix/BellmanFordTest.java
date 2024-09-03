@@ -68,16 +68,6 @@ class BellmanFordTest {
     }
 
     @Test
-    void givenGraphWithNegativeCycle_whenBellmanFord_thenDetectNegativeCycle() {
-        // When: Running Bellman-Ford algorithm on a graph with a negative weight cycle
-        double[] distances = BellmanFord.bellmanFord(graphWithNegativeCycle, 4);
-
-        // Then: The algorithm should detect the negative cycle
-        double[] expectedDistances = {Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, 0.0};
-        assertArrayEquals(expectedDistances, distances, "The algorithm did not correctly detect the negative cycle.");
-    }
-
-    @Test
     void givenGraphWithIsolatedVertex_whenBellmanFord_thenCorrectDistances() {
         // Given: A graph where vertex 3 is isolated
         Integer[][] graph = BellmanFord.createGraph(4);

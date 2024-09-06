@@ -1,11 +1,24 @@
 package com.marcinseweryn.algorithms.graphs.matrix;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
+import java.util.*;
 
 /**
- * This class implements the Single Source Shortest Path algorithm using
- * Breadth First Search for a given adjacency matrix.
+ * This class provides an implementation of the Single Source Shortest Path (SSSP) problem using Breadth-First Search (BFS).
+ * It finds the shortest path in an unweighted graph represented by an adjacency matrix. This implementation
+ * assumes that all edge weights are non-negative integers where any positive value represents an edge, and zero
+ * represents no edge.
+ *
+ * <p>BFS is appropriate for unweighted graphs because it guarantees the shortest path in terms of the number of edges.
+ * The graph is represented by an adjacency matrix where the cell at index [i][j] indicates the presence of an edge from
+ * vertex i to vertex j. In this implementation, a non-zero value is considered as an edge (regardless of the actual weight).</p>
+ *
+ * <h2>Time Complexity</h2>
+ * <p>The time complexity of the BFS algorithm used for finding the shortest path is O(V + E), where V is the number of vertices
+ * and E is the number of edges. This complexity arises because each vertex and edge is processed at most once.</p>
+ *
+ * <h2>Space Complexity</h2>
+ * <p>The space complexity is O(V), where V is the number of vertices. This includes space for the parent array, the visited
+ * array, and the queue used for BFS.</p>
  */
 public class SingleSourceShortestPathBST {
 
@@ -13,62 +26,21 @@ public class SingleSourceShortestPathBST {
         // Utility class
     }
 
-    /**
-     * Prints the shortest path to all vertices
-     * in the graph from the specified start node.
-     *
-     * @param graph the adjacency matrix representing the graph.
-     * @param start the start node for the path.
-     */
-    public static void printSSSP(int[][] graph, int start) {
-
-        // Breadth first search
+    public static List<Integer> sssp(int[][] graph, int start, int end) {
         Integer[] parent = bfs(graph, start);
-        // Print path to each vertex from start node
-        for (int i = 0; i < graph.length; i++) {
-            StringBuilder path = new StringBuilder();
-            printPath(start, i, path, parent);
-            path.replace(path.indexOf(","),
-                         path.indexOf(",") + 1, String.format(
-                            "Shortest path from %d to %d: [", start, i
-                    )
-            );
-            path.append("]");
-            System.out.println(path);
+        List<Integer> sssp = new ArrayList<>();
+        for (Integer i = end; i != null ; i = parent[i]) {
+            sssp.add(i);
         }
-    }
 
-    /**
-     * Recursive method to reconstruct the path from the start node to the
-     * end node.
-     *
-     * @param end    the end node of the path.
-     * @param sb     the StringBuilder object used to build the path.
-     * @param parent the array of parent nodes returned by the Breadth First
-     *               Search.
-     */
-    private static void printPath(int start, int end, StringBuilder sb,
-                                  Integer[] parent) {
+        Collections.reverse(sssp);
 
-        // Start node is self-root, parent[i] == null
-        for (Integer i = end; i != null; i = parent[i]) {
-            if (i % 10 == i) {
-                sb.append(i).append(",");
-            } else {
-
-                // Solve problem of reversing more than 1 digit number
-                sb.append(
-                        new StringBuilder(String.valueOf(i)).reverse()).append(
-                        ",");
-            }
+        // no path to start exist
+        if(sssp.get(0) != start) {
+            return List.of();
         }
-        sb.reverse();
 
-        // If reconstruction does not reach starting vertex
-        // that's mean vertices are not connected
-        if (Integer.parseInt(sb.substring(1, 2)) != start) { // ",A "
-            sb.replace(0, sb.length(), "not connected");
-        }
+        return sssp;
     }
 
     /**
@@ -93,12 +65,12 @@ public class SingleSourceShortestPathBST {
                 if (graph[current][i] > 0 && !visited[i]) {
                     queue.add(i);
 
-                    // bijection, self loop - main root
                     parent[i] = current;
                     visited[i] = true;
                 }
             }
         }
+
         return parent;
     }
 
@@ -129,21 +101,6 @@ public class SingleSourceShortestPathBST {
                 {0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0}
         };
 
-        /*
-            Shortest path from 0 to 0: [0]
-            Shortest path from 0 to 1: [0,9,8,1]
-            Shortest path from 0 to 2: [0,9,8,12,2] ????
-            Shortest path from 0 to 3: [0,7,3]
-            Shortest path from 0 to 4: [0,7,3,4]
-            Shortest path from 0 to 5: [0,7,6,5]
-            Shortest path from 0 to 6: [0,7,6]
-            Shortest path from 0 to 7: [0,7]
-            Shortest path from 0 to 8: [0,9,8]
-            Shortest path from 0 to 9: [0,9]
-            Shortest path from 0 to 10: [0,9,10]
-            Shortest path from 0 to 11: [0,11]
-            Shortest path from 0 to 12: [0,9,8,12]
-         */
-        printSSSP(matrix, 0);
+        System.out.println(sssp(matrix, 0, 4)); // [0, 7, 3, 4]
     }
 }

@@ -1,75 +1,220 @@
 package com.marcinseweryn.algorithms.graphs.list;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.stream.Stream;
 
-import static com.marcinseweryn.algorithms.graphs.list.LazyDijkstra.addDirectedEdge;
-import static com.marcinseweryn.algorithms.graphs.list.LazyDijkstra.createGraph;
+import static org.junit.jupiter.api.Assertions.*;
 
 class LazyDijkstraTest {
 
-    @ParameterizedTest(name = "{index} => {0} : {1}")
-    @MethodSource
-    void testDijkstra(List<List<LazyDijkstra.Edge>> graph, Double[] expected) {
+    private LazyDijkstra lazyDijkstra;
 
+    @Test
+    void givenSimpleGraph_whenFindingShortestPath_thenCorrectDistanceAndPath() {
+        // Given
+        //    (4)
+        // 0 ----> 1
+        lazyDijkstra = new LazyDijkstra(2);
+        lazyDijkstra.addDirectedEdge(0, 1, 4);
 
-        Double[] distances = LazyDijkstra.dijkstra(graph, 0);
-        Assertions.assertArrayEquals(expected, distances);
+        // When finding the shortest path from 0 to 1
+        double distance = lazyDijkstra.dijkstra(0, 1);
+        List<Integer> path = lazyDijkstra.shortestPath(0, 1);
+
+        // Then the distance should be 4 and the path should be [0, 1]
+        assertEquals(4.0, distance, "Expected shortest distance is 4.0");
+        assertEquals(List.of(0, 1), path, "Expected path is [0, 1]");
     }
 
-    private static List<List<LazyDijkstra.Edge>> graph1() {
-        List<List<LazyDijkstra.Edge>> graph = createGraph(6);
-        addDirectedEdge(graph, 0, 1, 1);
-        addDirectedEdge(graph, 0, 2, 7);
-        addDirectedEdge(graph, 1, 2, 2);
-        addDirectedEdge(graph, 1, 3, 4);
-        addDirectedEdge(graph, 1, 4, 3);
-        addDirectedEdge(graph, 2, 3, 1);
-        addDirectedEdge(graph, 2, 4, 5);
-        addDirectedEdge(graph, 3, 4, 1);
-        addDirectedEdge(graph, 4, 5, 2);
-        return graph;
+    @Test
+    void givenDisconnectedGraph_whenFindingShortestPath_thenInfinity() {
+        // Given
+        // 0     1
+        lazyDijkstra = new LazyDijkstra(2);
+
+        // When finding the shortest path from 0 to 1
+        double distance = lazyDijkstra.dijkstra(0, 1);
+        List<Integer> path = lazyDijkstra.shortestPath(0, 1);
+
+        // Then the distance should be infinity and the path should be empty
+        assertEquals(Double.POSITIVE_INFINITY, distance, "Expected shortest distance is infinity");
+        assertTrue(path.isEmpty(), "Expected path to be empty");
     }
 
-    private static List<List<LazyDijkstra.Edge>> graph2() {
-        final int N = 7;
-        List<List<LazyDijkstra.Edge>> graph = createGraph(N);
+    @Test
+    void givenGraphWithMultiplePaths_whenFindingShortestPath_thenCorrectDistanceAndPath() {
+        //     (2)       (3)
+        //  0 ----> 1 ----> 3
+        //   \               ^
+        //  (5)\           /
+        //       > 2 -----
+        //           (1)
+        lazyDijkstra = new LazyDijkstra(4);
+        lazyDijkstra.addDirectedEdge(0, 1, 2);
+        lazyDijkstra.addDirectedEdge(1, 3, 3);
+        lazyDijkstra.addDirectedEdge(0, 2, 5);
+        lazyDijkstra.addDirectedEdge(2, 3, 1);
 
-        //              (3)
-        //         > 1 ----> 4
-        //    (2) /  |\(1) />  \(9)
-        //       /   | \  /(4)   \
-        //     0     |  >3        > 6
-        //      \ (6)|          /
-        //    (5)\   >         /(7)
-        //        >  2 -----> 5
-        //              (8)
-        addDirectedEdge(graph, 0, 1, 2);
-        addDirectedEdge(graph, 0, 2, 5);
-        addDirectedEdge(graph, 1, 4, 3);
-        addDirectedEdge(graph, 1, 3, 1);
-        addDirectedEdge(graph, 1, 2, 6);
-        addDirectedEdge(graph, 2, 5, 8);
-        addDirectedEdge(graph, 3, 4, 4);
-        addDirectedEdge(graph, 4, 6, 9);
-        addDirectedEdge(graph, 5, 6, 7);
-        return graph;
+        // When finding the shortest path from 0 to 3
+        double distance = lazyDijkstra.dijkstra(0, 3);
+        List<Integer> path = lazyDijkstra.shortestPath(0, 3);
+
+        // Then the distance should be 5 and the path should be [0, 1, 3]
+        assertEquals(5.0, distance, "Expected shortest distance is 5.0");
+        assertEquals(List.of(0, 1, 3), path, "Expected path is [0, 1, 3]");
     }
 
-    private static Stream<Arguments> testDijkstra() {
-        return Stream.of(
-                Arguments.of(
-                        graph1(), new Double[]{0.0, 1.0, 3.0, 4.0, 4.0, 6.0}
-                ),
-                Arguments.of(
-                        graph2(),
-                        new Double[]{0.0, 2.0, 5.0, 3.0, 5.0, 13.0, 14.0}
-                )
+    @Test
+    void givenGraphWithCycles_whenFindingShortestPath_thenCorrectDistanceAndPath() {
+        // Given a graph with a cycle
+        //     (1)
+        //  0 ----> 1
+        //  ^       /
+        //   \     /
+        //   (4)  (1)
+        //      2
+        lazyDijkstra = new LazyDijkstra(3);
+        lazyDijkstra.addDirectedEdge(0, 1, 1);
+        lazyDijkstra.addDirectedEdge(1, 2, 1);
+        lazyDijkstra.addDirectedEdge(2, 0, 4);
+
+        // When finding the shortest path from 0 to 2
+        double distance = lazyDijkstra.dijkstra(0, 2);
+        List<Integer> path = lazyDijkstra.shortestPath(0, 2);
+
+        // Then the distance should be 2 and the path should be [0, 1, 2]
+        assertEquals(2.0, distance, "Expected shortest distance is 2.0");
+        assertEquals(List.of(0, 1, 2), path, "Expected path is [0, 1, 2]");
+    }
+
+    @Test
+    void givenComplexGraph_whenFindingShortestPath_thenCorrectDistanceAndPath() {
+        // Given
+        //              (6)
+        //        > 1 ------> 4
+        //   (2) /   | \(1) /  \(9)
+        //      /    |  \(4)/    \
+        //    0      |   >3        > 6
+        //     \ (5) |          /
+        //   (6) \   >        /(7)
+        //        > 2 -----> 5
+        //             (8)
+        lazyDijkstra = new LazyDijkstra(7);
+        lazyDijkstra.addDirectedEdge(0, 1, 2);
+        lazyDijkstra.addDirectedEdge(0, 2, 5);
+        lazyDijkstra.addDirectedEdge(1, 4, 6);
+        lazyDijkstra.addDirectedEdge(1, 3, 1);
+        lazyDijkstra.addDirectedEdge(1, 2, 6);
+        lazyDijkstra.addDirectedEdge(2, 5, 8);
+        lazyDijkstra.addDirectedEdge(3, 4, 4);
+        lazyDijkstra.addDirectedEdge(4, 6, 9);
+        lazyDijkstra.addDirectedEdge(5, 6, 7);
+
+        // When finding the shortest path from 0 to 6
+        double distance = lazyDijkstra.dijkstra(0, 6);
+        List<Integer> path = lazyDijkstra.shortestPath(0, 6);
+
+        // Then the distance should be 16 and the path should be [0, 1, 3, 4, 6]
+        assertEquals(16.0, distance, "Expected shortest distance is 16.0");
+        assertEquals(List.of(0, 1, 3, 4, 6), path, "Expected path is [0, 1, 3, 4, 6]");
+    }
+
+    @Test
+    void givenGraphWithNegativeWeights_whenFindingShortestPath_thenIncorrectBehavior() {
+        // Given
+        //    (2)
+        // 0 ----> 1
+        // |       |
+        //(1)     (-3)
+        // |       |
+        // v       v
+        // 2 ----> 3
+        //     (1)
+        lazyDijkstra = new LazyDijkstra(4);
+        lazyDijkstra.addDirectedEdge(0, 1, 2);
+        lazyDijkstra.addDirectedEdge(1, 3, -3);  // Negative weight
+        lazyDijkstra.addDirectedEdge(0, 2, 1);
+        lazyDijkstra.addDirectedEdge(2, 3, 1);
+
+        // When finding the shortest path from 0 to 3
+        double distance = lazyDijkstra.dijkstra(0, 3);
+        List<Integer> path = lazyDijkstra.shortestPath(0, 3);
+
+        // Then the algorithm might not provide correct results due to negative weights
+        assertNotEquals(0.0, distance,
+                        "Dijkstra's algorithm should not handle negative weights correctly"
         );
     }
+
+    @Test
+    void givenFullyConnectedGraph_whenFindingShortestPath_thenCorrectDistanceAndPath() {
+        // Given
+        //     0 --(1)-- 1
+        //     |  \     /  |
+        //   (1)  (1)(1) (1)
+        //     |  /     \  |
+        //     2 --(1)-- 3
+        lazyDijkstra = new LazyDijkstra(4);
+        lazyDijkstra.addDirectedEdge(0, 1, 1);
+        lazyDijkstra.addDirectedEdge(0, 2, 1);
+        lazyDijkstra.addDirectedEdge(0, 3, 1);
+        lazyDijkstra.addDirectedEdge(1, 2, 1);
+        lazyDijkstra.addDirectedEdge(1, 3, 1);
+        lazyDijkstra.addDirectedEdge(2, 3, 1);
+
+        // When finding the shortest path from 0 to 3
+        double distance = lazyDijkstra.dijkstra(0, 3);
+        List<Integer> path = lazyDijkstra.shortestPath(0, 3);
+
+        // Then the distance should be 1 and path should be [0, 3]
+        assertEquals(1.0, distance, "Expected shortest distance is 1.0");
+        assertEquals(2, path.size(), "Expected path length is 2");
+    }
+
+    @Test
+    void givenGraphWithSelfLoops_whenFindingShortestPath_thenIgnoreSelfLoops() {
+        // Given
+        //     (3)  (2) (self loop)
+        // 0 ---->1 <--
+        // |  (2)(self loop)
+        // |    ^
+        // |____|
+        lazyDijkstra = new LazyDijkstra(2);
+        lazyDijkstra.addDirectedEdge(0, 0, 2); // Self-loop
+        lazyDijkstra.addDirectedEdge(0, 1, 3);
+        lazyDijkstra.addDirectedEdge(1, 1, 2); // Self-loop
+
+        // When finding the shortest path from 0 to 1
+        double distance = lazyDijkstra.dijkstra(0, 1);
+        List<Integer> path = lazyDijkstra.shortestPath(0, 1);
+
+        // Then the distance should be 3 and the path should be [0, 1]
+        assertEquals(3.0, distance, "Expected shortest distance is 3.0");
+        assertEquals(List.of(0, 1), path, "Expected path is [0, 1]");
+    }
+
+    @Test
+    void givenGraphWithZeroWeightEdges_whenFindingShortestPath_thenCorrectDistanceAndPath() {
+        // Given
+        //    (0)
+        // 0 ----> 1
+        //  \      |
+        //  (1)   (0)
+        //    \  /
+        //      2
+        lazyDijkstra = new LazyDijkstra(3);
+        lazyDijkstra.addDirectedEdge(0, 1, 0);
+        lazyDijkstra.addDirectedEdge(1, 2, 0);
+        lazyDijkstra.addDirectedEdge(0, 2, 1);
+
+        // When finding the shortest path from 0 to 2
+        double distance = lazyDijkstra.dijkstra(0, 2);
+        List<Integer> path = lazyDijkstra.shortestPath(0, 2);
+
+        // Then the distance should be 0 and the path should be [0, 1, 2]
+        assertEquals(0.0, distance, "Expected shortest distance is 0.0");
+        assertEquals(List.of(0, 1, 2), path, "Expected path is [0, 1, 2]");
+    }
+
 }

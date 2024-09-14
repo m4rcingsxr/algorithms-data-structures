@@ -2,6 +2,40 @@ package com.marcinseweryn.algorithms.graphs.matrix;
 
 import java.util.Arrays;
 
+/**
+ * The {@code BellmanFord} class provides methods to compute the shortest paths
+ * from a single source vertex to all other vertices in a weighted graph using
+ * the Bellman-Ford algorithm. This algorithm is capable of handling graphs with
+ * negative edge weights and can also detect negative weight cycles.
+ *
+ * <p>The Bellman-Ford algorithm is useful for graphs with negative weight edges
+ * and can detect negative weight cycles, unlike Dijkstra's algorithm which cannot
+ * handle negative weights and does not detect cycles.
+ *
+ * <h2>Complexity</h2>
+ * <ul>
+ *   <li>Time Complexity: O(V * E), where V is the number of vertices and E is
+ *       the number of edges. This is due to the algorithm relaxing every edge
+ *       (E) for each vertex (V - 1) times.</li>
+ *   <li>Space Complexity: O(V) for the distance array used to store the shortest
+ *       path estimates to each vertex.</li>
+ * </ul>
+ *
+ * <h2>Applicable Graph Types</h2>
+ * <ul>
+ *   <li>Graphs with positive and negative edge weights.</li>
+ *   <li>Graphs where the shortest path may involve negative weight edges.</li>
+ *   <li>Directed graphs. For undirected graphs, each edge should be added twice
+ *       to simulate bidirectional edges.</li>
+ * </ul>
+ *
+ * <h2>Use Cases</h2>
+ * <ul>
+ *   <li>Finding shortest paths in graphs where edge weights can be negative.</li>
+ *   <li>Detecting negative weight cycles in financial models, network routing
+ *       protocols, or other applications where such cycles are relevant.</li>
+ * </ul>
+ */
 public class BellmanFord {
 
     /**

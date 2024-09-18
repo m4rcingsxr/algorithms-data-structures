@@ -4,6 +4,22 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
+/**
+ * The {@code LazyPrim} class implements Prim's algorithm for finding the Minimum Spanning Tree (MST) of a graph
+ * represented by an adjacency matrix. This implementation uses a priority queue (min-heap) to efficiently
+ * select the minimum weight edge at each step of the algorithm.
+ *
+ * <p>The graph is represented as an adjacency matrix where the cell at index [i][j] contains the weight of
+ * the edge from vertex i to vertex j. If there is no edge, the weight is represented as -1.</p>
+ *
+ * <h2>Time Complexity</h2>
+ * <p>The time complexity of the Lazy Prim's algorithm is O(E log V), where E is the number of edges and V is the number of vertices.
+ * This is because each edge is added and removed from the priority queue at most once, and each operation on the priority queue takes
+ * O(log V) time.</p>
+ *
+ * <h2>Space Complexity</h2>
+ * <p>The space complexity is O(V + E). This includes space for the priority queue, the visited array, and the MST edges array.</p>
+ */
 public class LazyPrim {
 
     /**
@@ -39,11 +55,11 @@ public class LazyPrim {
     /**
      * An inner class representing the result of running the Prim's algorithm.
      */
-    public static class Result {
+    public static class MST {
         Edge[] mstEdges;
         int mstCost;
 
-        public Result(Edge[] mstEdges, int mstCost) {
+        public MST(Edge[] mstEdges, int mstCost) {
             this.mstEdges = mstEdges;
             this.mstCost = mstCost;
         }
@@ -100,7 +116,7 @@ public class LazyPrim {
      * tree and its total weight, or an empty edge array and -1 if no minimum
      * spanning tree exists.
      */
-    public static Result prim(int[][] graph) {
+    public static MST prim(int[][] graph) {
         int N = graph.length;
         int maxPath = N - 1;
         boolean[] visited = new boolean[N];
@@ -119,7 +135,8 @@ public class LazyPrim {
             Edge current = pq.poll();
             int nodeIndex = current.to;
 
-            // Lazy removing outdated edges
+            // Lazy removi
+            // ng outdated edges
             if (visited[nodeIndex]) continue;
             mstEdges[mstSize++] = current;
             visited[nodeIndex] = true;
@@ -132,9 +149,9 @@ public class LazyPrim {
         }
 
         if (mstSize != maxPath) {
-            return new Result(new Edge[0], -1);
+            return new MST(new Edge[0], -1);
         }
-        return new Result(mstEdges, mstSum);
+        return new MST(mstEdges, mstSum);
     }
 
     public static void main(String[] args) {

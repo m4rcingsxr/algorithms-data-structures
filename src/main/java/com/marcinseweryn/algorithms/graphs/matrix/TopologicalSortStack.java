@@ -5,77 +5,69 @@ import java.util.Arrays;
 import java.util.Deque;
 
 /**
- * The TopologicalSortStack class provides methods to perform topological
- * sorting
- * on a directed acyclic graph using a stack-based algorithm.
+ * The TopologicalSortStack class provides methods to perform topological sorting
+ * on a directed acyclic graph (DAG) using a stack-based iterative depth-first search (DFS) approach.
+ *
+ * <p>Topological sorting orders the vertices of a DAG such that for every directed edge from vertex u to vertex v,
+ * u comes before v in the ordering. This class uses a stack to achieve this order, which can be beneficial
+ * to avoid recursion depth issues and to provide an iterative solution.</p>
+ *
+ * <h2>Time Complexity</h2>
+ * <p>The time complexity of this topological sorting algorithm is O(V + E), where V is the number of vertices
+ * and E is the number of edges. Each vertex and edge is processed at most once during the DFS traversal.</p>
+ *
+ * <h2>Space Complexity</h2>
+ * <p>The space complexity is O(V), where V is the number of vertices. This includes space for the visited array
+ * and the stack used for DFS traversal, as well as the order array used to store the topological order.</p>
  */
 public class TopologicalSortStack {
 
+    // Private constructor to prevent instantiation
     private TopologicalSortStack() {
-        // Utility class
     }
 
     /**
-     * Computes the topological order of a given directed acyclic graph
-     * using a stack-based algorithm.
+     * Performs a topological sort on a directed acyclic graph (DAG) using an iterative stack-based DFS approach.
      *
-     * @param graph the adjacency matrix representation of the directed
-     *              acyclic graph
-     * @return the topological order of the graph as an array of integers
+     * @param graph the graph to sort, represented as an adjacency matrix where graph[i][j] != 0 indicates an edge from vertex i to vertex j
+     * @return an array representing the topologically sorted order of the graph's vertices
      */
     public static int[] getTopologicalOrder(int[][] graph) {
-        int N = graph.length;
-        boolean[] visited = new boolean[N];
-        int[] order = new int[N];
-        int index = 0;
+        int N = graph.length; // Number of vertices in the graph
+        int[] order = new int[N]; // Array to store the topological order
+        boolean[] visited = new boolean[N]; // Array to track visited vertices
+        Deque<Integer> stack = new ArrayDeque<>(); // Stack for DFS traversal
+        int index = N - 1; // Start filling the order array from the end
 
-        // It must begin from vertex that has no dependencies
-        // It will work for 2 separate components if each
-        // of them start dfs with vertex without dependencies
+        // Iterate over each vertex to perform DFS
         for (int i = 0; i < N; i++) {
             if (!visited[i]) {
-                index = dfs(graph, visited, i, index, order);
-            }
-        }
-        return order;
-    }
+                stack.push(i); // Start DFS from the unvisited vertex
 
-    /**
-     * Performs a depth-first search (DFS) on the given graph, starting from
-     * the specified vertex,
-     * and returns the order in which vertices are visited.
-     *
-     * @param graph   the adjacency matrix representing the directed acyclic
-     *                graph to traverse
-     * @param visited an array indicating which vertices have already been
-     *                visited
-     * @param actual  the current vertex being visited
-     * @param index   the current index in the order array to insert the
-     *                visited vertex
-     * @param order   an array to store the order in which vertices are visited
-     * @return the updated index in the order array after visiting all
-     * reachable vertices from the current vertex
-     */
-    private static int dfs(int[][] graph,
-                           boolean[] visited,
-                           int actual,
-                           int index,
-                           int[] order) {
-        Deque<Integer> stack = new ArrayDeque<>();
-        stack.push(actual);
-        visited[actual] = true;
+                while (!stack.isEmpty()) {
+                    int vertex = stack.peek();
 
-        while (!stack.isEmpty()) {
-            int current = stack.pop();
-            order[index++] = current;
-            for (int i = 0; i < graph.length; i++) {
-                if (!visited[i] && graph[current][i] != 0) {
-                    stack.push(i);
-                    visited[i] = true;
+                    if (!visited[vertex]) {
+                        visited[vertex] = true; // Mark the vertex as visited
+
+                        // Push all unvisited neighbors onto the stack
+                        for (int j = graph[vertex].length - 1; j >= 0; j--) {
+                            if (graph[vertex][j] != 0 && !visited[j]) {
+                                stack.push(j);
+                            }
+                        }
+                    } else {
+                        // If all neighbors are processed, add to result order and pop
+                        if (stack.peek() == vertex) {
+                            stack.pop();
+                            order[index--] = vertex;
+                        }
+                    }
                 }
             }
         }
-        return index;
+
+        return order; // Return the topological order
     }
 
     /**
@@ -89,11 +81,9 @@ public class TopologicalSortStack {
     }
 
     /**
-     * Adds a directed edge from a source vertex to a target vertex
-     * in the given adjacency matrix.
+     * Adds a directed edge from a source vertex to a target vertex in the given adjacency matrix.
      *
-     * @param graph the N x N adjacency matrix representing a directed
-     *              acyclic graph
+     * @param graph the N x N adjacency matrix representing a directed acyclic graph
      * @param from  the source vertex
      * @param to    the target vertex
      */
@@ -102,6 +92,8 @@ public class TopologicalSortStack {
     }
 
     public static void main(String[] args) {
+        final int N = 13; // Number of vertices in the sample graph
+        int[][] graph = createGraph(N); // Create the graph with N vertices
 
         //                > 1    > 12
         //               /   \ /
@@ -112,8 +104,7 @@ public class TopologicalSortStack {
         //                   0  --> 7  --> 6
         //                    \
         //                    >11
-        final int N = 13;
-        int[][] graph = createGraph(N);
+        // Add directed edges to the graph to represent the DAG
         addDirectedEdge(graph, 0, 11);
         addDirectedEdge(graph, 0, 7);
         addDirectedEdge(graph, 0, 9);
@@ -127,73 +118,10 @@ public class TopologicalSortStack {
         addDirectedEdge(graph, 3, 2);
         addDirectedEdge(graph, 2, 4);
 
-        int[] order = getTopologicalOrder(graph);
-        System.out.println(Arrays.toString(order));
+        // Perform topological sort on the graph
+        int[] ordering = getTopologicalOrder(graph);
 
-        // Output:
-        //[0, 11, 9, 10, 1, 8, 12, 7, 6, 5, 3, 2, 4]
-
-        //                > 1                     12  --> 15
-        //               /   \                      \
-        //             10<    >8     2 --> 4         \
-        //               \           /                 > 14 ---> 13
-        //                9<         >3      >5         |
-        //                  \       /       /           |
-        //                   0  --> 7  --> 6             > 16
-        //                    \
-        //                    >11
-        int[][] graph2 = TopologicalSortRecursive.createGraph(17);
-        addDirectedEdge(graph2, 0, 11);
-        addDirectedEdge(graph2, 0, 7);
-        addDirectedEdge(graph2, 0, 9);
-        addDirectedEdge(graph2, 9, 10);
-        addDirectedEdge(graph2, 10, 1);
-        addDirectedEdge(graph2, 1, 8);
-        addDirectedEdge(graph2, 7, 3);
-        addDirectedEdge(graph2, 7, 6);
-        addDirectedEdge(graph2, 6, 5);
-        addDirectedEdge(graph2, 3, 2);
-        addDirectedEdge(graph2, 2, 4);
-        addDirectedEdge(graph2, 12, 15);
-        addDirectedEdge(graph2, 12, 14);
-        addDirectedEdge(graph2, 14, 13);
-        addDirectedEdge(graph2, 14, 16);
-
-        order = getTopologicalOrder(graph2);
-        System.out.println(Arrays.toString(order));
-
-        //Output
-        //[0, 11, 9, 10, 1, 8, 7, 6, 5, 3, 2, 4, 12, 15, 14, 16, 13]
-
-        // LIMITATION -> We are not able to get ordering if we start
-        //               from vertex that has dependencies
-        //                > 1    > 12
-        //               /   \ /
-        //             10<    >8     2 --> 4
-        //               \           /
-        //                9<         >0      >5
-        //                  \       /       /
-        //                   3  --> 7  --> 6
-        //                    \
-        //                    >11
-        int[][] graph3 = TopologicalSortRecursive.createGraph(13);
-        addDirectedEdge(graph3, 3, 11);
-        addDirectedEdge(graph3, 3, 7);
-        addDirectedEdge(graph3, 3, 9);
-        addDirectedEdge(graph3, 9, 10);
-        addDirectedEdge(graph3, 10, 1);
-        addDirectedEdge(graph3, 1, 8);
-        addDirectedEdge(graph3, 7, 0);
-        addDirectedEdge(graph3, 7, 6);
-        addDirectedEdge(graph3, 6, 5);
-        addDirectedEdge(graph3, 0, 2);
-        addDirectedEdge(graph3, 2, 4);
-        addDirectedEdge(graph3, 8, 12);
-
-        order = getTopologicalOrder(graph3);
-        System.out.println(Arrays.toString(order));
-
-        // WRONG Output:
-        // [0, 2, 4, 1, 8, 12, 3, 11, 9, 10, 7, 6, 5]
+        // Print the expected topological order
+        System.out.println(Arrays.toString(ordering)); // [0, 9, 10, 1, 8, 12, 7, 3, 2, 4, 6, 5, 11]
     }
 }

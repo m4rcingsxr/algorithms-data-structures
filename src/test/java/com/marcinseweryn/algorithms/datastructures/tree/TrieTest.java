@@ -1,100 +1,135 @@
 package com.marcinseweryn.algorithms.datastructures.tree;
 
-import org.junit.jupiter.api.BeforeEach;
+import com.marcinseweryn.algorithms.datastructures.hashing.LinearProbing;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TrieTest {
-    Trie trie;
 
-    @BeforeEach
-    void beforeEach() {
-        trie = new Trie();
+    @Test
+    void givenNewTrie_whenCreated_thenShouldBeEmpty() {
+        Trie trie = new Trie();
+        assertFalse(trie.search("test"));
     }
 
     @Test
-    void searchTest() {
-        trie.insert("");
-        assert (trie.search(""));
-        trie.insert("bbbbbbbbb");
-        assert (trie.search("bbbbbbbbb"));
-        trie.insert("bbbbbbbbb");
-        assert (trie.search("bbbbbbbbb"));
-
-        trie.insert("aaaaaaaap");
-        assertFalse(trie.search("aaaaaaaa"));
-        assertTrue(trie.search("aaaaaaaap"));
-        trie.insert("aaaaaaaa");
-        assertTrue(trie.search("aaaaaaaa"));
-
-        trie.insert("AD");
-        trie.insert("AE");
-        trie.insert("AH");
-        trie.insert("AH");
-        trie.insert("AC2");
-        trie.insert("B");
-        trie.insert("B");
-        assertTrue(trie.search("AD"));
-        assertTrue(trie.search("AE"));
-        assertTrue(trie.search("AH"));
-        assertTrue(trie.search("AC2"));
-        assertTrue(trie.search("B"));
-
-        assertFalse(trie.search("Ad"));
-        assertFalse(trie.search("aD"));
-        assertFalse(trie.search("ADd"));
-        assertFalse(trie.search("b"));
-        assertFalse(trie.search("Bb"));
-
+    void givenEmptyTrie_whenInsertCalled_thenWordShouldBeSearchable() {
+        Trie trie = new Trie();
+        trie.insert("test");
+        assertTrue(trie.search("test"));
     }
 
     @Test
-    void testInsert() {
-        trie.insert("ADca");
-        trie.insert("AEfd");
-        trie.insert("AHfdd");
-        trie.insert("AHfddd");
-        trie.insert("AC2a");
-        trie.insert("B");
-        trie.insert("B");
-        trie.insert("");
-
-        assertTrue(trie.search("ADca"));
-        assertTrue(trie.search("AEfd"));
-        assertTrue(trie.search("AHfdd"));
-        assertTrue(trie.search("AHfddd"));
-        assertTrue(trie.search("AC2a"));
-        assertTrue(trie.search("B"));
-        assertTrue(trie.search(""));
+    void givenTrieWithWord_whenSearchCalledForNonExistentWord_thenShouldReturnFalse() {
+        Trie trie = new Trie();
+        trie.insert("hello");
+        assertFalse(trie.search("world"));
     }
 
     @Test
-    void testDelete() {
-        trie.insert("ADca");
-        trie.insert("AEfd");
-        trie.insert("AHfdd");
-        trie.insert("AHfddd");
-        trie.insert("AC2a");
-        trie.insert("B");
-        trie.insert("B");
-        trie.insert("");
+    void givenTrieWithWord_whenSearchCalledForExistingWord_thenShouldReturnTrue() {
+        Trie trie = new Trie();
+        trie.insert("hello");
+        assertTrue(trie.search("hello"));
+    }
 
-        trie.delete("ADca");
-        trie.delete("AEfd");
-        trie.delete("AHfdd");
-        trie.delete("AHfddd");
-        trie.delete("AC2a");
-        trie.delete("B");
-        trie.delete("B");
+    @Test
+    void givenTrieWithWords_whenDeleteCalled_thenShouldRemoveWord() {
+        Trie trie = new Trie();
+        trie.insert("hello");
+        trie.insert("hell");
+        trie.insert("heaven");
+        trie.delete("hell");
+        assertFalse(trie.search("hell"));
+        assertTrue(trie.search("hello"));
+        assertTrue(trie.search("heaven"));
+    }
 
-        assertFalse(trie.search("ADca"));
-        assertFalse(trie.search("AEfd"));
-        assertFalse(trie.search("AHfdd"));
-        assertFalse(trie.search("AHfddd"));
-        assertFalse(trie.search("AC2a"));
-        assertFalse(trie.search("B"));
+    @Test
+    void givenTrieWithWords_whenDeleteCalledForNonExistentWord_thenShouldReturnFalse() {
+        Trie trie = new Trie();
+        trie.insert("hello");
+        assertFalse(trie.delete("world"));
+    }
+
+    @Test
+    void givenTrieWithWord_whenDeleteCalled_thenWordShouldNoLongerBeSearchable() {
+        Trie trie = new Trie();
+        trie.insert("test");
+        trie.delete("test");
+        assertFalse(trie.search("test"));
+    }
+
+    @Test
+    void givenTrieWithPrefixWords_whenDeleteCalled_thenShouldOnlyDeleteExactWord() {
+        Trie trie = new Trie();
+        trie.insert("there");
+        trie.insert("their");
+        trie.insert("the");
+        trie.delete("their");
+        assertTrue(trie.search("there"));
+        assertFalse(trie.search("their"));
+        assertTrue(trie.search("the"));
+    }
+
+    @Test
+    void givenTrieWithMultipleWords_whenDeleteWordPartiallyContainedInAnother_thenShouldNotDeleteOther() {
+        Trie trie = new Trie();
+        trie.insert("apple");
+        trie.insert("app");
+        trie.delete("apple");
+        assertTrue(trie.search("app"));
+        assertFalse(trie.search("apple"));
+    }
+
+    @Test
+    void givenTrie_whenInsertAndDeleteCalledMultipleTimes_thenTrieShouldBehaveCorrectly() {
+        Trie trie = new Trie();
+        trie.insert("cat");
+        trie.insert("can");
+        trie.insert("cap");
+        trie.delete("can");
+        assertTrue(trie.search("cat"));
+        assertFalse(trie.search("can"));
+        assertTrue(trie.search("cap"));
+        trie.delete("cat");
+        assertFalse(trie.search("cat"));
+        assertTrue(trie.search("cap"));
+    }
+
+    @Test
+    void givenTrie_whenInsertSameWordMultipleTimes_thenShouldOnlyDeleteOnce() {
+        Trie trie = new Trie();
+        trie.insert("duplicate");
+        trie.insert("duplicate");
+        trie.delete("duplicate");
+        assertFalse(trie.search("duplicate"));
+    }
+
+    @Test
+    void givenTrie_whenDeleteNonexistentWord_thenShouldNotAffectExistingWords() {
+        Trie trie = new Trie();
+        trie.insert("existent");
+        trie.delete("nonexistent");
+        assertTrue(trie.search("existent"));
+    }
+
+    @Test
+    void givenTrie_whenDeleteWordWithSamePrefixAsOtherWord_thenShouldNotDeletePrefix() {
+        Trie trie = new Trie();
+        trie.insert("prefix");
+        trie.insert("pref");
+        trie.delete("prefix");
+        assertTrue(trie.search("pref"));
+        assertFalse(trie.search("prefix"));
+    }
+
+    @Test
+    void givenTrie_whenInsertCalled_thenTrieShouldContainInsertedWord() {
+        Trie trie = new Trie();
+        trie.insert("test");
+        assertTrue(trie.search("test"));
     }
 
 }

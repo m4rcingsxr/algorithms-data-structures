@@ -5,18 +5,48 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * This class provides an implementation of topological sort algorithm for
- * directed acyclic graphs.
- * Topological sort is an algorithm that sorts the nodes of a directed
- * acyclic graph in such a way that
- * every directed edge from vertex u to vertex v satisfies u comes before v
- * in the ordering.
+ * This class provides an implementation of the Topological Sort algorithm
+ * for directed acyclic graphs (DAGs). Topological Sort is used to order the
+ * vertices of a DAG such that for every directed edge from vertex `u` to
+ * vertex `v`, vertex `u` appears before vertex `v` in the ordering.
+ *
+ * <p>
+ * Topological sorting is often used in scenarios like task scheduling, where
+ * certain tasks must be completed before others, and in resolving dependencies,
+ * such as in build systems or course prerequisite chains.
+ * </p>
+ *
+ * <h2>Key Concepts:</h2>
+ * <ul>
+ *   <li><b>Directed Acyclic Graph (DAG):</b> A graph with directed edges and no cycles. Topological sorting is only applicable to DAGs.</li>
+ *   <li><b>Depth-First Search (DFS):</b> A traversal algorithm used here to explore the graph and compute the topological order.</li>
+ * </ul>
+ *
+ * <h2>Complexity Analysis:</h2>
+ * <h3>Time Complexity:</h3>
+ * <p>
+ * The time complexity of the topological sort algorithm is O(V + E), where
+ * V is the number of vertices and E is the number of edges. This is because
+ * each vertex and edge is processed once during the DFS traversal.
+ * </p>
+ *
+ * <h3>Space Complexity:</h3>
+ * <p>
+ * The space complexity is O(V), due to the storage of the visited array
+ * and the topological order array.
+ * </p>
+ *
+ * <h2>Usage:</h2>
+ * <p>
+ * This class provides static methods for creating a graph, adding edges,
+ * and performing a topological sort. It is designed to work with directed
+ * acyclic graphs (DAGs). If the graph contains cycles, topological sort is
+ * not applicable, and this implementation assumes the input graph is a DAG.
+ * </p>
  */
 public class TopologicalSort {
 
-    private TopologicalSort() {
-        // Utility class
-    }
+    private TopologicalSort() {}
 
     /**
      * Creates a new empty graph with the specified number of vertices.
@@ -27,7 +57,7 @@ public class TopologicalSort {
     public static List<List<Integer>> createGraph(int noVertices) {
         List<List<Integer>> graph = new ArrayList<>();
         for (int i = 0; i < noVertices; i++) {
-            graph.add(new ArrayList<>());
+            graph.add(new ArrayList<>()); // Initialize each vertex's adjacency list as empty
         }
         return graph;
     }
@@ -40,79 +70,59 @@ public class TopologicalSort {
      * @param from  the source vertex of the edge
      * @param to    the target vertex of the edge
      */
-    public static void addDirectedEdge(List<List<Integer>> graph, int from,
-                                       int to) {
-        graph.get(from).add(to);
+    public static void addDirectedEdge(List<List<Integer>> graph, int from, int to) {
+        graph.get(from).add(to); // Add the directed edge from 'from' to 'to'
     }
 
     /**
-     * Private helper method that performs depth first search on the given
-     * vertex and returns an updated
-     * index for the next element.
+     * Private helper method that performs depth-first search on the given vertex
+     * and updates the topological ordering of nodes.
      *
      * @param graph   the graph to be searched
      * @param index   the current index in the ordering array
      * @param actual  the vertex currently being searched
-     * @param visited an array of booleans indicating whether a node has been
-     *                visited or not
-     * @param order   an array of integers containing the topological
-     *                ordering of the nodes in the graph
+     * @param visited an array of booleans indicating whether a node has been visited or not
+     * @param order   an array of integers containing the topological ordering of the nodes in the graph
      * @return an integer representing the updated index for the next element
      */
-    private static int dfs(List<List<Integer>> graph, int index, int actual,
-                           boolean[] visited, int[] order) {
+    private static int dfs(List<List<Integer>> graph, int index, int actual, boolean[] visited, int[] order) {
         if (visited[actual]) {
-            return index;
+            return index; // If the vertex is already visited, return the current index
         }
-        visited[actual] = true;
+        visited[actual] = true; // Mark the current vertex as visited
 
-        // Loop through neighbors, no neighbors - base case
+        // Recursively visit all adjacent vertices (neighbors)
         for (Integer neighbor : graph.get(actual)) {
-
-            // update index with depth first search
-            index = dfs(graph, index, neighbor, visited, order);
+            index = dfs(graph, index, neighbor, visited, order); // Update the index based on recursive calls
         }
 
-        // element without neighbors is the element
-        // with most dependencies
-        order[index] = actual;
-        return index - 1;
+        order[index] = actual; // Place the current vertex at the current index in the topological order
+        return index - 1; // Decrement the index for the next vertex to be placed in the order
     }
 
     /**
-     * Executes recursive depth first search for arbitrary nodes and returns
-     * an array that contains
-     * topological sort of the given graph.
+     * Executes a depth-first search-based topological sort on the provided graph.
+     * This method sorts the nodes in a directed acyclic graph such that for every
+     * directed edge `u -> v`, `u` comes before `v` in the ordering.
      *
      * @param graph the graph to be sorted
-     * @return an array of integers representing the topological ordering of
-     * the nodes in the graph
+     * @return an array of integers representing the topological ordering of the nodes in the graph
      */
     public static int[] topologicalSort(List<List<Integer>> graph) {
-        int N = graph.size();
-        int[] order = new int[N];
-        boolean[] visited = new boolean[N];
-        int index = N - 1;
+        int length = graph.size(); // Number of vertices in the graph
+        int index = length - 1; // Initialize the index to the last position in the topological order
+        int[] topologicalSort = new int[length]; // Array to store the topological order
+        boolean[] visited = new boolean[length]; // Array to track visited vertices
 
-        for (int actual = 0; actual < N; actual++) {
-
-            // If vertex is not visited then perform
-            // depth first search on this vertex and
-            // fill order array from backward if
-            // vertex does not have a children
-            if (!visited[actual]) {
-
-                // We update index after each addition
-                // to the order array
-                index = dfs(graph, index, actual, visited, order);
-            }
+        // Perform DFS for each vertex to ensure all nodes are covered (even in disconnected graphs)
+        for (int i = 0; i < length; i++) {
+            index = dfs(graph, index, i, visited, topologicalSort); // Update index based on DFS results
         }
 
-        return order;
+        return topologicalSort; // Return the computed topological order
     }
 
     public static void main(String[] args) {
-        // Graph setup
         final int N = 13;
         List<List<Integer>> graph = createGraph(N);
 
@@ -138,9 +148,6 @@ public class TopologicalSort {
         addDirectedEdge(graph, 3, 2);
         addDirectedEdge(graph, 2, 4);
 
-        // [0, 9, 10, 1, 8, 12, 7, 6, 5, 3, 2, 4, 11]
-        System.out.println("TOPOLOGICAL ORDERING\n" +
-                                   Arrays.toString(topologicalSort(graph))
-        );
+        System.out.println(Arrays.toString(topologicalSort(graph))); // [0, 9, 10, 1, 8, 12, 7, 6, 5, 3, 2, 4, 11]
     }
 }
